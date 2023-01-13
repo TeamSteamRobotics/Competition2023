@@ -8,6 +8,9 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.Constants.OperatorConstants.FieldConstants;
+import frc.robot.Constants.OperatorConstants.VisionConstants;
 
 public class VisionSubsystem extends SubsystemBase {
   /** Creates a new VisionSubsystem. */
@@ -31,6 +34,30 @@ public class VisionSubsystem extends SubsystemBase {
   public double getTy() {
     return ty.getDouble(0);
   }
+
+  /**
+   * Calculates the distance to the target based on angle of target to camera and physical constants of the robot and field
+   * @return distance in meters to the middle target
+   */
+  public double distanceToMiddleConeNode() {
+    double angleToTargetRadians = ((VisionConstants.kLimelightMountingAngle + ty.getDouble(0)) * (Math.PI / 180));
+    double distance = (FieldConstants.kMiddleConeNodeVisionTapeHeightMeters - VisionConstants.kLimelightHeightMeters) / Math.tan(angleToTargetRadians);
+    return distance;
+  }
+
+  /**
+   * Calculates the distance to the target based on angle of target to camera and physical constants of the robot and field
+   * @return distance in meters to the top target
+   */
+  public double distanceToTopConeNode() {
+    double angleToTargetRadians = ((VisionConstants.kLimelightMountingAngle + ty.getDouble(0)) * (Math.PI / 180));
+    double distance = (FieldConstants.kTopConeNodeVisionTapeHeightMeters - VisionConstants.kLimelightHeightMeters) / Math.tan(angleToTargetRadians);
+    return distance;
+  }
+
+  
+
+
 
   @Override
   public void periodic() {
