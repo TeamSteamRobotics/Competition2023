@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.TreeMap;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -25,6 +27,10 @@ public class VisionSubsystem extends SubsystemBase {
 
   public boolean hasTargets() {
     return tv.getDouble(0) == 1;
+  }
+
+  public double getTa() {
+    return ta.getDouble(0);
   }
 
   public double getTx() {
@@ -55,7 +61,11 @@ public class VisionSubsystem extends SubsystemBase {
     return distance;
   }
 
-  
+  public double distanceToGridAprilTag() {
+    double angleToTagRadians = ((VisionConstants.kLimelightMountingAngle + ty.getDouble(0)) * (Math.PI / 180));
+    double distance = (FieldConstants.kGridAprilTagHeightMeters - VisionConstants.kLimelightHeightMeters) / Math.tan(angleToTagRadians);
+    return distance;
+  }
 
 
 

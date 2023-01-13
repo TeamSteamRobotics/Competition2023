@@ -23,8 +23,9 @@ public final class Constants {
     }
 
     public static class FieldConstants {
-      public static final double kMiddleConeNodeVisionTapeHeightMeters = 0.56; // 56 centimeters
-      public static final double kTopConeNodeVisionTapeHeightMeters = 1.06; // 106 centimeters
+      public static final double kMiddleConeNodeVisionTapeHeightMeters = 0.56; // 56 centimeters to bottom
+      public static final double kTopConeNodeVisionTapeHeightMeters = 1.06; // 106 centimeters to bottom
+      public static final double kGridAprilTagHeightMeters = 0.59; // 59 centimeters to bottom
     }
   }
 }
