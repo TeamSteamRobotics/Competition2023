@@ -26,9 +26,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   public DriveSubsystem() {}
 
-  public void drive(){
+  public void drive(double speed, double rotation){
 
-    diffDrive.arcadeDrive(0.5, 0);
+    diffDrive.arcadeDrive(speed, rotation);
+    
 
   }
 
