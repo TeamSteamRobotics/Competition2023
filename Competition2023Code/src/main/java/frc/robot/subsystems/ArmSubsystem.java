@@ -13,13 +13,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
 
-  CANSparkMax elevatorMotors = new CANSparkMax(7,null);
+  CANSparkMax elevatorMotors = new CANSparkMax(deviceId 5,null);
 
   CANSparkMax pushyMotor1 = new CANSparkMax(7, null);
   CANSparkMax pushyMotor2 = new CANSparkMax(8, null);
   MotorControllerGroup armMotors = new MotorControllerGroup(pushyMotor1, pushyMotor2);
 
-  public void rotateArm(double speed){
+  public void rotateArmUp(double speed){
     armMotors.set(speed);
   }
 
@@ -27,8 +27,10 @@ public class ArmSubsystem extends SubsystemBase {
     elevatorMotors.set(speed);
   }
 
-  public void stop(){
+  public void stopArm(){
     armMotors.set(0);
+  }
+  public void stopElevator(){
     elevatorMotors.set(0);
   }
 
