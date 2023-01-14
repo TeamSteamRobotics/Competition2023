@@ -24,12 +24,22 @@ public class DriveSubsystem extends SubsystemBase {
   DifferentialDrive diffDrive = new DifferentialDrive(left, right);
 
 
-  public DriveSubsystem() {}
+  public DriveSubsystem() {
+
+    right.setInverted(isInverted:true);
+
+  }
 
   public void drive(double speed, double rotation){
 
     diffDrive.arcadeDrive(speed, rotation);
     
+
+  }
+
+  public void stop(){
+
+    diffDrive.arcadeDrive(0, 0);
 
   }
 
