@@ -20,7 +20,7 @@ public class ArmSubsystem extends SubsystemBase {
   MotorControllerGroup armMotors = new MotorControllerGroup(pushyMotor1, pushyMotor2);
 
   public void rotateArm(double speed){
-    armMotor.set(speed);
+    armMotors.set(speed);
   }
 
   public void extendArm(double speed){
@@ -28,7 +28,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void stop(){
-    armMotor.set(0);
+    armMotors.set(0);
     elevatorMotors.set(0);
   }
 
