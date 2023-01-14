@@ -13,7 +13,10 @@ public class RotateArm extends CommandBase {
   ArmSubsystem m_ArmSubsystem;
   double speed;
 
-  public RotateArm() {
+  public RotateArm(ArmSubsystem armSubsystem, double speed) {
+  this.speed = speed;
+  m_ArmSubsystem = armSubsystem;
+
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -23,7 +26,9 @@ public class RotateArm extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+  m_ArmSubsystem.rotateArm(speed);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
