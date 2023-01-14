@@ -27,7 +27,7 @@ public class RotateArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  m_ArmSubsystem.rotateArm(speed);
+    m_ArmSubsystem.rotateArm(speed);
   }
 
   // Called once the command ends or is interrupted.
