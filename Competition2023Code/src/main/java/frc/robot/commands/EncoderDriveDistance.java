@@ -6,31 +6,29 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
-import frc.robot.Constants;
-import frc.robot.Constants.GyroTurnConstants;
+import frc.robot.Constants.EncoderDriveDistanceConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class GyroTurn extends PIDCommand {
-  /** Creates a new GyroTurn. */
-  public GyroTurn(double turnAngleDegrees, DriveSubsystem drive) {
+public class EncoderDriveDistance extends PIDCommand {
+  /** Creates a new EncoderDriveDistance. */
+  public EncoderDriveDistance(double distanceMeters, DriveSubsystem drive) {
     super(
         // The controller that the command will use
-        new PIDController(GyroTurnConstants.kP, GyroTurnConstants.kI, GyroTurnConstants.kD),
+        new PIDController(EncoderDriveDistanceConstants.kP, EncoderDriveDistanceConstants.kI, EncoderDriveDistanceConstants.kD),
         // This should return the measurement
-        () -> drive.getAngle(),
+        () -> drive.getEncoderDistanceMeters(),
         // This should return the setpoint (can also be a constant)
-        turnAngleDegrees,
+        distanceMeters,
         // This uses the output
         output -> {
-          drive.drive(0, output);
+          drive.drive(output, 0);
+          // Use the output here
         });
-      addRequirements(drive);
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
-    getController().setTolerance(GyroTurnConstants.tolerance);
   }
 
   // Returns true when the command should end.
