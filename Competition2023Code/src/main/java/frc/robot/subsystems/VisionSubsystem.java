@@ -11,12 +11,14 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.PipelineType;
 import frc.robot.Constants.OperatorConstants.FieldConstants;
 import frc.robot.Constants.OperatorConstants.VisionConstants;
 
 public class VisionSubsystem extends SubsystemBase {
   /** Creates a new VisionSubsystem. */
   private NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
+  private NetworkTableEntry pipeline = limelight.getEntry("pipeline");
   private NetworkTableEntry tv = limelight.getEntry("tv");
   private NetworkTableEntry ta = limelight.getEntry("ta");
   private NetworkTableEntry tx = limelight.getEntry("tx");
@@ -24,6 +26,19 @@ public class VisionSubsystem extends SubsystemBase {
 
 
   public VisionSubsystem() {}
+
+  public void selectPipeline(PipelineType type) {
+    switch (type) {
+      case APRILTAG:
+        pipeline.setNumber(0);
+        break;
+      case RETRO_REFLECTIVE_TAPE:
+        pipeline.setNumber(1);
+        break;
+      default:
+        break;
+    }
+  }
 
   public boolean hasTargets() {
     return tv.getDouble(0) == 1;
