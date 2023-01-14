@@ -10,11 +10,10 @@ import frc.robot.subsystems.ArmSubsystem;
 public class ExtendArm extends CommandBase {
   /** Creates a new ExtendArm. */
 
-  ArmSubsystem m_ArmSubsystem;
-  double speed;
 
-  public ExtendArm() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public ExtendArm(ArmSubsystem m_ArmSubsystem, double time) {
+    
+
   }
 
   // Called when the command is initially scheduled.

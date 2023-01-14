@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
 
-  WPI_TalonSRX elevatorMotors = new WPI_TalonSRX(5);
+  CANSparkMax elevatorMotors = new CANSparkMax(7,null);
 
   CANSparkMax pushyMotor1 = new CANSparkMax(7, null);
   CANSparkMax pushyMotor2 = new CANSparkMax(8, null);
