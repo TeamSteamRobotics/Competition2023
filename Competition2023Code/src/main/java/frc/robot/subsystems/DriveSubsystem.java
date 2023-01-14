@@ -58,7 +58,7 @@ public class DriveSubsystem extends SubsystemBase {
     navX.reset();
   }
 
-  public double getAngle() {
+  public double gyroAngleDegrees() {
     return navX.getAngle();
   }
 

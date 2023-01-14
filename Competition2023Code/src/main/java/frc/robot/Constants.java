@@ -30,7 +30,7 @@ public final class Constants {
     public static final double kI = 0;
     public static final double kD = 0;
 
-    public static final double tolerance = 10;
+    public static final double tolerance = 3;
   }
 
   public static class EncoderDriveDistanceConstants {
