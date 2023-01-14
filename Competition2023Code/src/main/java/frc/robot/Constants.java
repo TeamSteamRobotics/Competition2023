@@ -16,4 +16,19 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+  public static class DriveConstants {
+    public static final int leftFrontMotorID = 3;
+    public static final int leftBackMotorID = 2;
+    public static final int rightFrontMotorID = 1;
+    public static final int rightBackMotorID = 4;
+
+    public static final double encoderTicksToMeters = 0; // Will be filled out when more info arrives
+  }
+
+  public static class GyroTurnConstants {
+    public static final double kP = 0;
+    public static final double kI = 0;
+    public static final double kD = 0;
+
+  }
 }
