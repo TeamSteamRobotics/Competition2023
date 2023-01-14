@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -13,10 +14,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class DriveSubsystem extends SubsystemBase {
   /** Creates a new DriveSubsystem. */
 
-  WPI_TalonSRX leftback = new WPI_TalonSRX(2);
+  WPI_VictorSPX leftback = new WPI_VictorSPX(2);
   WPI_TalonSRX leftfront = new WPI_TalonSRX(3);
-  WPI_TalonSRX rightback = new WPI_TalonSRX(4);
+  WPI_VictorSPX rightback = new WPI_VictorSPX(4);
   WPI_TalonSRX rightfront = new WPI_TalonSRX(1);
+  
 
   MotorControllerGroup left = new MotorControllerGroup(leftback, leftfront);
   MotorControllerGroup right = new MotorControllerGroup(rightback, rightfront);

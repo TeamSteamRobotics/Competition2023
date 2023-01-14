@@ -14,7 +14,7 @@ public class Drive extends CommandBase {
   double driveSpeed;
   double rotationSpeed;
 
-  public Drive(DriveSubsystem driveSubsystem, double driveSpeed, double RotationSpeed) {
+  public Drive(DriveSubsystem driveSubsystem, double driveSpeed, double rotationSpeed) {
 
     m_driveSubsystem = driveSubsystem;
     this.driveSpeed = driveSpeed;
