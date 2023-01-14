@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import javax.print.CancelablePrintJob;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 
@@ -17,7 +19,10 @@ public class ArmSubsystem extends SubsystemBase {
 
   CANSparkMax pushyMotor1 = new CANSparkMax(7, null);
   CANSparkMax pushyMotor2 = new CANSparkMax(8, null);
+  CANSparkMax intakeMotor1 = new CANSparkMax(9, null);
+  CANSparkMax intakeMotor2 = new CANSparkMax(10, null);
   MotorControllerGroup armMotors = new MotorControllerGroup(pushyMotor1, pushyMotor2);
+  MotorControllerGroup intakeMotors = new MotorControllerGroup(intakeMotor1, intakeMotor2 );
 
   public void rotateArm(double speed){
     armMotors.set(speed);
@@ -32,6 +37,10 @@ public class ArmSubsystem extends SubsystemBase {
   }
   public void stopElevator(){
     elevatorMotors.set(0);
+  }
+
+  public void intake(Double speed){
+    intakeMotors.set(speed);
   }
 
   public ArmSubsystem() {
