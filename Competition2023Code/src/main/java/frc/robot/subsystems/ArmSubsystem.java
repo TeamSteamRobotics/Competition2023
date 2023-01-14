@@ -17,14 +17,16 @@ public class ArmSubsystem extends SubsystemBase {
   CANSparkMax pushyMotor1 = new CANSparkMax(7, null);
   CANSparkMax pushyMotor2 = new CANSparkMax(8, null);
 
-  public ArmSubsystem() {}
 
 
+  public void rotateArm(double speed){
+    armMotor.set(speed);
+  }
 
-
+  public ArmSubsystem() {
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
 }
-//among us will be real in: 3 minutes
