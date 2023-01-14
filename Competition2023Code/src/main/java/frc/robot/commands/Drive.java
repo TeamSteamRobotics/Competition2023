@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -11,10 +13,10 @@ public class Drive extends CommandBase {
   /** Creates a new Drive. */
 
   DriveSubsystem m_driveSubsystem;
-  double driveSpeed;
-  double rotationSpeed;
+  DoubleSupplier driveSpeed;
+  DoubleSupplier rotationSpeed;
 
-  public Drive(DriveSubsystem driveSubsystem, double driveSpeed, double rotationSpeed) {
+  public Drive(DriveSubsystem driveSubsystem, DoubleSupplier driveSpeed, DoubleSupplier rotationSpeed) {
 
     m_driveSubsystem = driveSubsystem;
     this.driveSpeed = driveSpeed;
@@ -32,7 +34,7 @@ public class Drive extends CommandBase {
   @Override
   public void execute() {
 
-    m_driveSubsystem.drive(driveSpeed, rotationSpeed);
+    m_driveSubsystem.drive(driveSpeed.getAsDouble(), rotationSpeed.getAsDouble());
 
   }
 

@@ -31,7 +31,7 @@ public class RobotContainer {
 
   private final Joystick joystick = new Joystick(0);
 
-  private final Trigger button = new JoystickButton(joystick, 1);
+  private final Trigger button = new JoystickButton(joystick, 5);
 
 
 
@@ -43,11 +43,9 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-    configureBindings();
 
-    new ParallelCommandGroup(
-      new Drive(m_driveSubsystem, 0.2, 0),
-      new WaitCommand(2));
+    configureBindings();
+    m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
   }
 
   /**
@@ -64,7 +62,6 @@ public class RobotContainer {
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));
 
-      button.onTrue(new Drive(m_driveSubsystem, 0.2, 0));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
