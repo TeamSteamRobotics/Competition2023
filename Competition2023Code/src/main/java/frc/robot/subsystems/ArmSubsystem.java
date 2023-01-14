@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -16,11 +17,19 @@ public class ArmSubsystem extends SubsystemBase {
 
   CANSparkMax pushyMotor1 = new CANSparkMax(7, null);
   CANSparkMax pushyMotor2 = new CANSparkMax(8, null);
-
-
+  MotorControllerGroup elevatorMotors = new MotorControllerGroup(pushyMotor1, pushyMotor2);
 
   public void rotateArm(double speed){
     armMotor.set(speed);
+  }
+
+  public void extendArm(double speed){
+    elevatorMotors.set(speed);
+  }
+
+  public void stop(){
+    armMotor.set(0);
+    elevatorMotors.set(0);
   }
 
   public ArmSubsystem() {
