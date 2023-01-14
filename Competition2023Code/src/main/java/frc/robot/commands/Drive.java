@@ -5,10 +5,22 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class Drive extends CommandBase {
   /** Creates a new Drive. */
-  public Drive() {
+
+  DriveSubsystem m_driveSubsystem;
+  double driveSpeed;
+  double rotationSpeed;
+
+  public Drive(DriveSubsystem driveSubsystem, double driveSpeed, double RotationSpeed) {
+
+    m_driveSubsystem = driveSubsystem;
+    this.driveSpeed = driveSpeed;
+    this.rotationSpeed = rotationSpeed;
+
+    addRequirements(driveSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -18,11 +30,20 @@ public class Drive extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+
+    m_driveSubsystem.drive(driveSpeed, rotationSpeed);
+
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+
+    m_driveSubsystem.stop();
+
+
+  }
 
   // Returns true when the command should end.
   @Override
