@@ -13,11 +13,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
 
-  WPI_TalonSRX armMotor = new WPI_TalonSRX(5);
+  WPI_TalonSRX elevatorMotors = new WPI_TalonSRX(5);
 
   CANSparkMax pushyMotor1 = new CANSparkMax(7, null);
   CANSparkMax pushyMotor2 = new CANSparkMax(8, null);
-  MotorControllerGroup elevatorMotors = new MotorControllerGroup(pushyMotor1, pushyMotor2);
+  MotorControllerGroup armMotors = new MotorControllerGroup(pushyMotor1, pushyMotor2);
 
   public void rotateArm(double speed){
     armMotor.set(speed);
