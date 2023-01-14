@@ -20,7 +20,7 @@ public class GyroTurn extends PIDCommand {
         // The controller that the command will use
         new PIDController(GyroTurnConstants.kP, GyroTurnConstants.kI, GyroTurnConstants.kD),
         // This should return the measurement
-        () -> drive.getAngle(),
+        () -> drive.gyroAngleDegrees(),
         // This should return the setpoint (can also be a constant)
         turnAngleDegrees,
         // This uses the output
