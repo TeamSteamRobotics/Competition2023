@@ -27,6 +27,18 @@ public class VisionSubsystem extends SubsystemBase {
 
   public VisionSubsystem() {}
 
+  public PipelineType getCurrentPipeline() {
+    switch(pipeline.getNumber(0).intValue()) {
+      case 0:
+        return PipelineType.APRILTAG;
+      case 1:
+        return PipelineType.RETRO_REFLECTIVE_TAPE;
+      default:
+        System.out.println("The pipeline was unknown. Number: " + pipeline.getDouble(0));
+        return PipelineType.ERROR_UNKNOWN_PIPELINE;
+    }
+  }
+
   public void selectPipeline(PipelineType type) {
     switch (type) {
       case APRILTAG:
