@@ -13,10 +13,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class DriveSubsystem extends SubsystemBase {
   /** Creates a new DriveSubsystem. */
 
-  WPI_TalonSRX leftback = new WPI_TalonSRX(0);
-  WPI_TalonSRX rightback = new WPI_TalonSRX(1);
-  WPI_TalonSRX leftfront = new WPI_TalonSRX(2);
-  WPI_TalonSRX rightfront = new WPI_TalonSRX(3);
+  WPI_TalonSRX leftback = new WPI_TalonSRX(2);
+  WPI_TalonSRX leftfront = new WPI_TalonSRX(3);
+  WPI_TalonSRX rightback = new WPI_TalonSRX(4);
+  WPI_TalonSRX rightfront = new WPI_TalonSRX(1);
 
   MotorControllerGroup left = new MotorControllerGroup(leftback, leftfront);
   MotorControllerGroup right = new MotorControllerGroup(rightback, rightfront);
