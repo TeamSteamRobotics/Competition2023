@@ -12,8 +12,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.PipelineType;
-import frc.robot.Constants.OperatorConstants.FieldConstants;
-import frc.robot.Constants.OperatorConstants.VisionConstants;
+import frc.robot.Constants.FieldConstants;
+import frc.robot.Constants.VisionConstants;
 
 public class VisionSubsystem extends SubsystemBase {
   /** Creates a new VisionSubsystem. */

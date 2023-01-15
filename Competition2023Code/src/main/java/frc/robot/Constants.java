@@ -14,19 +14,18 @@ package frc.robot;
  */
 public final class Constants {
   public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
+    public static final int kDriverControllerPort = 0; 
+  }
 
-    public static class VisionConstants {
-      public static final double kLimelightMountingAngle = 0.0; // angle of limelight to being perfectly vertical in degrees
-      public static final double kLimelightHeightMeters = 0.0; // distance from middle of lense of limelight to ground in meters
+  public static class VisionConstants {
+    public static final double kLimelightMountingAngle = 0.0; // angle of limelight to being perfectly vertical in degrees
+    public static final double kLimelightHeightMeters = 0.0; // distance from middle of lense of limelight to ground in meters    
+  }
 
-    }
-
-    public static class FieldConstants {
-      public static final double kMiddleConeNodeVisionTapeHeightMeters = 0.56; // 56 centimeters to bottom
-      public static final double kTopConeNodeVisionTapeHeightMeters = 1.06; // 106 centimeters to bottom
-      public static final double kGridAprilTagHeightMeters = 0.59; // 59 centimeters to bottom
-    }
+  public static class FieldConstants {
+    public static final double kMiddleConeNodeVisionTapeHeightMeters = 0.56; // 56 centimeters to bottom
+    public static final double kTopConeNodeVisionTapeHeightMeters = 1.06; // 106 centimeters to bottom
+    public static final double kGridAprilTagHeightMeters = 0.59; // 59 centimeters to bottom
   }
   public static class DriveConstants {
     public static final int leftFrontMotorID = 3;
