@@ -37,11 +37,11 @@ public class ArmSubsystem extends SubsystemBase {
     elevatorMotors.set(0);
   }
   public void stopIntake(){
-    intakeMotors.set(0);
+    intakeMotor.set(0);
   }
   public void stopAll(){
     elevatorMotors.set(0);
-    intakeMotors.set(0);
+    intakeMotor.set(0);
     armMotors.set(0);
   }
 
