@@ -38,6 +38,14 @@ public class ArmSubsystem extends SubsystemBase {
   public void stopElevator(){
     elevatorMotors.set(0);
   }
+  public void stopIntake(){
+    intakeMotors.set(0);
+  }
+  public void stopAll(){
+    elevatorMotors.set(0);
+    intakeMotors.set(0);
+    armMotors.set(0);
+  }
 
   public void intake(Double speed){
     intakeMotors.set(speed);
