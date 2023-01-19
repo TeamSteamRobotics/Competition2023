@@ -34,6 +34,7 @@ public final class Constants {
     public static final int rightBackMotorID = 4;
 
     public static final double encoderTicksToMeters = 0; // Will be filled out when more info arrives
+    public static final double wheelRadiusMeters = 0.0;
   }
 
   public static class GyroTurnConstants {

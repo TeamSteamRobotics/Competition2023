@@ -49,6 +49,16 @@ public class DriveSubsystem extends SubsystemBase {
     return (getEncoderPosRAW() * DriveConstants.encoderTicksToMeters);
   }
 
+  /**
+   * Calculates velocity of robot based on information from wheel encoders
+   * @return m/s speed of robot
+   */
+  public double getRobotVelocityEncoders() {
+    double STUVelocity = (leftfront.getSelectedSensorVelocity() + rightfront.getSelectedSensorVelocity()) / 2;
+    double rotationsPerSecond = (STUVelocity / 4096) * 10;
+    return rotationsPerSecond * DriveConstants.wheelRadiusMeters;
+  }
+
   public void resetEncoders() {
     leftfront.setSelectedSensorPosition(0);
     rightfront.setSelectedSensorPosition(0);
