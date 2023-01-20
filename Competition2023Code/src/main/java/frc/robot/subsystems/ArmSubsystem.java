@@ -19,38 +19,39 @@ import frc.robot.Constants.MotorIDConstants;
 
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
-  private CANSparkMax armMotor = new CANSparkMax(5, MotorType.kBrushless);
+  private CANSparkMax elevatorMotor = new CANSparkMax(5, MotorType.kBrushless);
 
-  private CANSparkMax elevatorMotorLeft = new CANSparkMax(MotorIDConstants.leftElevatorMotor, MotorType.kBrushless);
-  private CANSparkMax elevatorMotorRight = new CANSparkMax(MotorIDConstants.rightElevatorMotor, MotorType.kBrushless);
-  private MotorControllerGroup elevatorMotors = new MotorControllerGroup(elevatorMotorRight, elevatorMotorLeft);
+  private CANSparkMax armMotorLeft = new CANSparkMax(MotorIDConstants.leftElevatorMotor, MotorType.kBrushless);
+  private CANSparkMax armMotorRight = new CANSparkMax(MotorIDConstants.rightElevatorMotor, MotorType.kBrushless);
+  private MotorControllerGroup armMotors = new MotorControllerGroup(armMotorLeft, armMotorRight);
 
   private CANSparkMax intakeMotor = new CANSparkMax(MotorIDConstants.intakeMotor, MotorType.kBrushless);
 
-  private RelativeEncoder angleEncoder = armMotor.getEncoder();
+  private RelativeEncoder elevatorEncoder = elevatorMotor.getEncoder();
 
-  private RelativeEncoder elevatorEncoderRight = elevatorMotorRight.getEncoder();
-  private RelativeEncoder elevatorEncoderLeft = elevatorMotorLeft.getEncoder();
+  private RelativeEncoder angleEncoderRight = armMotorRight.getEncoder();
+  private RelativeEncoder angleEncoderLeft = armMotorLeft.getEncoder();
+
 
   public ArmSubsystem() {
 
   }
 
   public void resetAngleEncoder() {
-    angleEncoder.setPosition(0);
+    angleEncoderRight.setPosition(0);
+    angleEncoderLeft.setPosition(0);
   }
 
   public void resetElevatorEncoders() {
-    elevatorEncoderLeft.setPosition(0);
-    elevatorEncoderRight.setPosition(0);
+    elevatorEncoder.setPosition(0)
   }
 
   public double armLengthMeters() {
-    return ((elevatorEncoderLeft.getPosition() + elevatorEncoderRight.getPosition()) / 2) * ArmConstants.armConversionFactor;
+    return (elevatorEncoder.getPosition()) * ArmConstants.armConversionFactor;
   }
 
   public double armAngleDegrees() {
-    return (angleEncoder.getPosition() * 360);
+    return (angleEncoderRight.getPosition() * angleEncoderLeft.getPosition() * 180);
   }
 
   public void angleArm(double speed){
