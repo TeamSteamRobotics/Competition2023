@@ -50,4 +50,25 @@ public final class Constants {
     public static final double kI = 0;
     public static final double kD = 0;
   }
+
+  public final class ArmConstants {
+    public static final double angle_kP = 0.0;
+    public static final double angle_kI = 0.0;
+    public static final double angle_kD = 0.0;
+
+    public static final double length_kP = 0;
+    public static final double length_kI = 0;
+    public static final double length_kD = 0;
+
+    public static final double anglePIDTolerance = 2;
+    public static final double lengthPIDTolerance = 0.1;
+
+    public static final double retractedArmAnglePos = 0;
+    public static final double intakeArmAnglePos = 0;
+    public static final double middleGoalArmAnglePos = 0;
+    public static final double highGoalArmAnglePos = 0;
+
+    public static final double armConversionFactor = 0;
+  }
+
 }
