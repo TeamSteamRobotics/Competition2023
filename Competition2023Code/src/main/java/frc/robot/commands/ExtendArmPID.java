@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.ArmSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -16,7 +17,7 @@ public class ExtendArmPID extends PIDCommand {
   public ExtendArmPID(ArmSubsystem arm, double length) {
     super(
         // The controller that the command will use
-        new PIDController(0, 0, 0),
+        new PIDController(ArmConstants.length_kP, ArmConstants.length_kI, ArmConstants.length_kD),
         // This should return the measurement
         () -> arm.armLengthMeters(),
         // This should return the setpoint (can also be a constant)
@@ -27,7 +28,7 @@ public class ExtendArmPID extends PIDCommand {
           // Use the output here
         });
         addRequirements(arm);
-        getController().setTolerance(0.1);
+        getController().setTolerance(ArmConstants.lengthPIDTolerance);
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
   }
