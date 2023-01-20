@@ -28,5 +28,8 @@ public final class Constants {
     public static final double intakeArmAnglePos = 0;
     public static final double middleGoalArmAnglePos = 0;
     public static final double highGoalArmAnglePos = 0;
+
+    public static final double armConversionFactor = 0;
   }
+
 }

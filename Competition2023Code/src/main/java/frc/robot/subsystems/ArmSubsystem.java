@@ -14,6 +14,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ArmConstants;
 
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
@@ -31,7 +32,9 @@ public class ArmSubsystem extends SubsystemBase {
   RelativeEncoder encoder = elevatorMotor1.getEncoder();
   RelativeEncoder encoder2 = elevatorMotor2.getEncoder();
 
-
+  public double armLengthMeters() {
+    return (encoder.getPosition()+encoder2.getPosition()) / 2 * ArmConstants.armConversionFactor;
+  }
 
   public double armAngleDegrees() {
     return (angleEncoders.getPosition() * 2 * 180);
