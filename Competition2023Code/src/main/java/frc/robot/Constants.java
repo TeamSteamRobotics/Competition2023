@@ -16,4 +16,17 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+
+  public final class ArmConstants {
+    public static final double kP = 0.0;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
+
+    public static final double anglePIDTolerance = 2;
+
+    public static final double retractedArmAnglePos = 0;
+    public static final double intakeArmAnglePos = 0;
+    public static final double middleGoalArmAnglePos = 0;
+    public static final double highGoalArmAnglePos = 0;
+  }
 }

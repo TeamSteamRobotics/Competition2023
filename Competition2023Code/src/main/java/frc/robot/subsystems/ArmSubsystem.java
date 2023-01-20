@@ -9,6 +9,7 @@ import javax.print.CancelablePrintJob;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -17,15 +18,24 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
 
-  CANSparkMax elevatorMotors = new CANSparkMax(5, null);
+
+  CANSparkMax armMotors = new CANSparkMax(5, null);
 
   CANSparkMax elevatorMotor1 = new CANSparkMax(7, null);
   CANSparkMax elevatorMotor2 = new CANSparkMax(8, null);
   CANSparkMax intakeMotor = new CANSparkMax(9, null);
-  MotorControllerGroup armMotors = new MotorControllerGroup(elevatorMotor1, elevatorMotor2);
+  MotorControllerGroup elevatorMotors = new MotorControllerGroup(elevatorMotor1, elevatorMotor2);
+
+  RelativeEncoder angleEncoders = armMotors.getEncoder();
 
   RelativeEncoder encoder = elevatorMotor1.getEncoder();
   RelativeEncoder encoder2 = elevatorMotor2.getEncoder();
+
+
+
+  public double armAngleDegrees() {
+    return (angleEncoders.getPosition() * 2 * 180);
+  }
 
   public void rotateArm(double speed){
     armMotors.set(speed);
