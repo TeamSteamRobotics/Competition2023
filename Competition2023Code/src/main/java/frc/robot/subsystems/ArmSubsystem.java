@@ -32,6 +32,7 @@ public class ArmSubsystem extends SubsystemBase {
   private RelativeEncoder angleEncoderRight = armMotorRight.getEncoder();
   private RelativeEncoder angleEncoderLeft = armMotorLeft.getEncoder();
 
+  //Another encoder will be placed, it is not on the motor controllers and it is on the rotate arm part
 
   public ArmSubsystem() {
 
@@ -43,7 +44,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void resetElevatorEncoders() {
-    elevatorEncoder.setPosition(0)
+    elevatorEncoder.setPosition(0);
   }
 
   public double armLengthMeters() {
@@ -55,11 +56,11 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void angleArm(double speed){
-    armMotor.set(speed);
+    armMotors.set(speed);
   }
 
   public void extendArm(double speed){
-    elevatorMotors.set(speed);
+    elevatorMotor.set(speed);
   }
 
   public void intake(double speed){
@@ -67,19 +68,19 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void stopArm(){
-    armMotor.set(0);
+    armMotors.set(0);
   }
   public void stopElevator(){
-    elevatorMotors.set(0);
+    elevatorMotor.set(0);
   }
   public void stopIntake(){
     intakeMotor.set(0);
   }
   
   public void stopAll(){
-    elevatorMotors.set(0);
+    elevatorMotor.set(0);
     intakeMotor.set(0);
-    armMotor.set(0);
+    armMotors.set(0);
   }
 
   @Override
