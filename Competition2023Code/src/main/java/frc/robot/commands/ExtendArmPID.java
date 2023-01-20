@@ -4,33 +4,26 @@
 
 package frc.robot.commands;
 
-import java.security.AlgorithmConstraints;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
-import frc.robot.Constants.ArmConstants;
-import frc.robot.subsystems.ArmSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ArmAnglePID extends PIDCommand {
-  /** Creates a new ArmAnglePID. */
-  public ArmAnglePID(ArmSubsystem arm, double angle) {
+public class ExtendArmPID extends PIDCommand {
+  /** Creates a new ExtendArmPID. */
+  public ExtendArmPID() {
     super(
         // The controller that the command will use
-        new PIDController(ArmConstants.kP, ArmConstants.kI, ArmConstants.kD),
+        new PIDController(0, 0, 0),
         // This should return the measurement
-        () -> arm.armAngleDegrees(),
+        () -> 0,
         // This should return the setpoint (can also be a constant)
-        angle,
+        () -> 0,
         // This uses the output
         output -> {
-          arm.rotateArm(output);
           // Use the output here
         });
-    addRequirements(arm);
-    this.getController().setTolerance(ArmConstants.anglePIDTolerance);
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
   }
@@ -38,6 +31,6 @@ public class ArmAnglePID extends PIDCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return this.getController().atSetpoint();
+    return false;
   }
 }
