@@ -12,16 +12,16 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.MotorIDConstants;
 import edu.wpi.first.wpilibj.SerialPort;
 
 public class DriveSubsystem extends SubsystemBase {
-
-  private WPI_VictorSPX leftback = new WPI_VictorSPX(DriveConstants.leftBackMotorID);
-  private WPI_TalonSRX leftfront = new WPI_TalonSRX(DriveConstants.leftFrontMotorID);
-  private WPI_VictorSPX rightback = new WPI_VictorSPX(DriveConstants.rightBackMotorID);
-  private WPI_TalonSRX rightfront = new WPI_TalonSRX(DriveConstants.rightFrontMotorID);
   
-
+  private WPI_VictorSPX leftback = new WPI_VictorSPX(MotorIDConstants.leftBackDrive);
+  private WPI_TalonSRX leftfront = new WPI_TalonSRX(MotorIDConstants.leftFrontDrive);
+  private WPI_VictorSPX rightback = new WPI_VictorSPX(MotorIDConstants.rightBackDrive);
+  private WPI_TalonSRX rightfront = new WPI_TalonSRX(MotorIDConstants.rightFrontDrive);
+  
   private MotorControllerGroup left = new MotorControllerGroup(leftback, leftfront);
   private MotorControllerGroup right = new MotorControllerGroup(rightback, rightfront);
 

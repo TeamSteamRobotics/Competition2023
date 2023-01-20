@@ -15,41 +15,58 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.MotorIDConstants;
 
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
+  private CANSparkMax armMotor = new CANSparkMax(5, MotorType.kBrushless);
 
+  private CANSparkMax elevatorMotorLeft = new CANSparkMax(MotorIDConstants.leftElevatorMotor, MotorType.kBrushless);
+  private CANSparkMax elevatorMotorRight = new CANSparkMax(MotorIDConstants.rightElevatorMotor, MotorType.kBrushless);
+  private MotorControllerGroup elevatorMotors = new MotorControllerGroup(elevatorMotorRight, elevatorMotorLeft);
 
-  CANSparkMax armMotors = new CANSparkMax(5, null);
+  private CANSparkMax intakeMotor = new CANSparkMax(MotorIDConstants.intakeMotor, MotorType.kBrushless);
 
-  CANSparkMax elevatorMotor1 = new CANSparkMax(7, null);
-  CANSparkMax elevatorMotor2 = new CANSparkMax(8, null);
-  CANSparkMax intakeMotor = new CANSparkMax(9, null);
-  MotorControllerGroup elevatorMotors = new MotorControllerGroup(elevatorMotor1, elevatorMotor2);
+  private RelativeEncoder angleEncoder = armMotor.getEncoder();
 
-  RelativeEncoder angleEncoders = armMotors.getEncoder();
+  private RelativeEncoder elevatorEncoderRight = elevatorMotorRight.getEncoder();
+  private RelativeEncoder elevatorEncoderLeft = elevatorMotorLeft.getEncoder();
 
-  RelativeEncoder encoder = elevatorMotor1.getEncoder();
-  RelativeEncoder encoder2 = elevatorMotor2.getEncoder();
+  public ArmSubsystem() {
+
+  }
+
+  public void resetAngleEncoder() {
+    angleEncoder.setPosition(0);
+  }
+
+  public void resetElevatorEncoders() {
+    elevatorEncoderLeft.setPosition(0);
+    elevatorEncoderRight.setPosition(0);
+  }
 
   public double armLengthMeters() {
-    return (encoder.getPosition()+encoder2.getPosition()) / 2 * ArmConstants.armConversionFactor;
+    return ((elevatorEncoderLeft.getPosition() + elevatorEncoderRight.getPosition()) / 2) * ArmConstants.armConversionFactor;
   }
 
   public double armAngleDegrees() {
-    return (angleEncoders.getPosition() * 2 * 180);
+    return (angleEncoder.getPosition() * 360);
   }
 
-  public void rotateArm(double speed){
-    armMotors.set(speed);
+  public void angleArm(double speed){
+    armMotor.set(speed);
   }
 
   public void extendArm(double speed){
     elevatorMotors.set(speed);
   }
 
+  public void intake(double speed){
+    intakeMotor.set(speed);
+  }
+
   public void stopArm(){
-    armMotors.set(0);
+    armMotor.set(0);
   }
   public void stopElevator(){
     elevatorMotors.set(0);
@@ -61,18 +78,9 @@ public class ArmSubsystem extends SubsystemBase {
   public void stopAll(){
     elevatorMotors.set(0);
     intakeMotor.set(0);
-    armMotors.set(0);
+    armMotor.set(0);
   }
 
-
-
-
-  public void intake(Double speed){
-    intakeMotor.set(speed);
-  }
-
-  public ArmSubsystem() {
-  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
