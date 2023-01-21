@@ -29,7 +29,7 @@ public final class Constants {
   }
   public static class DriveConstants {
     public static final double encoderTicksToMeters = 0; // Will be filled out when more info arrives
-    public static final double wheelRadiusMeters = 0.0;
+    public static final double wheelRadiusMeters = 0.0762;
   }
 
   public static class GyroTurnConstants {
