@@ -37,6 +37,10 @@ public class DriveSubsystem extends SubsystemBase {
     diffDrive.arcadeDrive(speed, rotation);
   }
 
+  public double encoderDifference() {
+    return leftfront.getSelectedSensorPosition() - rightfront.getSelectedSensorPosition();
+  }
+
   public void stop(){
     diffDrive.arcadeDrive(0, 0);
   }

@@ -33,11 +33,11 @@ public final class Constants {
     public static final double wheelRadiusMeters = 0.0762;
 
   }
-  public static class DriveRotationPID {
-    public static final double kP = 0;
-    public static final double kI = 0;
-    public static final double kD = 0;
-    public static final double tolerance = 3; 
+  public static class DriveRotationConstants {
+    public static final double drive_kP = 0;
+    public static final double drive_kI = 0;
+    public static final double drive_kD = 0;
+    public static final double drive_tolerance = 3; 
 
   }
 
