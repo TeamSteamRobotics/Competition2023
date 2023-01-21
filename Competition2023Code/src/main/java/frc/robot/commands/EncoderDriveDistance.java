@@ -27,12 +27,13 @@ public class EncoderDriveDistance extends PIDCommand {
           /*if(output > 0.2)
             drive.drive(.2, 0);
           else*/
-            drive.drive(output, 0);
+            drive.drive(-output / 2, 0);
           // Use the output here
         });
       
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
+    getController().setTolerance(.1,1);
   }
 
   // Returns true when the command should end.
