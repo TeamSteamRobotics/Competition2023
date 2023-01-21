@@ -66,11 +66,7 @@ public class DriveSubsystem extends SubsystemBase {
     rightfront.setSelectedSensorPosition(0);
   }
 
-<<<<<<< HEAD
   /**public void resetGyro() {
-=======
-  /*public void resetGyro() {
->>>>>>> vision-subsystem
     navX.reset();
   }*/
 
