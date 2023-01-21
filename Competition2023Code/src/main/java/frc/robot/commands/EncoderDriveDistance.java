@@ -24,9 +24,13 @@ public class EncoderDriveDistance extends PIDCommand {
         distanceMeters,
         // This uses the output
         output -> {
-          drive.drive(output, 0);
+          /*if(output > 0.2)
+            drive.drive(.2, 0);
+          else*/
+            drive.drive(output, 0);
           // Use the output here
         });
+      
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
   }
