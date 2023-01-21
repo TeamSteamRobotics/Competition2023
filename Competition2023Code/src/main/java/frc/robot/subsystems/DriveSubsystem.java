@@ -34,7 +34,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void drive(double speed, double rotation){
-    diffDrive.arcadeDrive(speed, rotation);
+    diffDrive.arcadeDrive(-speed, rotation);
   }
 
   public void stop(){
@@ -46,7 +46,9 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double getEncoderDistanceMeters() {
-    return (getEncoderPosRAW() * DriveConstants.encoderTicksToMeters);
+    double dist = leftfront.getSelectedSensorPosition() / 4096 * 2 * Math.PI * DriveConstants.wheelRadiusMeters; //* 2*Math.PI*DriveConstants.wheelRadiusMeters);
+    System.out.println(dist);
+    return dist;
   }
 
   /**
@@ -64,7 +66,11 @@ public class DriveSubsystem extends SubsystemBase {
     rightfront.setSelectedSensorPosition(0);
   }
 
+<<<<<<< HEAD
   /**public void resetGyro() {
+=======
+  /*public void resetGyro() {
+>>>>>>> vision-subsystem
     navX.reset();
   }*/
 
