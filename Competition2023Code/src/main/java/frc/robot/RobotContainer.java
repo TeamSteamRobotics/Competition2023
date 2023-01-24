@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Drive;
+import frc.robot.commands.DriveRotationPID;
 import frc.robot.commands.EncoderDriveDistance;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
@@ -17,6 +18,7 @@ import edu.wpi.first.wpilibj.simulation.JoystickSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -62,7 +64,10 @@ public class RobotContainer {
   private void configureBindings() {
     driveToTarget.onTrue(new SequentialCommandGroup(
       new InstantCommand(m_driveSubsystem::resetEncoders),
-      new EncoderDriveDistance(5, m_driveSubsystem)));
+      new ParallelDeadlineGroup(
+        new EncoderDriveDistance(5, m_driveSubsystem), 
+        new DriveRotationPID(m_driveSubsystem))));
+      
   }
 
   /**
