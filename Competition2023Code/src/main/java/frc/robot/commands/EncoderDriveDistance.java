@@ -33,7 +33,7 @@ public class EncoderDriveDistance extends PIDCommand {
       
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
-    getController().setTolerance(.1,1);
+    getController().setTolerance(.01,1);
   }
 
   // Returns true when the command should end.
