@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSubsystem;
@@ -15,7 +16,11 @@ public class AutoDoNothing extends CommandBase {
   DriveSubsystem m_driveSubsystem;
   ArmSubsystem armSubsystem;
   
-  public AutoDoNothing() {
+  public AutoDoNothing(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem) {
+
+    this.m_driveSubsystem = driveSubsystem;
+    this.armSubsystem = armSubsystem;
+    addRequirements(m_driveSubsystem, armSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
