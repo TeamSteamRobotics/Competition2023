@@ -16,6 +16,9 @@ public class AutoDriveBackwardsDockAndEngage extends SequentialCommandGroup {
   public AutoDriveBackwardsDockAndEngage(DriveSubsystem drive, ArmSubsystem arm) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    
+    addCommands(
+      
     new EncoderDriveDistance(5, drive),
 
     //Balance Pid
@@ -24,10 +27,8 @@ public class AutoDriveBackwardsDockAndEngage extends SequentialCommandGroup {
 
     //balance
 
-
-
-
-
     );
+    
+    
   }
 }
