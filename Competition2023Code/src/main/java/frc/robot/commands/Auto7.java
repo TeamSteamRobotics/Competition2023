@@ -28,7 +28,7 @@ public class Auto7 extends SequentialCommandGroup {
     //intake/parallel drive command group
 
     new EncoderDriveDistance(5, drive),
-    new RotateArm(arm, 5)
+    new ArmAnglePID(arm, 90)
 
     //open intake
     //rotate arm and drive back
