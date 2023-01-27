@@ -45,6 +45,10 @@ public class DriveSubsystem extends SubsystemBase {
     return (leftfront.getSelectedSensorPosition() + rightfront.getSelectedSensorPosition()) / 2;
   }
 
+  public double getEncoderDiffernce() {
+    return leftfront.getSelectedSensorPosition() - rightfront.getSelectedSensorPosition();
+  }
+
   public double getEncoderDistanceMeters() {
     double dist = leftfront.getSelectedSensorPosition() / 4096 * 2 * Math.PI * DriveConstants.wheelRadiusMeters; //* 2*Math.PI*DriveConstants.wheelRadiusMeters);
     System.out.println(dist);
