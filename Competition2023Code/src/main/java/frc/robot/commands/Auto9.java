@@ -11,20 +11,30 @@ import frc.robot.subsystems.DriveSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoDriveBackwardsDockAndEngage extends SequentialCommandGroup {
-  /** Creates a new AutoDriveBackwardsDockAndEngage. */
-  public AutoDriveBackwardsDockAndEngage(DriveSubsystem drive, ArmSubsystem arm) {
+public class Auto9 extends SequentialCommandGroup {
+  /** Creates a new Auto9. */
+  public Auto9(DriveSubsystem drive, ArmSubsystem arm) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
 
     new EncoderDriveDistance(5, drive),
+    new ArmAnglePID(arm, 90),
 
-    //Balance Pid
+    //reverse intake
 
-    new EncoderDriveDistance(-10, drive)
+    new EncoderDriveDistance(5, drive),
+    new ArmAnglePID(arm, 90),
 
-    //balance
+    //Intake
+
+    new EncoderDriveDistance(5, drive),
+    new ArmAnglePID(arm, 90)
+
+    //reverse intake
+    //Drive commands 
+    //Arm Commands
+
 
 
 
