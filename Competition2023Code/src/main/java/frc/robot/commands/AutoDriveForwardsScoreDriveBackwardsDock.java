@@ -24,7 +24,7 @@ public class AutoDriveForwardsScoreDriveBackwardsDock extends SequentialCommandG
     addCommands(
 
       new EncoderDriveDistance(5, drive),
-      //ArmPID (High)
+      new ArmAnglePID(arm, 130),
       //Reverse Intake
       new EncoderDriveDistance(-10, drive)
 
