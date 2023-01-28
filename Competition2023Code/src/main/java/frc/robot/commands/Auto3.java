@@ -12,9 +12,9 @@ import frc.robot.subsystems.DriveSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoDriveForwardsScoreDriveBackwardsDock extends SequentialCommandGroup {
+public class Auto3 extends SequentialCommandGroup {
   /** Creates a new AutoDriveForwardsScoreDriveBackwardsDock. */
-  public AutoDriveForwardsScoreDriveBackwardsDock(DriveSubsystem drive, ArmSubsystem arm) {
+  public Auto3(DriveSubsystem drive, ArmSubsystem arm) {
 
 
     // Add your commands in the addCommands() call, e.g.
