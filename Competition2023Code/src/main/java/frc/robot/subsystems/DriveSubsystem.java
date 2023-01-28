@@ -34,10 +34,10 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void drive(double speed, double rotation){
-    System.out.println("leftfront" + leftfront.get());
-    System.out.println("leftback" + leftback.get());
-    System.out.println("rightfront" + rightfront.get());
-    System.out.println("rightback" + rightback.get());
+    //System.out.println("leftfront" + leftfront.get());
+    //System.out.println("leftback" + leftback.get());
+    //System.out.println("rightfront" + rightfront.get());
+    //System.out.println("rightback" + rightback.get());
     diffDrive.arcadeDrive(-speed, rotation);
   }
 

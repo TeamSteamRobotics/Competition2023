@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj.simulation.JoystickSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -65,7 +67,12 @@ public class RobotContainer {
    */
   private void configureBindings() {
     driveToTarget.onTrue(
-      new EncoderDriveDistance(m_visionSubsystem.distanceToGridAprilTag(), m_driveSubsystem));
+
+      new SequentialCommandGroup(new InstantCommand(m_driveSubsystem::resetEncoders), 
+      new EncoderDriveDistance(5, m_driveSubsystem))
+      //new EncoderDriveDistance(m_visionSubsystem.distanceToGridAprilTag(), m_driveSubsystem)
+      
+      );
   }
 
   /**
@@ -74,8 +81,10 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    //return new ParallelRaceGroup(new Drive(m_driveSubsystem, () -> 0.5, () -> 0), new WaitCommand(5) );
     // An example command will be run in autonomous
     return new SequentialCommandGroup(
+
       new InstantCommand(m_driveSubsystem::resetEncoders),
       new EncoderDriveDistance(5, m_driveSubsystem));
   }
