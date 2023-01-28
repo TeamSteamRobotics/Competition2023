@@ -11,9 +11,24 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class DriveForwardScoreLeaveCommunityGoToPlayerStation extends SequentialCommandGroup {
   /** Creates a new DriveForwardScoreLeaveCommunityGoToPlayerStation. */
-  public DriveForwardScoreLeaveCommunityGoToPlayerStation() {
+  public DriveForwardScoreLeaveCommunityGoToPlayerStation(DriveSubsystem drive, ArmSubsystem arm) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands();
+    addCommands(
+    new EncoderDriveDistance(distanceMeters: 5, drive),
+    new ArmAnglePID(arm, angle: 90),
+
+    //Reverse Intake
+    //deploy intake
+    //uninake
+    //reset arm
+
+    new EncoderDriveDistance(distanceMeters: 5, drive),
+    //turn
+    new EncoderDriveDistance(distanceMeters: 5, drive),
+    //turn
+    new EncoderDriveDistance(distanceMeters: 5, drive),
+
+  );
   }
 }
