@@ -17,6 +17,7 @@ public class DriveForwardScoreLeaveCommunityGoToPlayerStation extends Sequential
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+    
     new EncoderDriveDistance( 5, drive),
     new ArmAnglePID(arm, 90),
 

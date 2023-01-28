@@ -7,25 +7,19 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class DriveForwardAndScore extends SequentialCommandGroup {
   /** Creates a new DriveForwardAndScore. */
-  public DriveForwardAndScore(DriveSubsystem drive, ArmSubsystem arm) {
+  public DriveForwardAndScore(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
 
-      new EncoderDriveDistance(5, drive),
-      new ArmAnglePID(arm, 90),
-
-      //reverse intake
-
-      new EncoderDriveDistance(5, drive)
-
-
+new EncoderDriveDistance(5, driveSubsystem)
+// new ArmAnglePID(armSubsystem, 5),
+// new Intake(armSubsystem)
     );
   }
 }
