@@ -11,20 +11,25 @@ import frc.robot.subsystems.DriveSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class DriveForwardAndScore extends SequentialCommandGroup {
-  /** Creates a new DriveForwardAndScore. */
-  public DriveForwardAndScore(DriveSubsystem drive, ArmSubsystem arm) {
+public class Auto8 extends SequentialCommandGroup {
+  /** Creates a new Auto8. */
+  public Auto8(DriveSubsystem drive, ArmSubsystem arm) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
 
-      new EncoderDriveDistance(5, drive),
-      new ArmAnglePID(arm, 90),
+    new EncoderDriveDistance(5, drive),
 
-      //reverse intake
+    new EncoderDriveDistance(-5, drive),
 
-      new EncoderDriveDistance(5, drive)
+    //align with pieces 
+    //close intake/pick up piece
 
+    new EncoderDriveDistance(6, drive),
+    
+    //score
+
+    new EncoderDriveDistance(-6, drive)
 
     );
   }
