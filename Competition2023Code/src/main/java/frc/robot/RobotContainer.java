@@ -69,8 +69,8 @@ public class RobotContainer {
     driveToTarget.onTrue(
 
       new SequentialCommandGroup(new InstantCommand(m_driveSubsystem::resetEncoders), 
-      new EncoderDriveDistance(5, m_driveSubsystem))
-      //new EncoderDriveDistance(m_visionSubsystem.distanceToGridAprilTag(), m_driveSubsystem)
+      //new EncoderDriveDistance(5, m_driveSubsystem))
+      new EncoderDriveDistance(m_visionSubsystem.distanceToGridAprilTag(), m_driveSubsystem))
       
       );
   }
@@ -83,9 +83,11 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     //return new ParallelRaceGroup(new Drive(m_driveSubsystem, () -> 0.5, () -> 0), new WaitCommand(5) );
     // An example command will be run in autonomous
-    return new SequentialCommandGroup(
+    return new AutoDriveBackwardsDockAndEngage(m_driveSubsystem, m_armSubsystem);
+    
+    //new SequentialCommandGroup(
 
-      new InstantCommand(m_driveSubsystem::resetEncoders),
-      new EncoderDriveDistance(5, m_driveSubsystem));
+      //new InstantCommand(m_driveSubsystem::resetEncoders),
+      //new EncoderDriveDistance(5, m_driveSubsystem));
   }
 }

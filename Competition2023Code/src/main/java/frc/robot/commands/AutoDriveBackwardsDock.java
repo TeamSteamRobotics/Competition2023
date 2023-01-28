@@ -13,13 +13,14 @@ public class AutoDriveBackwardsDock extends CommandBase {
 
   EncoderDriveDistance grimbloFimblo;
   DriveSubsystem m_driveSubsystem;
-  ArmSubsystem armSubsystem;
+  //ArmSubsystem armSubsystem;
+ //ArmSubsystem armSubsystem
   
-  public AutoDriveBackwardsDock(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem) {
+  public AutoDriveBackwardsDock(DriveSubsystem driveSubsystem) {
    
     this.m_driveSubsystem = driveSubsystem;
-    this.armSubsystem = armSubsystem;
-    addRequirements(m_driveSubsystem, armSubsystem);
+    //this.armSubsystem = armSubsystem;
+    addRequirements(m_driveSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -32,7 +33,7 @@ public class AutoDriveBackwardsDock extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  armSubsystem.stopAll();
+  //armSubsystem.stopAll();
   }
 
   // Called once the command ends or is interrupted.

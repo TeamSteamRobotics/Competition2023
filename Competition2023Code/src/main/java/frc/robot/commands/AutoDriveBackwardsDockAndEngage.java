@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -22,8 +23,9 @@ public class AutoDriveBackwardsDockAndEngage extends SequentialCommandGroup {
     new EncoderDriveDistance(5, drive),
 
     //Balance Pid
+    new WaitCommand(0.25),
 
-    new EncoderDriveDistance(-10, drive)
+    new EncoderDriveDistance(0, drive)
 
     //balance
     );
