@@ -79,6 +79,10 @@ public class DriveSubsystem extends SubsystemBase {
     return 0;
   }
 
+  public double gyroPitchDegrees() {
+    return 0;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
