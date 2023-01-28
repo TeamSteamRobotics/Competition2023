@@ -65,14 +65,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     driveToTarget.onTrue(
-        new SequentialCommandGroup(
-          new InstantCommand(m_driveSubsystem::resetEncoders),
-          //new EncoderDriveDistance(5, m_driveSubsystem),
-          new AutoDriveBackwardsDockAndEngage(m_driveSubsystem, m_armSubsystem)
-        )
-      
-      
-      );
+      new EncoderDriveDistance(m_visionSubsystem.distanceToGridAprilTag(), m_driveSubsystem));
   }
 
   /**

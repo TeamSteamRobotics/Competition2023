@@ -90,7 +90,8 @@ public class VisionSubsystem extends SubsystemBase {
 
   public double distanceToGridAprilTag() {
     double angleToTagRadians = ((VisionConstants.kLimelightMountingAngle + ty.getDouble(0)) * (Math.PI / 180));
-    double distance = (FieldConstants.kGridAprilTagHeightMeters - VisionConstants.kLimelightHeightMeters) / Math.tan(angleToTagRadians);
+    double distance = (0.23622) / Math.tan(angleToTagRadians);
+    System.out.println("Distance: " + distance);
     return distance;
   }
 
