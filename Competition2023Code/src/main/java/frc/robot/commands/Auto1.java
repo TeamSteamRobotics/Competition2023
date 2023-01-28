@@ -10,13 +10,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class AutoDoNothing extends CommandBase {
+public class Auto1 extends CommandBase {
   /** Creates a new AutoDoNothing. */
 
   DriveSubsystem m_driveSubsystem;
   ArmSubsystem armSubsystem;
   
-  public AutoDoNothing(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem) {
+  public Auto1(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem) {
 
     this.m_driveSubsystem = driveSubsystem;
     this.armSubsystem = armSubsystem;
