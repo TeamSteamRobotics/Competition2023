@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class AutoDriveBackwardsDock extends CommandBase {
+public class Auto2 extends CommandBase {
   /** Creates a new AutoDriveBackwardsDock. */
 
   EncoderDriveDistance grimbloFimblo;
@@ -16,7 +16,7 @@ public class AutoDriveBackwardsDock extends CommandBase {
   //ArmSubsystem armSubsystem;
  //ArmSubsystem armSubsystem
   
-  public AutoDriveBackwardsDock(DriveSubsystem driveSubsystem) {
+  public Auto2(DriveSubsystem driveSubsystem) {
    
     this.m_driveSubsystem = driveSubsystem;
     //this.armSubsystem = armSubsystem;
