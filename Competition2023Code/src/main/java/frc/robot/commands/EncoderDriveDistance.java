@@ -14,7 +14,12 @@ import frc.robot.subsystems.DriveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class EncoderDriveDistance extends PIDCommand {
   /** Creates a new EncoderDriveDistance. */
+
+  
+
+  DriveSubsystem drive;
   public EncoderDriveDistance(double distanceMeters, DriveSubsystem drive) {
+    
     super(
         // The controller that the command will use
         new PIDController(EncoderDriveDistanceConstants.kP, EncoderDriveDistanceConstants.kI, EncoderDriveDistanceConstants.kD),
@@ -34,6 +39,7 @@ public class EncoderDriveDistance extends PIDCommand {
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     getController().setTolerance(.1,1);
+    this.drive = drive;
   }
 
   // Returns true when the command should end.

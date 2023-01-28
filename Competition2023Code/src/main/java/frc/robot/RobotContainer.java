@@ -5,8 +5,11 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.AutoDriveBackwardsDock;
+import frc.robot.commands.AutoDriveBackwardsDockAndEngage;
 import frc.robot.commands.Drive;
 import frc.robot.commands.EncoderDriveDistance;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
@@ -33,6 +36,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
 
   private final Joystick joystick = new Joystick(0);
   private final Trigger driveToTarget = new JoystickButton(joystick, 9);
@@ -60,9 +64,15 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    driveToTarget.onTrue(new SequentialCommandGroup(
-      new InstantCommand(m_driveSubsystem::resetEncoders),
-      new EncoderDriveDistance(5, m_driveSubsystem)));
+    driveToTarget.onTrue(
+        new SequentialCommandGroup(
+          new InstantCommand(m_driveSubsystem::resetEncoders),
+          //new EncoderDriveDistance(5, m_driveSubsystem),
+          new AutoDriveBackwardsDockAndEngage(m_driveSubsystem, m_armSubsystem)
+        )
+      
+      
+      );
   }
 
   /**
@@ -72,6 +82,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return null;
+    return new SequentialCommandGroup(
+      new InstantCommand(m_driveSubsystem::resetEncoders),
+      new EncoderDriveDistance(5, m_driveSubsystem));
   }
 }
