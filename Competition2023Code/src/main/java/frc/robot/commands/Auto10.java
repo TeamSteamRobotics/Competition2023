@@ -32,13 +32,6 @@ public class Auto10 extends SequentialCommandGroup {
 
     //balance PID
     
-   
-
-    
-
-    
-
-    
   
 
 

@@ -5,6 +5,8 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -15,19 +17,19 @@ public class DriveForwardScoreLeaveCommunityGoToPlayerStation extends Sequential
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-    new EncoderDriveDistance(distanceMeters: 5, drive),
-    new ArmAnglePID(arm, angle: 90),
+    new EncoderDriveDistance( 5, drive),
+    new ArmAnglePID(arm, 90),
 
     //Reverse Intake
     //deploy intake
     //uninake
     //reset arm
 
-    new EncoderDriveDistance(distanceMeters: 5, drive),
+    new EncoderDriveDistance(5, drive),
     //turn
-    new EncoderDriveDistance(distanceMeters: 5, drive),
+    new EncoderDriveDistance(5, drive),
     //turn
-    new EncoderDriveDistance(distanceMeters: 5, drive),
+    new EncoderDriveDistance(5, drive)
 
   );
   }
