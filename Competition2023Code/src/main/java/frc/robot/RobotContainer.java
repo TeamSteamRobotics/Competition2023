@@ -5,6 +5,16 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.Auto1;
+import frc.robot.commands.Auto10;
+import frc.robot.commands.Auto11;
+import frc.robot.commands.Auto2;
+import frc.robot.commands.Auto3;
+import frc.robot.commands.Auto4;
+import frc.robot.commands.Auto6;
+import frc.robot.commands.Auto7;
+import frc.robot.commands.Auto8;
+import frc.robot.commands.Auto9;
 import frc.robot.commands.Drive;
 import frc.robot.commands.EncoderDriveDistance;
 import frc.robot.subsystems.ArmSubsystem;
@@ -72,6 +82,36 @@ public class RobotContainer {
       );
     //new InstantCommand(() -> m_visionSubsystem.visionDistanceTest(), m_visionSubsystem));
   }
+  public Command ChooseAuto(AutoType type) {
+    switch(type){
+        case do_nothing:
+          return new Auto1(m_driveSubsystem, m_armSubsystem);
+        case drive_backwards_dock:
+          return new Auto2(m_driveSubsystem);
+        case drive_forwards_score_drive_back_dock:
+          return new Auto3(m_driveSubsystem, m_armSubsystem);
+        case drive_forwards_score:
+          return new Auto4(m_driveSubsystem, m_armSubsystem);
+        case drive_backwards_drive_forwards_dock:
+          //return Auto5
+          break;
+        case drive_backwards_dock_engage:
+          return new Auto6(m_driveSubsystem, m_armSubsystem);
+        case drive_forwards_score_drive_back_pick_up_piece:
+          return new Auto7(m_driveSubsystem, m_armSubsystem);
+        case drive_back_move_pieces_to_our_side:
+          return new Auto8(m_driveSubsystem, m_armSubsystem);
+        case drive_forwards_score_leave_community_pickup_piece_score:
+          return new Auto9(m_driveSubsystem, m_armSubsystem);
+        case drive_forwards_score_leave_community_dock_engage:
+          return new Auto10(m_driveSubsystem, m_armSubsystem);
+        case drive_forwards_score_leave_community_go_to_plaer_station:
+          return new Auto11(m_driveSubsystem, m_armSubsystem);
+        default:
+            return null;
+    }
+    return null;
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -81,7 +121,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     //return new ParallelRaceGroup(new Drive(m_driveSubsystem, () -> 0.5, () -> 0), new WaitCommand(5) );
     // An example command will be run in autonomous
-    return null;//new AutoDriveBackwardsDockAndEngage(m_driveSubsystem, m_armSubsystem);
+    return ChooseAuto(AutoType.drive_forwards_score);//new AutoDriveBackwardsDockAndEngage(m_driveSubsystem, m_armSubsystem);
     
     //new SequentialCommandGroup(
 

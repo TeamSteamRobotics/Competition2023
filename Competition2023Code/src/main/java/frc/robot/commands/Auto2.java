@@ -27,12 +27,12 @@ public class Auto2 extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-  grimbloFimblo = new EncoderDriveDistance(7, m_driveSubsystem);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_driveSubsystem.drive(-.3, 0);
   //armSubsystem.stopAll();
   }
 

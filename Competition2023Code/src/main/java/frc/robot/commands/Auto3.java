@@ -24,7 +24,7 @@ public class Auto3 extends SequentialCommandGroup {
     addCommands(
 
       new EncoderDriveDistance(5, drive),
-      new ArmAnglePID(arm, 130),
+      //new ArmAnglePID(arm, 130),
       //Reverse Intake
       new EncoderDriveDistance(-10, drive)
 
