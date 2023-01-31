@@ -5,8 +5,6 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.AutoDriveBackwardsDock;
-import frc.robot.commands.AutoDriveBackwardsDockAndEngage;
 import frc.robot.commands.Drive;
 import frc.robot.commands.EncoderDriveDistance;
 import frc.robot.subsystems.ArmSubsystem;
@@ -67,12 +65,12 @@ public class RobotContainer {
    */
   private void configureBindings() {
     driveToTarget.onTrue(
-
-      new SequentialCommandGroup(new InstantCommand(m_driveSubsystem::resetEncoders), 
-      //new EncoderDriveDistance(5, m_driveSubsystem))
-      new EncoderDriveDistance(m_visionSubsystem.distanceToGridAprilTag(), m_driveSubsystem))
+     new SequentialCommandGroup(
+        new InstantCommand(m_driveSubsystem::resetEncoders), 
+        new EncoderDriveDistance(m_visionSubsystem.visionDistanceTest(), m_driveSubsystem))
       
       );
+    //new InstantCommand(() -> m_visionSubsystem.visionDistanceTest(), m_visionSubsystem));
   }
 
   /**
@@ -83,7 +81,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     //return new ParallelRaceGroup(new Drive(m_driveSubsystem, () -> 0.5, () -> 0), new WaitCommand(5) );
     // An example command will be run in autonomous
-    return new AutoDriveBackwardsDockAndEngage(m_driveSubsystem, m_armSubsystem);
+    return null;//new AutoDriveBackwardsDockAndEngage(m_driveSubsystem, m_armSubsystem);
     
     //new SequentialCommandGroup(
 
