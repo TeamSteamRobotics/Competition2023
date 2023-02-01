@@ -27,7 +27,7 @@ public class DriveToApril extends PIDCommand {
         // This should return the measurement
         () -> drive.getEncoderDistanceMeters(),
         // This should return the setpoint (can also be a constant)
-        vision.getCoordinates().z,
+        vision.getCoordinates().z-1,
         // This uses the output
         output -> {
           /*if(output > 0.2)

@@ -8,8 +8,10 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Drive;
 import frc.robot.commands.DriveRotationPID;
 import frc.robot.commands.EncoderDriveDistance;
+import frc.robot.commands.DriveToApril; 
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.AprilVisionSubsystem; 
 
 import java.nio.file.attribute.PosixFilePermissions;
 
@@ -35,13 +37,13 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
+  private final AprilVisionSubsystem m_aprilVisionSubsystem = new AprilVisionSubsystem(); 
 
   private final Joystick joystick = new Joystick(0);
   private final Trigger driveToTarget = new JoystickButton(joystick, 9);
   private final Trigger button = new JoystickButton(joystick, 5);
+  private final Trigger driveToApril = new JoystickButton(joystick, 10); 
   
-
-
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -66,6 +68,11 @@ public class RobotContainer {
       new InstantCommand(m_driveSubsystem::resetEncoders),
       new ParallelDeadlineGroup(
         new EncoderDriveDistance(5, m_driveSubsystem), 
+        new DriveRotationPID(m_driveSubsystem))));
+    driveToApril.onTrue(new SequentialCommandGroup(
+      new InstantCommand(m_driveSubsystem::resetEncoders),
+      new ParallelDeadlineGroup(
+        new DriveToApril(m_driveSubsystem, m_aprilVisionSubsystem), 
         new DriveRotationPID(m_driveSubsystem))));
       
   }
