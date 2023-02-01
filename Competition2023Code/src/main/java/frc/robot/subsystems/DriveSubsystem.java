@@ -27,6 +27,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   private DifferentialDrive diffDrive = new DifferentialDrive(left, right);
 
+  private AHRS gyro = new AHRS();
+
   //private AHRS navX = new AHRS(SerialPort.Port.kMXP);
 
   public DriveSubsystem() {
@@ -74,13 +76,13 @@ public class DriveSubsystem extends SubsystemBase {
     rightfront.setSelectedSensorPosition(0);
   }
 
-  /**public void resetGyro() {
+  public void resetGyro() {
     navX.reset();
-  }*/
+  }
 
   public double gyroAngleDegrees() {
-    //return navX.getAngle();
-    return 0;
+    return navX.getAngle();
+    //return 0;
   }
 
   public double gyroPitchDegrees() {
