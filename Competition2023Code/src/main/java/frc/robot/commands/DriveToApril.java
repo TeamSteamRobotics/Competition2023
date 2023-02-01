@@ -40,6 +40,8 @@ public class DriveToApril extends PIDCommand {
 
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
+    System.out.println(vision.getCoordinates().z-1);
+    addRequirements(drive);
     getController().setTolerance(.01,1);
   }
 

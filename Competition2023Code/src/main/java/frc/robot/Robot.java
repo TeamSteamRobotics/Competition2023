@@ -20,17 +20,7 @@ import com.google.gson.Gson;
  * project.
  */
 public class Robot extends TimedRobot {
-  double x;
-  double y;
-  double z;
-  double rx;
-  double ry;
-  double rz;
 
-  double[] defaultValue = new double[0];
-
-  NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-  NetworkTableEntry t_t6t_rs = table.getEntry("json");
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -98,26 +88,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    String jsonString = t_t6t_rs.getString("");
-    //System.out.println(jsonString);
-    Gson gson = new Gson();
-    limelightjson thirteenthReason = gson.fromJson(jsonString, limelightjson.class);
-
-    if (thirteenthReason.Results.Fiducial.length != 0) {
-      x = thirteenthReason.Results.Fiducial[0].t6t_rs[0];
-      y = thirteenthReason.Results.Fiducial[0].t6t_rs[1];
-      z = thirteenthReason.Results.Fiducial[0].t6t_rs[2];
-      rx = thirteenthReason.Results.Fiducial[0].t6t_rs[3];
-      ry = thirteenthReason.Results.Fiducial[0].t6t_rs[4];
-      rz = thirteenthReason.Results.Fiducial[0].t6t_rs[5];
-    }
-
-    System.out.println("X: " + x);
-    System.out.println("Y: " + y);
-    System.out.println("Z: " + z);
-    System.out.println("RX: " + rx);
-    System.out.println("RY: " + ry);
-    System.out.println("RZ: " + rz);
+ 
   }
 
   @Override
@@ -138,22 +109,4 @@ public class Robot extends TimedRobot {
   @Override
   public void simulationPeriodic() {}
 }
-class limelightjson{
-    public ResultJson Results;
-}
 
-class ResultJson
-{
-    public FiducialJson[] Fiducial;
-    public int pID;
-    public float tl;
-    public float ts;
-    public int v;
-}
-
-class FiducialJson
-{
-    public int fID;
-    public String fam;
-    public float[] t6t_rs;
-}

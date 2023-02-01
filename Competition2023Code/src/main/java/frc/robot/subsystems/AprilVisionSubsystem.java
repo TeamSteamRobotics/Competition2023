@@ -24,6 +24,7 @@ public class AprilVisionSubsystem extends SubsystemBase {
     double rx;
     double ry;
     double rz;
+    
 
     double[] defaultValue = new double[0];
 

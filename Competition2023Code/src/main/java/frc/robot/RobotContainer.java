@@ -42,7 +42,7 @@ public class RobotContainer {
   private final Joystick joystick = new Joystick(0);
   private final Trigger driveToTarget = new JoystickButton(joystick, 9);
   private final Trigger button = new JoystickButton(joystick, 5);
-  private final Trigger driveToApril = new JoystickButton(joystick, 10); 
+  private final Trigger driveToApril = new JoystickButton(joystick, 6); 
   
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -64,16 +64,16 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    driveToTarget.onTrue(new SequentialCommandGroup(
+    driveToTarget.onTrue(
       new InstantCommand(m_driveSubsystem::resetEncoders),
-      new ParallelDeadlineGroup(
-        new EncoderDriveDistance(5, m_driveSubsystem), 
-        new DriveRotationPID(m_driveSubsystem))));
-    driveToApril.onTrue(new SequentialCommandGroup(
-      new InstantCommand(m_driveSubsystem::resetEncoders),
-      new ParallelDeadlineGroup(
-        new DriveToApril(m_driveSubsystem, m_aprilVisionSubsystem), 
-        new DriveRotationPID(m_driveSubsystem))));
+      //new ParallelDeadlineGroup(
+        new EncoderDriveDistance(5, m_driveSubsystem) 
+        //new DriveRotationPID(m_driveSubsystem))));
+    driveToApril.onTrue(
+      //new ParallelDeadlineGroup(
+        new DriveToApril(m_driveSubsystem, m_aprilVisionSubsystem) 
+       // new DriveRotationPID(m_driveSubsystem))));
+    )
       
   }
 

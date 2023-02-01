@@ -93,9 +93,7 @@ public class VisionSubsystem extends SubsystemBase {
     double distance = (FieldConstants.kGridAprilTagHeightMeters - VisionConstants.kLimelightHeightMeters) / Math.tan(angleToTagRadians);
     return distance;
   }
-
-
-
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
