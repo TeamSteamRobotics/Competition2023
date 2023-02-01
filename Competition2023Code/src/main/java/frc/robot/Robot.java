@@ -103,12 +103,6 @@ public class Robot extends TimedRobot {
     Gson gson = new Gson();
     limelightjson thirteenthReason = gson.fromJson(jsonString, limelightjson.class);
 
-    x = thirteenthReason.Results.Fiducial[0].t6t_rs[0];
-    y = thirteenthReason.Results.Fiducial[0].t6t_rs[1];
-    z = thirteenthReason.Results.Fiducial[0].t6t_rs[2];
-    rx = thirteenthReason.Results.Fiducial[0].t6t_rs[3];
-    ry = thirteenthReason.Results.Fiducial[0].t6t_rs[4];
-    rz = thirteenthReason.Results.Fiducial[0].t6t_rs[5];
 
     System.out.println("X: " + x);
     System.out.println("Y: " + y);
