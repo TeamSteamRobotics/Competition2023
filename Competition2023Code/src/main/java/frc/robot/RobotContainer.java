@@ -65,15 +65,14 @@ public class RobotContainer {
    */
   private void configureBindings() {
     driveToTarget.onTrue(
-      new InstantCommand(m_driveSubsystem::resetEncoders),
-      //new ParallelDeadlineGroup(
-        new EncoderDriveDistance(5, m_driveSubsystem) 
+      new InstantCommand(m_driveSubsystem::resetEncoders)
         //new DriveRotationPID(m_driveSubsystem))));
+    );
     driveToApril.onTrue(
       //new ParallelDeadlineGroup(
-        new DriveToApril(m_driveSubsystem, m_aprilVisionSubsystem) 
-       // new DriveRotationPID(m_driveSubsystem))));
-    )
+        new DriveToApril(m_driveSubsystem, m_aprilVisionSubsystem)
+       // new DriveRotationPID(m_driveSubsystem)
+    );
       
   }
 

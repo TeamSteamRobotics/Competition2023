@@ -8,20 +8,15 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.AprilVisionSubsystem;
 
 
-class Coordinate {
-    public float x;
-    public float y;
-    public float z;
-    public float rx;
-    public float ry;
-    public float rz;
-}
 
-public class DriveToApril extends PIDCommand {
+
+public class DriveToApril {
   /** Creates a new EncoderDriveDistance. */
   public DriveToApril(DriveSubsystem drive, AprilVisionSubsystem vision) {
-
-    super(
+    while(vision.getCoordinates().x > 0.5){
+      drive.drive(.2, 0);
+    }
+    /*super(
         // The controller that the command will use
         new PIDController(EncoderDriveDistanceConstants.kP, EncoderDriveDistanceConstants.kI, EncoderDriveDistanceConstants.kD),
         // This should return the measurement
@@ -32,18 +27,19 @@ public class DriveToApril extends PIDCommand {
         output -> {
           /*if(output > 0.2)
             drive.drive(.2, 0);
-          else*/
+          else
 
             drive.drive(-output / 2, 0);
           // Use the output here
     });
+    */
 
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
-    System.out.println(vision.getCoordinates().z-1);
-    addRequirements(drive);
-    getController().setTolerance(.01,1);
+    System.out.println(vision.getCoordinates().z);
   }
+
+ 
 
   // Returns true when the command should end.
   @Override
