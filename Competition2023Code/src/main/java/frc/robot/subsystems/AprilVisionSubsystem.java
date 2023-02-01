@@ -57,7 +57,7 @@ public class AprilVisionSubsystem extends SubsystemBase {
     }
 
 
-class Coordinate {
+public class Coordinate {
     public float x;
     public float y;
     public float z;
