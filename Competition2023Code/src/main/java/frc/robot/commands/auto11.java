@@ -12,12 +12,13 @@ import frc.robot.subsystems.DriveSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Auto11 extends SequentialCommandGroup {
-  /** Creates a new DriveForwardScoreLeaveCommunityGoToPlayerStation. */
+  /** Creates a new Auto11. */
   public Auto11(DriveSubsystem drive, ArmSubsystem arm) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-    
+
+
     new EncoderDriveDistance( 5, drive),
     new ArmAnglePID(arm, 90),
 
@@ -32,6 +33,7 @@ public class Auto11 extends SequentialCommandGroup {
     //turn
     new EncoderDriveDistance(5, drive)
 
-  );
+
+    );
   }
 }
