@@ -27,6 +27,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   private DifferentialDrive diffDrive = new DifferentialDrive(left, right);
 
+  private AHRS gyro = new AHRS();
+
   //private AHRS navX = new AHRS(SerialPort.Port.kMXP);
 
   public DriveSubsystem() {
@@ -34,6 +36,10 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void drive(double speed, double rotation){
+    //System.out.println("leftfront" + leftfront.get());
+    //System.out.println("leftback" + leftback.get());
+    //System.out.println("rightfront" + rightfront.get());
+    //System.out.println("rightback" + rightback.get());
     diffDrive.arcadeDrive(-speed, rotation);
   }
 
@@ -43,6 +49,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   public double getEncoderPosRAW() {
     return (leftfront.getSelectedSensorPosition() + rightfront.getSelectedSensorPosition()) / 2;
+  }
+
+  public double getEncoderDiffernce() {
+    return leftfront.getSelectedSensorPosition() - rightfront.getSelectedSensorPosition();
   }
 
   public double getEncoderDistanceMeters() {
@@ -66,12 +76,16 @@ public class DriveSubsystem extends SubsystemBase {
     rightfront.setSelectedSensorPosition(0);
   }
 
-  /**public void resetGyro() {
-    navX.reset();
-  }*/
+  public void resetGyro() {
+    //navX.reset();
+  }
 
   public double gyroAngleDegrees() {
-    //return navX.getAngle();
+    //eturn navX.getAngle();
+    return 0;
+  }
+
+  public double gyroPitchDegrees() {
     return 0;
   }
 

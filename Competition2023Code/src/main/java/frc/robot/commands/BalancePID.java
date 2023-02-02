@@ -6,41 +6,29 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
-import frc.robot.Constants.EncoderDriveDistanceConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class EncoderDriveDistance extends PIDCommand {
-  /** Creates a new EncoderDriveDistance. */
-
-  
-
-  DriveSubsystem drive;
-  public EncoderDriveDistance(double distanceMeters, DriveSubsystem drive) {
-    
+public class BalancePID extends PIDCommand {
+  /** Creates a new BalancePID. */
+  public BalancePID(DriveSubsystem drive) {
     super(
         // The controller that the command will use
-        new PIDController(EncoderDriveDistanceConstants.kP, EncoderDriveDistanceConstants.kI, EncoderDriveDistanceConstants.kD),
+        new PIDController(0, 0, 0),
         // This should return the measurement
-        () -> drive.getEncoderDistanceMeters(),
+        () -> drive.gyroPitchDegrees(),
         // This should return the setpoint (can also be a constant)
-        distanceMeters,
+        0,
         // This uses the output
         output -> {
-          /*if(output > 0.2)
-            drive.drive(.2, 0);
-          else*/
-            drive.drive(-output / 2, 0);
+          drive.drive(output, 0);
+
           // Use the output here
         });
-      
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
-    addRequirements(drive);
-    getController().setTolerance(.3,1);
-    this.drive = drive;
   }
 
   // Returns true when the command should end.

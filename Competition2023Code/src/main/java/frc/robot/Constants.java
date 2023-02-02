@@ -17,6 +17,12 @@ public final class Constants {
     public static final int kDriverControllerPort = 0; 
   }
 
+  public static class DriveStraightPIDConstants {
+    public static final double kP = 0;
+    public static final double kI = 0;
+    public static final double kD = 0;
+  }
+
   public static class VisionConstants {
     public static final double kLimelightMountingAngle = 0.0; // angle of limelight to being perfectly vertical in degrees
     public static final double kLimelightHeightMeters = 0.0; // distance from middle of lense of limelight to ground in meters    
