@@ -27,8 +27,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   private DifferentialDrive diffDrive = new DifferentialDrive(left, right);
 
-  private AHRS gyro = new AHRS();
-
   //private AHRS navX = new AHRS(SerialPort.Port.kMXP);
 
   public DriveSubsystem() {
