@@ -87,7 +87,7 @@ public class RobotContainer {
         case do_nothing:
           return new Auto1(m_driveSubsystem, m_armSubsystem);
         case drive_backwards_dock:
-          return new Auto2(m_driveSubsystem);
+          return new Auto2();
         case drive_forwards_score_drive_back_dock:
           return new Auto3(m_driveSubsystem, m_armSubsystem);
         case drive_forwards_score:

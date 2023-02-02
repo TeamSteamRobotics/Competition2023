@@ -77,12 +77,12 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void resetGyro() {
-    navX.reset();
+    //navX.reset();
   }
 
   public double gyroAngleDegrees() {
-    return navX.getAngle();
-    //return 0;
+    //eturn navX.getAngle();
+    return 0;
   }
 
   public double gyroPitchDegrees() {
