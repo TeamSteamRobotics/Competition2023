@@ -1,6 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
 
@@ -8,39 +5,41 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants.EncoderDriveDistanceConstants;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.AprilVisionSubsystem;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class EncoderDriveDistance extends PIDCommand {
+
+
+
+public class DriveToApril {
   /** Creates a new EncoderDriveDistance. */
-
-  
-
-  DriveSubsystem drive;
-  public EncoderDriveDistance(double distanceMeters, DriveSubsystem drive) {
-    
-    super(
+  public DriveToApril(DriveSubsystem drive, AprilVisionSubsystem vision) {
+    while(vision.getCoordinates().x > 0.5){
+      drive.drive(.2, 0);
+    }
+    /*super(
         // The controller that the command will use
         new PIDController(EncoderDriveDistanceConstants.kP, EncoderDriveDistanceConstants.kI, EncoderDriveDistanceConstants.kD),
         // This should return the measurement
         () -> drive.getEncoderDistanceMeters(),
         // This should return the setpoint (can also be a constant)
-        distanceMeters,
+        vision.getCoordinates().z-1,
         // This uses the output
         output -> {
           /*if(output > 0.2)
             drive.drive(.2, 0);
-          else*/
+          else
+
             drive.drive(-output / 2, 0);
           // Use the output here
-        });
-      
+    });
+    */
+
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
-    addRequirements(drive);
-    getController().setTolerance(.01,1);
+    System.out.println(vision.getCoordinates().z);
   }
+
+ 
 
   // Returns true when the command should end.
   @Override
@@ -48,3 +47,4 @@ public class EncoderDriveDistance extends PIDCommand {
     return getController().atSetpoint();
   }
 }
+

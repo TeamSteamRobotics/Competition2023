@@ -102,9 +102,7 @@ public class VisionSubsystem extends SubsystemBase {
     System.out.println("Angle: " + angleToTagRadians * (180 / Math.PI));
     return distance;
   }
-
-
-
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

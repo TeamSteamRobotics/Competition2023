@@ -16,10 +16,13 @@ import frc.robot.commands.Auto7;
 import frc.robot.commands.Auto8;
 import frc.robot.commands.Auto9;
 import frc.robot.commands.Drive;
+import frc.robot.commands.DriveRotationPID;
 import frc.robot.commands.EncoderDriveDistance;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.commands.DriveToApril; 
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.AprilVisionSubsystem; 
 
 import java.nio.file.attribute.PosixFilePermissions;
 
@@ -47,13 +50,13 @@ public class RobotContainer {
   private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
+  private final AprilVisionSubsystem m_aprilVisionSubsystem = new AprilVisionSubsystem(); 
 
   private final Joystick joystick = new Joystick(0);
   private final Trigger driveToTarget = new JoystickButton(joystick, 9);
   private final Trigger button = new JoystickButton(joystick, 5);
+  private final Trigger driveToApril = new JoystickButton(joystick, 6); 
   
-
-
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

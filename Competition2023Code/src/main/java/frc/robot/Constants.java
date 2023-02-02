@@ -28,6 +28,7 @@ public final class Constants {
     public static final double kLimelightHeightMeters = 0.0; // distance from middle of lense of limelight to ground in meters    
   }
 
+
   public static class FieldConstants {
     public static final double kMiddleConeNodeVisionTapeHeightMeters = 0.56; // 56 centimeters to bottom
     public static final double kTopConeNodeVisionTapeHeightMeters = 1.06; // 106 centimeters to bottom
@@ -36,6 +37,14 @@ public final class Constants {
   public static class DriveConstants {
     public static final double encoderTicksToMeters = 0; // Will be filled out when more info arrives
     public static final double wheelRadiusMeters = 0.0762;
+
+  }
+  public static class DriveRotationConstants {
+    public static final double drive_kP = 0;
+    public static final double drive_kI = 0;
+    public static final double drive_kD = 0;
+    public static final double drive_tolerance = 3; 
+
   }
 
   public static class GyroTurnConstants {
