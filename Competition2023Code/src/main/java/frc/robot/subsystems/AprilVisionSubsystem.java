@@ -25,7 +25,6 @@ public class AprilVisionSubsystem extends SubsystemBase {
     double ry;
     double rz;
     
-
     double[] defaultValue = new double[0];
 
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -40,31 +39,31 @@ public class AprilVisionSubsystem extends SubsystemBase {
     public Coordinate getCoordinates() {
         Coordinate coordinate = new Coordinate(); 
         if (thirteenthReason.Results.Fiducial.length != 0) {
-            coordinate.x = thirteenthReason.Results.Fiducial[0].t6t_rs[0];
-            coordinate.y = thirteenthReason.Results.Fiducial[0].t6t_rs[1];
-            coordinate.z = thirteenthReason.Results.Fiducial[0].t6t_rs[2];
-            coordinate.rx = thirteenthReason.Results.Fiducial[0].t6t_rs[3];
-            coordinate.ry = thirteenthReason.Results.Fiducial[0].t6t_rs[4];
-            coordinate.rz = thirteenthReason.Results.Fiducial[0].t6t_rs[5];
+            coordinate.aprilTagVisible = true;
+            for (int i= 0; i < thirteenthReason.Results.Fiducial.length; i++) { //creates objects for each apriltag in view, probably problematic?
+            coordinate.x[i] = thirteenthReason.Results.Fiducial[i].t6t_rs[0];
+            coordinate.y[i] = thirteenthReason.Results.Fiducial[i].t6t_rs[1];
+            coordinate.z[i] = thirteenthReason.Results.Fiducial[i].t6t_rs[2];
+            coordinate.rx[i] = thirteenthReason.Results.Fiducial[i].t6t_rs[3];
+            coordinate.ry[i] = thirteenthReason.Results.Fiducial[i].t6t_rs[4];
+            coordinate.rz[i] = thirteenthReason.Results.Fiducial[i].t6t_rs[5];
+            coordinate.aprilTagId[i] = thirteenthReason.Results.Fiducial[i].fID;
+            }
         } else {
-            coordinate.x = 0;
-            coordinate.y = 0;
-            coordinate.z = 0;
-            coordinate.rx = 0;
-            coordinate.ry = 0;
-            coordinate.rz = 0;
+           coordinate.aprilTagVisible = false;
         }
         return coordinate; 
     }
 
-
 public class Coordinate {
-    public float x;
-    public float y;
-    public float z;
-    public float rx;
-    public float ry;
-    public float rz;
+    public float[] x;
+    public float[] y;
+    public float[] z;
+    public float[] rx;
+    public float[] ry;
+    public float[] rz;
+    public float[] aprilTagId;
+    public boolean aprilTagVisible;
 }
 
 class limelightjson{

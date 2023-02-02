@@ -40,9 +40,9 @@ public class RobotContainer {
   private final AprilVisionSubsystem m_aprilVisionSubsystem = new AprilVisionSubsystem(); 
 
   private final Joystick joystick = new Joystick(0);
-  private final Trigger driveToTarget = new JoystickButton(joystick, 9);
+  private final Trigger driveToTarget = new JoystickButton(joystick, 6);
   private final Trigger button = new JoystickButton(joystick, 5);
-  private final Trigger driveToApril = new JoystickButton(joystick, 6); 
+  private final Trigger driveToApril = new JoystickButton(joystick, 9); 
   
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
