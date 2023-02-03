@@ -10,6 +10,7 @@ import frc.robot.commands.DriveRotationPID;
 import frc.robot.commands.EncoderDriveDistance;
 import frc.robot.commands.DriveToApril; 
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.AprilVisionSubsystem; 
 
 import java.nio.file.attribute.PosixFilePermissions;
@@ -34,6 +35,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+  private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final AprilVisionSubsystem m_aprilVisionSubsystem = new AprilVisionSubsystem(); 
 
