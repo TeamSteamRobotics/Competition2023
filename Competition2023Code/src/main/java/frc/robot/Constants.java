@@ -36,6 +36,10 @@ public final class Constants {
   public static class DriveConstants {
     public static final double encoderTicksToMeters = 0; // Will be filled out when more info arrives
     public static final double wheelRadiusMeters = 0.0762;
+    public static int rightFrontMotorID;
+    public static int rightBackMotorID;
+    public static int leftFrontMotorID;
+    public static int leftBackMotorID;
   }
 
   public static class GyroTurnConstants {
@@ -53,9 +57,9 @@ public final class Constants {
   }
 
   public final class ArmConstants {
-    public static final double angle_kP = 0.0;
-    public static final double angle_kI = 0.0;
-    public static final double angle_kD = 0.0;
+    public static final double angle_kP = 0.3;
+    public static final double angle_kI = 0.0001;
+    public static final double angle_kD = 0.2;
 
     public static final double length_kP = 0;
     public static final double length_kI = 0;
