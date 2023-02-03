@@ -41,7 +41,6 @@ public class RobotContainer {
 
   private final Joystick joystick = new Joystick(0);
   private final Trigger driveToTarget = new JoystickButton(joystick, 6);
-  private final Trigger button = new JoystickButton(joystick, 5);
   private final Trigger driveToApril = new JoystickButton(joystick, 9); 
   
 
@@ -70,8 +69,7 @@ public class RobotContainer {
     );
     driveToApril.onTrue(
       //new ParallelDeadlineGroup(
-        new DriveToApril(m_driveSubsystem, m_aprilVisionSubsystem)
-       // new DriveRotationPID(m_driveSubsystem)
+        new DriveToApril(m_aprilVisionSubsystem, m_driveSubsystem)
     );
       
   }
