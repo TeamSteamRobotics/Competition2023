@@ -4,8 +4,7 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -17,10 +16,10 @@ import edu.wpi.first.wpilibj.SerialPort;
 
 public class DriveSubsystem extends SubsystemBase {
   
-  private WPI_VictorSPX leftback = new WPI_VictorSPX(MotorIDConstants.leftBackDrive);
-  private WPI_TalonSRX leftfront = new WPI_TalonSRX(MotorIDConstants.leftFrontDrive);
-  private WPI_VictorSPX rightback = new WPI_VictorSPX(MotorIDConstants.rightBackDrive);
-  private WPI_TalonSRX rightfront = new WPI_TalonSRX(MotorIDConstants.rightFrontDrive);
+  private WPI_TalonFX leftback = new WPI_TalonFX(DriveConstants.leftBackMotorID);
+  private WPI_TalonFX leftfront = new WPI_TalonFX(DriveConstants.leftFrontMotorID);
+  private WPI_TalonFX rightback = new WPI_TalonFX(DriveConstants.rightBackMotorID);
+  private WPI_TalonFX rightfront = new WPI_TalonFX(DriveConstants.rightFrontMotorID);
   
   private MotorControllerGroup left = new MotorControllerGroup(leftback, leftfront);
   private MotorControllerGroup right = new MotorControllerGroup(rightback, rightfront);
