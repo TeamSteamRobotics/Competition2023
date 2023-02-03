@@ -36,7 +36,7 @@ public final class Constants {
   public static class DriveConstants {
     public static final double encoderTicksToMeters = 0; // Will be filled out when more info arrives
     public static final double wheelRadiusMeters = 0.0762;
-    public static int rightFrontMotorID;
+    public static int rightFrontMotorID ;
     public static int rightBackMotorID;
     public static int leftFrontMotorID;
     public static int leftBackMotorID;
@@ -79,13 +79,13 @@ public final class Constants {
   }
 
   public final class MotorIDConstants {
-    public static final short leftBackDrive = 2;
-    public static final short leftFrontDrive = 3;
-    public static final short rightBackDrive = 4;
-    public static final short rightFrontDrive = 1;
+    public static final short leftBackDrive = 3;
+    public static final short leftFrontDrive = 2;
+    public static final short rightBackDrive = 9;
+    public static final short rightFrontDrive = 8;
 
-    public static final short intakeMotor = 9;
-    public static final short leftElevatorMotor = 7;
-    public static final short rightElevatorMotor = 8;
+    public static final short intakeMotor = 5;
+    public static final short leftElevatorMotor = 4;
+    public static final short rightElevatorMotor = 7;
   }
 }

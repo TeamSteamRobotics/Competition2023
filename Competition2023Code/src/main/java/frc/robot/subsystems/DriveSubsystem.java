@@ -16,17 +16,17 @@ import edu.wpi.first.wpilibj.SerialPort;
 
 public class DriveSubsystem extends SubsystemBase {
   
-  private WPI_TalonFX leftback = new WPI_TalonFX(DriveConstants.leftBackMotorID);
-  private WPI_TalonFX leftfront = new WPI_TalonFX(DriveConstants.leftFrontMotorID);
-  private WPI_TalonFX rightback = new WPI_TalonFX(DriveConstants.rightBackMotorID);
-  private WPI_TalonFX rightfront = new WPI_TalonFX(DriveConstants.rightFrontMotorID);
+  private WPI_TalonFX leftback = new WPI_TalonFX(MotorIDConstants.leftBackDrive);
+  private WPI_TalonFX leftfront = new WPI_TalonFX(MotorIDConstants.leftFrontDrive);
+  private WPI_TalonFX rightback = new WPI_TalonFX(MotorIDConstants.rightBackDrive);
+  private WPI_TalonFX rightfront = new WPI_TalonFX(MotorIDConstants.rightFrontDrive);
   
   private MotorControllerGroup left = new MotorControllerGroup(leftback, leftfront);
   private MotorControllerGroup right = new MotorControllerGroup(rightback, rightfront);
 
   private DifferentialDrive diffDrive = new DifferentialDrive(left, right);
 
-  private AHRS gyro = new AHRS();
+  //private AHRS gyro = new AHRS();
 
   //private AHRS navX = new AHRS(SerialPort.Port.kMXP);
 

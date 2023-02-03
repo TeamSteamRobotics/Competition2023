@@ -87,9 +87,8 @@ public class RobotContainer {
       
     );
     
-    testButton.onTrue( new ParallelDeadlineGroup(
-      new WaitCommand(2),
-      new RotateArm(m_armSubsystem, 0.1))
+    testButton.whileTrue( 
+      new RotateArm(m_armSubsystem, 0.6)
    );
     
     testButtonAlternate.onTrue( new ParallelDeadlineGroup (
@@ -97,7 +96,7 @@ public class RobotContainer {
       new RotateArm(m_armSubsystem, -0.1)
       ) 
   );
-  testButton.whileTrue(new Intake(m_armSubsystem));
+  intakeTest.whileTrue(new Intake(m_armSubsystem));
   
 
     //new InstantCommand(() -> m_visionSubsystem.visionDistanceTest(), m_visionSubsystem));
