@@ -5,23 +5,11 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Auto1;
-import frc.robot.commands.Auto10;
-import frc.robot.commands.Auto11;
-import frc.robot.commands.Auto2;
-import frc.robot.commands.Auto3;
-import frc.robot.commands.Auto4;
-import frc.robot.commands.Auto6;
-import frc.robot.commands.Auto7;
-import frc.robot.commands.Auto8;
-import frc.robot.commands.Auto9;
 import frc.robot.commands.Drive;
 import frc.robot.commands.DriveRotationPID;
 import frc.robot.commands.EncoderDriveDistance;
-import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.commands.DriveToApril; 
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.AprilVisionSubsystem; 
 
 import java.nio.file.attribute.PosixFilePermissions;
@@ -32,7 +20,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -47,15 +34,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final VisionSubsystem m_visionSubsystem = new VisionSubsystem();
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
-  private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
   private final AprilVisionSubsystem m_aprilVisionSubsystem = new AprilVisionSubsystem(); 
 
   private final Joystick joystick = new Joystick(0);
-  private final Trigger driveToTarget = new JoystickButton(joystick, 9);
-  private final Trigger button = new JoystickButton(joystick, 5);
-  private final Trigger driveToApril = new JoystickButton(joystick, 6); 
+  private final Trigger driveToTarget = new JoystickButton(joystick, 6);
+  private final Trigger driveToApril = new JoystickButton(joystick, 9); 
   
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -78,42 +62,14 @@ public class RobotContainer {
    */
   private void configureBindings() {
     driveToTarget.onTrue(
-     new SequentialCommandGroup(
-        new InstantCommand(m_driveSubsystem::resetEncoders), 
-        new EncoderDriveDistance(m_visionSubsystem.visionDistanceTest(), m_driveSubsystem))
+      new InstantCommand(m_driveSubsystem::resetEncoders)
+        //new DriveRotationPID(m_driveSubsystem))));
+    );
+    driveToApril.onTrue(
+      //new ParallelDeadlineGroup(
+        new DriveToApril(m_aprilVisionSubsystem, m_driveSubsystem)
+    );
       
-      );
-    //new InstantCommand(() -> m_visionSubsystem.visionDistanceTest(), m_visionSubsystem));
-  }
-  public Command ChooseAuto(AutoType type) {
-    switch(type){
-        case do_nothing:
-          return new Auto1(m_driveSubsystem, m_armSubsystem);
-        case drive_backwards_dock:
-          return new Auto2();
-        case drive_forwards_score_drive_back_dock:
-          return new Auto3(m_driveSubsystem, m_armSubsystem);
-        case drive_forwards_score:
-          return new Auto4(m_driveSubsystem, m_armSubsystem);
-        case drive_backwards_drive_forwards_dock:
-          //return Auto5
-          break;
-        case drive_backwards_dock_engage:
-          return new Auto6(m_driveSubsystem, m_armSubsystem);
-        case drive_forwards_score_drive_back_pick_up_piece:
-          return new Auto7(m_driveSubsystem, m_armSubsystem);
-        case drive_back_move_pieces_to_our_side:
-          return new Auto8(m_driveSubsystem, m_armSubsystem);
-        case drive_forwards_score_leave_community_pickup_piece_score:
-          return new Auto9(m_driveSubsystem, m_armSubsystem);
-        case drive_forwards_score_leave_community_dock_engage:
-          return new Auto10(m_driveSubsystem, m_armSubsystem);
-        case drive_forwards_score_leave_community_go_to_plaer_station:
-          return new Auto11(m_driveSubsystem, m_armSubsystem);
-        default:
-            return null;
-    }
-    return null;
   }
 
   /**
@@ -122,13 +78,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //return new ParallelRaceGroup(new Drive(m_driveSubsystem, () -> 0.5, () -> 0), new WaitCommand(5) );
     // An example command will be run in autonomous
-    return ChooseAuto(AutoType.drive_forwards_score);//new AutoDriveBackwardsDockAndEngage(m_driveSubsystem, m_armSubsystem);
-    
-    //new SequentialCommandGroup(
-
-      //new InstantCommand(m_driveSubsystem::resetEncoders),
-      //new EncoderDriveDistance(5, m_driveSubsystem));
+    return null;
   }
 }
