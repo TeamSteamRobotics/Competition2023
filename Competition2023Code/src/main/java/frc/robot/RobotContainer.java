@@ -17,6 +17,7 @@ import frc.robot.commands.Auto8;
 import frc.robot.commands.Auto9;
 import frc.robot.commands.Drive;
 import frc.robot.commands.EncoderDriveDistance;
+import frc.robot.commands.Intake;
 import frc.robot.commands.RotateArm;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -53,6 +54,8 @@ public class RobotContainer {
   private final Trigger driveToTarget = new JoystickButton(joystick, 9);
   private final Trigger testButton = new JoystickButton(joystick, 4);
   private final Trigger testButtonAlternate = new JoystickButton(joystick, 3);
+  private final Trigger intakeTest = new JoystickButton(joystick, 6);
+  private final Trigger unintakeTest = new JoystickButton(joystick, 7);
   private final Trigger button = new JoystickButton(joystick, 5);
   
 
@@ -94,6 +97,8 @@ public class RobotContainer {
       new RotateArm(m_armSubsystem, -0.1)
       ) 
   );
+  testButton.whileTrue(new Intake(m_armSubsystem));
+  
 
     //new InstantCommand(() -> m_visionSubsystem.visionDistanceTest(), m_visionSubsystem));
   }
