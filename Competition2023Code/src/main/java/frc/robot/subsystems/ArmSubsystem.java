@@ -32,6 +32,8 @@ public class ArmSubsystem extends SubsystemBase {
   private RelativeEncoder angleEncoderRight = armMotorRight.getEncoder();
   private RelativeEncoder angleEncoderLeft = armMotorLeft.getEncoder();
 
+  private Encoder armEncoder = new Encoder(5,5);
+
   //Another encoder will be placed, it is not on the motor controllers and it is on the rotate arm part
 
   public ArmSubsystem() {
@@ -53,6 +55,10 @@ public class ArmSubsystem extends SubsystemBase {
 
   public double armAngleDegrees() {
     return (angleEncoderRight.getPosition() * angleEncoderLeft.getPosition() * 180);
+  }
+
+  public double getArmAngleDegrees(){
+    return armEncoder.getDistance();
   }
 
   public void angleArm(double speed){
