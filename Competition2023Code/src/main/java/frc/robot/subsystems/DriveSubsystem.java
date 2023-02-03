@@ -4,8 +4,7 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -17,15 +16,17 @@ import edu.wpi.first.wpilibj.SerialPort;
 
 public class DriveSubsystem extends SubsystemBase {
   
-  private WPI_VictorSPX leftback = new WPI_VictorSPX(MotorIDConstants.leftBackDrive);
-  private WPI_TalonSRX leftfront = new WPI_TalonSRX(MotorIDConstants.leftFrontDrive);
-  private WPI_VictorSPX rightback = new WPI_VictorSPX(MotorIDConstants.rightBackDrive);
-  private WPI_TalonSRX rightfront = new WPI_TalonSRX(MotorIDConstants.rightFrontDrive);
+  private WPI_TalonFX leftback = new WPI_TalonFX(MotorIDConstants.leftBackDrive);
+  private WPI_TalonFX leftfront = new WPI_TalonFX(MotorIDConstants.leftFrontDrive);
+  private WPI_TalonFX rightback = new WPI_TalonFX(MotorIDConstants.rightBackDrive);
+  private WPI_TalonFX rightfront = new WPI_TalonFX(MotorIDConstants.rightFrontDrive);
   
   private MotorControllerGroup left = new MotorControllerGroup(leftback, leftfront);
   private MotorControllerGroup right = new MotorControllerGroup(rightback, rightfront);
 
   private DifferentialDrive diffDrive = new DifferentialDrive(left, right);
+
+  //private AHRS gyro = new AHRS();
 
   //private AHRS navX = new AHRS(SerialPort.Port.kMXP);
 
@@ -34,12 +35,11 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void drive(double speed, double rotation){
+    //System.out.println("leftfront" + leftfront.get());
+    //System.out.println("leftback" + leftback.get());
+    //System.out.println("rightfront" + rightfront.get());
+    //System.out.println("rightback" + rightback.get());
     diffDrive.arcadeDrive(-speed, rotation);
-  }
-
-  public double encoderDifference() {
-    //System.out.println(leftfront.getSelectedSensorPosition() - rightfront.getSelectedSensorPosition());
-    return leftfront.getSelectedSensorPosition() - rightfront.getSelectedSensorPosition();
   }
 
   public void stop(){
@@ -48,6 +48,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   public double getEncoderPosRAW() {
     return (leftfront.getSelectedSensorPosition() + rightfront.getSelectedSensorPosition()) / 2;
+  }
+
+  public double getEncoderDiffernce() {
+    return leftfront.getSelectedSensorPosition() - rightfront.getSelectedSensorPosition();
   }
 
   public double getEncoderDistanceMeters() {
@@ -71,12 +75,16 @@ public class DriveSubsystem extends SubsystemBase {
     rightfront.setSelectedSensorPosition(0);
   }
 
-  /*public void resetGyro() {
-    navX.reset();
-  }*/
+  public void resetGyro() {
+    //navX.reset();
+  }
 
   public double gyroAngleDegrees() {
-    //return navX.getAngle();
+    //eturn navX.getAngle();
+    return 0;
+  }
+
+  public double gyroPitchDegrees() {
     return 0;
   }
 
