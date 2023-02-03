@@ -50,6 +50,8 @@ public class RobotContainer {
 
   private final Joystick joystick = new Joystick(0);
   private final Trigger driveToTarget = new JoystickButton(joystick, 9);
+  private final Trigger testButton = new JoystickButton(joystick, 4);
+  private final Trigger testButton2 = new JoystickButton(joystick, 3);
   private final Trigger button = new JoystickButton(joystick, 5);
   
 
@@ -80,6 +82,8 @@ public class RobotContainer {
         new EncoderDriveDistance(m_visionSubsystem.visionDistanceTest(), m_driveSubsystem))
       
       );
+  testButton.onTrue(new ArmAnglePID(m_armSubsystem, 10));
+  testButton2.onTrue(new ArmAnglePID(m_armSubsystem, -10));
     //new InstantCommand(() -> m_visionSubsystem.visionDistanceTest(), m_visionSubsystem));
   }
   public Command ChooseAuto(AutoType type) {
