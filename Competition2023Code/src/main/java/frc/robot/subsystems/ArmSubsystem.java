@@ -35,7 +35,7 @@ public class ArmSubsystem extends SubsystemBase {
   //Another encoder will be placed, it is not on the motor controllers and it is on the rotate arm part
 
   public ArmSubsystem() {
-
+    armMotorLeft.setInverted(true);
   }
 
   public void resetAngleEncoder() {
