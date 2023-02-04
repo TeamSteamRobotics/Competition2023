@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ArmAnglePID;
 import frc.robot.commands.Auto1;
 import frc.robot.commands.Auto10;
 import frc.robot.commands.Auto11;
@@ -87,15 +88,17 @@ public class RobotContainer {
       
     );
     
-    testButton.whileTrue( 
-      new RotateArm(m_armSubsystem, 0.6)
+    testButton.onTrue( 
+      new ArmAnglePID(m_armSubsystem, 50)
+
    );
     
-    testButtonAlternate.onTrue( new ParallelDeadlineGroup (
+    /*testButtonAlternate.onTrue( new ParallelDeadlineGroup (
       new WaitCommand(2),
       new RotateArm(m_armSubsystem, -0.1)
       ) 
-  );
+    );
+    */
   intakeTest.whileTrue(new Intake(m_armSubsystem));
   
 

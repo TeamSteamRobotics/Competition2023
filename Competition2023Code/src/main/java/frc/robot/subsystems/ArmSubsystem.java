@@ -7,10 +7,16 @@ package frc.robot.subsystems;
 import javax.print.CancelablePrintJob;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.AnalogInput;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxAlternateEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.AnalogEncoder;
+import edu.wpi.first.wpilibj.DutyCycle;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -32,12 +38,18 @@ public class ArmSubsystem extends SubsystemBase {
   private RelativeEncoder angleEncoderRight = armMotorRight.getEncoder();
   private RelativeEncoder angleEncoderLeft = armMotorLeft.getEncoder();
 
-  //private Encoder armEncoder = new Encoder(5,5);
+  private DutyCycleEncoder armEncoder = new DutyCycleEncoder(0);
+
+  private double dutyCycleOffset = 0.158333;
 
   //Another encoder will be placed, it is not on the motor controllers and it is on the rotate arm part
 
   public ArmSubsystem() {
-    armMotorLeft.setInverted(false);
+    armEncoder.setDistancePerRotation(360);
+    armEncoder.setPositionOffset(dutyCycleOffset);
+    //armMotorRight.setInverted(false);
+    //armMotorLeft.setInverted(false);
+    //armMotorRight.follow(armMotorLeft);
   }
 
   public void resetAngleEncoder() {
@@ -59,12 +71,19 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public double getArmAngleDegrees(){
-    return 0.0;
-    //return armEncoder.getDistance();
+    //return 0.0;
+    System.out.println(armEncoder.getDistance());
+    return armEncoder.getDistance();
   }
   
   public void angleArm(double speed){
     armMotors.set(speed);
+  }
+
+  public void zachRotateArm(double speed) {
+    armMotorLeft.set(speed);
+    armMotorRight.set(speed);
+
   }
 
   public void angleRightMotor(double speed) {
@@ -72,6 +91,9 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void angleLeftMotor(double speed) {
+    System.out.println(armMotorLeft.getInverted());
+    System.out.println(armMotorRight.getInverted());
+    
     armMotorLeft.set(speed);
   }
 
@@ -85,6 +107,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void stopArm(){
     armMotors.set(0);
+
   }
   public void stopElevator(){
    // elevatorMotor.set(0);
