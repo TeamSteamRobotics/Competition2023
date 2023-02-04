@@ -5,19 +5,22 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Auto1;
-import frc.robot.commands.Auto10;
-import frc.robot.commands.Auto11;
-import frc.robot.commands.Auto2;
-import frc.robot.commands.Auto3;
-import frc.robot.commands.Auto4;
-import frc.robot.commands.Auto6;
-import frc.robot.commands.Auto7;
-import frc.robot.commands.Auto8;
-import frc.robot.commands.Auto9;
+import frc.robot.commands.ArmAnglePID;
+import frc.robot.commands.Auto.Auto10;
+import frc.robot.commands.Auto.Auto11;
+import frc.robot.commands.Auto.Auto2;
+import frc.robot.commands.Auto.Auto3;
+import frc.robot.commands.Auto.Auto4;
+import frc.robot.commands.Auto.Auto6;
+import frc.robot.commands.Auto.Auto7;
+import frc.robot.commands.Auto.Auto8;
+import frc.robot.commands.Auto.Auto9;
 import frc.robot.commands.Drive;
 import frc.robot.commands.DriveRotationPID;
 import frc.robot.commands.EncoderDriveDistance;
+import frc.robot.commands.Intake;
+import frc.robot.commands.RotateArm;
+import frc.robot.commands.Auto.Auto1;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.commands.DriveToApril; 
 import frc.robot.subsystems.DriveSubsystem;
@@ -54,6 +57,10 @@ public class RobotContainer {
 
   private final Joystick joystick = new Joystick(0);
   private final Trigger driveToTarget = new JoystickButton(joystick, 9);
+  private final Trigger testButton = new JoystickButton(joystick, 4);
+  private final Trigger testButtonAlternate = new JoystickButton(joystick, 3);
+  private final Trigger intakeTest = new JoystickButton(joystick, 6);
+  private final Trigger unintakeTest = new JoystickButton(joystick, 7);
   private final Trigger button = new JoystickButton(joystick, 5);
   private final Trigger driveToApril = new JoystickButton(joystick, 6); 
   
@@ -82,7 +89,22 @@ public class RobotContainer {
         new InstantCommand(m_driveSubsystem::resetEncoders), 
         new EncoderDriveDistance(m_visionSubsystem.visionDistanceTest(), m_driveSubsystem))
       
-      );
+    );
+    
+    testButton.onTrue( 
+      new ArmAnglePID(m_armSubsystem, 50)
+
+   );
+    
+    /*testButtonAlternate.onTrue( new ParallelDeadlineGroup (
+      new WaitCommand(2),
+      new RotateArm(m_armSubsystem, -0.1)
+      ) 
+    );
+    */
+  intakeTest.whileTrue(new Intake(m_armSubsystem));
+  
+
     //new InstantCommand(() -> m_visionSubsystem.visionDistanceTest(), m_visionSubsystem));
   }
   public Command ChooseAuto(AutoType type) {

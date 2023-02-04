@@ -45,6 +45,10 @@ public final class Constants {
     public static final double drive_kD = 0;
     public static final double drive_tolerance = 3; 
 
+    public static int rightFrontMotorID ;
+    public static int rightBackMotorID;
+    public static int leftFrontMotorID;
+    public static int leftBackMotorID;
   }
 
   public static class GyroTurnConstants {
@@ -62,9 +66,9 @@ public final class Constants {
   }
 
   public final class ArmConstants {
-    public static final double angle_kP = 0.0;
-    public static final double angle_kI = 0.0;
-    public static final double angle_kD = 0.0;
+    public static final double angle_kP = 0.3;
+    public static final double angle_kI = 0;
+    public static final double angle_kD = 0;
 
     public static final double length_kP = 0;
     public static final double length_kI = 0;
@@ -84,13 +88,13 @@ public final class Constants {
   }
 
   public final class MotorIDConstants {
-    public static final short leftBackDrive = 2;
-    public static final short leftFrontDrive = 3;
-    public static final short rightBackDrive = 4;
-    public static final short rightFrontDrive = 1;
+    public static final short leftBackDrive = 3;
+    public static final short leftFrontDrive = 2;
+    public static final short rightBackDrive = 9;
+    public static final short rightFrontDrive = 8;
 
-    public static final short intakeMotor = 9;
-    public static final short leftElevatorMotor = 7;
-    public static final short rightElevatorMotor = 8;
+    public static final short intakeMotor = 5;
+    public static final short leftElevatorMotor = 4;
+    public static final short rightElevatorMotor = 7;
   }
 }
