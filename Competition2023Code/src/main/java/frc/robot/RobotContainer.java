@@ -61,9 +61,8 @@ public class RobotContainer {
   private final Trigger testButtonAlternate = new JoystickButton(joystick, 3);
   private final Trigger intakeTest = new JoystickButton(joystick, 6);
   private final Trigger unintakeTest = new JoystickButton(joystick, 7);
-  private final Trigger button = new JoystickButton(joystick, 5);
-  private final Trigger driveToApril = new JoystickButton(joystick, 6); 
-  
+  private final Trigger driveToApril = new JoystickButton(joystick, 6);
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -92,9 +91,9 @@ public class RobotContainer {
     );
     
     testButton.onTrue( 
-      new ArmAnglePID(m_armSubsystem, 1)
+      new ArmAnglePID(m_armSubsystem, Math.PI/4)
+    );
 
-   );
     
     /*testButtonAlternate.onTrue( new ParallelDeadlineGroup (
       new WaitCommand(2),

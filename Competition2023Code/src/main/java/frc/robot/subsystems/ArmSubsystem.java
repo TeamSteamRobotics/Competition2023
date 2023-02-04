@@ -45,6 +45,8 @@ public class ArmSubsystem extends SubsystemBase {
 
   private double dutyCycleOffset = 0.158333;
 
+  private int index = 0; 
+
 
   //Another encoder will be placed, it is not on the motor controllers and it is on the rotate arm part
 
@@ -54,6 +56,14 @@ public class ArmSubsystem extends SubsystemBase {
     //armMotorRight.setInverted(false);
     //armMotorLeft.setInverted(false);
     //armMotorRight.follow(armMotorLeft);
+  }
+
+  public void incrementIndex() {
+    if (index > 2) {
+      index = 0;
+    } else {
+      index += 1; 
+    }
   }
 
   public void resetAngleEncoder() {

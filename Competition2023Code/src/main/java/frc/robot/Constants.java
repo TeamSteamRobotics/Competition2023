@@ -66,21 +66,17 @@ public final class Constants {
   }
 
   public final class ArmConstants {
-<<<<<<< HEAD
-    public static final double angle_kP = 0.3;
-    public static final double angle_kI = 0.001;
-    public static final double angle_kD = 0.1;
-=======
-    public static final double angle_kP = 0.0508;
-    public static final double angle_kI = 0;
-    public static final double angle_kD = 0; // 67.6 / 100;
->>>>>>> cb2ac6fe9479759c2e3f20851f8a056da38ee666
+    public static final double angle_kP = 0.4;
+    public static final double angle_kI = 0.1;
+    public static final double angle_kD = 0.05; // 67.6 / 100;
+
+    public final double[] positions = {Math.PI / 4, Math.PI / 3, Math.PI /2 }; 
 
     public static final double length_kP = 0;
     public static final double length_kI = 0;
     public static final double length_kD = 0;
 
-    public static final double anglePIDTolerance = 2;
+    public static final double anglePIDTolerance = .1;
     public static final double lengthPIDTolerance = 0.1;
 
     public static final double retractedArmAnglePos = 0;
