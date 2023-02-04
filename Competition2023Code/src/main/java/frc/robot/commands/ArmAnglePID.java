@@ -26,6 +26,7 @@ public class ArmAnglePID extends PIDCommand {
         angle,
         // This uses the output
         output -> {
+          arm.getArmAngleDegrees();
           arm.angleArm(output);
           // Use the output here
         });
