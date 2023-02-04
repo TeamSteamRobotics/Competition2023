@@ -41,7 +41,8 @@ public class RobotContainer {
 
   private final Joystick joystick = new Joystick(0);
   private final Trigger driveToTarget = new JoystickButton(joystick, 6);
-  private final Trigger driveToApril = new JoystickButton(joystick, 9); 
+  private final Trigger driveToApril = new JoystickButton(joystick, 9);
+  private final Trigger driveToAprilInverted = new JoystickButton(joystick, 10); 
   
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -69,7 +70,11 @@ public class RobotContainer {
     );
     driveToApril.onTrue(
       //new ParallelDeadlineGroup(
-        new DriveToApril(m_aprilVisionSubsystem, m_driveSubsystem)
+        new DriveToApril(m_aprilVisionSubsystem, m_driveSubsystem, 0.5f, 1.5f, false)
+    );
+    driveToAprilInverted.onTrue(
+      //new ParallelDeadlineGroup(
+        new DriveToApril(m_aprilVisionSubsystem, m_driveSubsystem, 0.5f, 2.5f, true)
     );
       
   }
