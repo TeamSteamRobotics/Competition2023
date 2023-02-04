@@ -19,6 +19,9 @@ import frc.robot.Constants.MotorIDConstants;
 
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
+
+
+
   //private CANSparkMax elevatorMotor = new CANSparkMax(5, MotorType.kBrushless);
 
   private CANSparkMax armMotorLeft = new CANSparkMax(MotorIDConstants.leftElevatorMotor, MotorType.kBrushless);
@@ -63,42 +66,47 @@ public class ArmSubsystem extends SubsystemBase {
     //return armEncoder.getDistance();
   }
   
+  //angleArm sets armMotors to input speed
   public void angleArm(double speed){
     armMotors.set(speed);
   }
-
+// angleRightMotor sets armMotorRight to input speed
   public void angleRightMotor(double speed) {
     armMotorRight.set(speed);
   }
-
+// angleLeftMotor sets armMotorLeft to input speed
   public void angleLeftMotor(double speed) {
     armMotorLeft.set(speed);
   }
-
+//Creates extendArm method with speed input
   public void extendArm(double speed){
     //elevatorMotor.set(speed);
   }
-
+// intake sets intakeMotor to input speed
   public void intake(double speed){
     intakeMotor.set(speed);
   }
-
+//stopArm sets armMotors to 0
   public void stopArm(){
     armMotors.set(0);
   }
+//Creates stopElevator method
   public void stopElevator(){
    // elevatorMotor.set(0);
   }
+
+  // stopIntake sets intakeMotor to 0
   public void stopIntake(){
     intakeMotor.set(0);
   }
   
+  // stopAll sets intakeMotor and armMotor to 0
   public void stopAll(){
     //elevatorMotor.set(0);
     intakeMotor.set(0);
     armMotors.set(0);
   }
-
+//Overrides methods above with periodic
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
