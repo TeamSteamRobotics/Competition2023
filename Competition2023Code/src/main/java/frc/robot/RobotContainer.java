@@ -92,7 +92,7 @@ public class RobotContainer {
     );
     
     testButton.onTrue( 
-      new ArmAnglePID(m_armSubsystem, 50)
+      new ArmAnglePID(m_armSubsystem, 1)
 
    );
     
