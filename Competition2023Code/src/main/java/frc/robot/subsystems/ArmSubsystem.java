@@ -106,7 +106,7 @@ public class ArmSubsystem extends SubsystemBase {
     intakeMotor.set(0);
     armMotors.set(0);
   }
-//Overrides methods above with periodic
+//Overrides code
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
