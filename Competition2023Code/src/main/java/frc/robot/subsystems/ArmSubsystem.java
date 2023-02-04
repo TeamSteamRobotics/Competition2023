@@ -84,6 +84,11 @@ public class ArmSubsystem extends SubsystemBase {
     armMotors.set(speed);
   }
 
+  public void zachRotateArm(double speed){
+    armMotorLeft.set(speed);
+    armMotorRight.set(speed);
+  }
+
   public void angleRightMotor(double speed) {
     armMotorRight.set(speed);
   }
