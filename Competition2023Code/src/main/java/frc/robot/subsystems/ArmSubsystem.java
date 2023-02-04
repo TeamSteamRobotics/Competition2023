@@ -45,10 +45,11 @@ public class ArmSubsystem extends SubsystemBase {
 
   private double dutyCycleOffset = 0.158333;
 
+
   //Another encoder will be placed, it is not on the motor controllers and it is on the rotate arm part
 
   public ArmSubsystem() {
-    armEncoder.setDistancePerRotation(360);
+    armEncoder.setDistancePerRotation(2 * Math.PI);
     armEncoder.setPositionOffset(dutyCycleOffset);
     //armMotorRight.setInverted(false);
     //armMotorLeft.setInverted(false);

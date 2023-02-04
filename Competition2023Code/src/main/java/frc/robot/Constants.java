@@ -66,9 +66,9 @@ public final class Constants {
   }
 
   public final class ArmConstants {
-    public static final double angle_kP = 0.3;
+    public static final double angle_kP = 0.0508;
     public static final double angle_kI = 0;
-    public static final double angle_kD = 0;
+    public static final double angle_kD = 67.6;
 
     public static final double length_kP = 0;
     public static final double length_kI = 0;
