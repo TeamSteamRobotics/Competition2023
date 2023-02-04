@@ -2,43 +2,38 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.Auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.ArmAnglePID;
+import frc.robot.commands.EncoderDriveDistance;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Auto9 extends SequentialCommandGroup {
-  /** Creates a new Auto9. */
-  public Auto9(DriveSubsystem drive, ArmSubsystem arm) {
+public class Auto11 extends SequentialCommandGroup {
+  /** Creates a new Auto11. */
+  public Auto11(DriveSubsystem drive, ArmSubsystem arm) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
 
-    new EncoderDriveDistance(5, drive),
+
+    new EncoderDriveDistance( 5, drive),
     new ArmAnglePID(arm, 90),
 
-    //reverse intake
+    //Reverse Intake
+    //deploy intake
+    //uninake
+    //reset arm
 
     new EncoderDriveDistance(5, drive),
-    new ArmAnglePID(arm, 90),
-
-    //Intake
-
+    //turn
     new EncoderDriveDistance(5, drive),
-    new ArmAnglePID(arm, 90)
-
-    //reverse intake
-    //Drive commands 
-    //Arm Commands
-
-
-
-
-
+    //turn
+    new EncoderDriveDistance(5, drive)
 
     );
   }

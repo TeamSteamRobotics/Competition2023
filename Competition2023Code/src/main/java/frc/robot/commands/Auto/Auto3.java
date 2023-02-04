@@ -2,34 +2,32 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.Auto;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.EncoderDriveDistance;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Auto8 extends SequentialCommandGroup {
-  /** Creates a new Auto8. */
-  public Auto8(DriveSubsystem drive, ArmSubsystem arm) {
+public class Auto3 extends SequentialCommandGroup {
+  /** Creates a new AutoDriveForwardsScoreDriveBackwardsDock. */
+  public Auto3(DriveSubsystem drive, ArmSubsystem arm) {
+
+
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+
+
     addCommands(
 
-    new EncoderDriveDistance(5, drive),
-
-    new EncoderDriveDistance(-5, drive),
-
-    //align with pieces 
-    //close intake/pick up piece
-
-    new EncoderDriveDistance(6, drive),
-    
-    //score
-
-    new EncoderDriveDistance(-6, drive)
+      new EncoderDriveDistance(5, drive),
+      //new ArmAnglePID(arm, 130),
+      //Reverse Intake
+      new EncoderDriveDistance(-10, drive)
 
     );
   }
