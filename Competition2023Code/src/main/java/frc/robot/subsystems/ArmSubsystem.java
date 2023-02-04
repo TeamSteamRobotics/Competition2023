@@ -86,8 +86,17 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void zachRotateArm(double speed){
-    armMotorLeft.set(speed);
-    armMotorRight.set(speed);
+    if(armEncoder.getDistance() > 1.8){
+      armMotorLeft.set(0);
+      armMotorRight.set(0);
+    } else if(armEncoder.getDistance() < .44){
+      armMotorLeft.set(0);
+      armMotorRight.set(0);
+    } else{
+      armMotorLeft.set(speed);
+      armMotorRight.set(speed);
+    }
+   
   }
 
   public void angleRightMotor(double speed) {
