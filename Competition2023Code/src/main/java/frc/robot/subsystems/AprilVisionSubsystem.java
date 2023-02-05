@@ -51,7 +51,7 @@ public class AprilVisionSubsystem extends SubsystemBase {
             }else{
                 coordinate.x = thirteenthReason.Results.Fiducial[fidLocation].t6t_rs[0];
                 coordinate.y = thirteenthReason.Results.Fiducial[fidLocation].t6t_rs[1];
-                coordinate.z = thirteenthReason.Results.Fiducial[fidLocation].t6t_rs[2];
+                coordinate.z = thirteenthReason.Results.Fiducial[fidLocation].t6t_rs[2] * distanceMultiplier;
                 coordinate.rx = thirteenthReason.Results.Fiducial[fidLocation].t6t_rs[3];
                 coordinate.ry = thirteenthReason.Results.Fiducial[fidLocation].t6t_rs[4];
                 coordinate.rz = thirteenthReason.Results.Fiducial[fidLocation].t6t_rs[5];
