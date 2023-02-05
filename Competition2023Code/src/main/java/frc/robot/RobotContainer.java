@@ -56,13 +56,13 @@ public class RobotContainer {
   private final AprilVisionSubsystem m_aprilVisionSubsystem = new AprilVisionSubsystem(); 
 
   private final Joystick joystick = new Joystick(0);
-  private final Trigger driveToTarget = new JoystickButton(joystick, 9);
   private final Trigger testButton = new JoystickButton(joystick, 4);
   private final Trigger testButtonAlternate = new JoystickButton(joystick, 3);
   private final Trigger intakeTest = new JoystickButton(joystick, 6);
   private final Trigger unintakeTest = new JoystickButton(joystick, 7);
   private final Trigger button = new JoystickButton(joystick, 5);
-  private final Trigger driveToApril = new JoystickButton(joystick, 6); 
+  private final Trigger driveToApril = new JoystickButton(joystick, 9);
+  private final Trigger driveToAprilInverted = new JoystickButton(joystick, 10); 
   
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -84,13 +84,15 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    driveToTarget.onTrue(
-     new SequentialCommandGroup(
-        new InstantCommand(m_driveSubsystem::resetEncoders), 
-        new EncoderDriveDistance(m_visionSubsystem.visionDistanceTest(), m_driveSubsystem))
-      
+    driveToApril.onTrue(
+      //new ParallelDeadlineGroup(
+        new DriveToApril(m_aprilVisionSubsystem, m_driveSubsystem, 0.5f, 1.5f, false)
     );
-    
+    driveToAprilInverted.onTrue(
+      //new ParallelDeadlineGroup(
+        new DriveToApril(m_aprilVisionSubsystem, m_driveSubsystem, 0.5f, 2.5f, true)
+    );
+      
     testButton.onTrue( 
       new ArmAnglePID(m_armSubsystem, 50)
 
