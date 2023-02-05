@@ -34,14 +34,13 @@ public class DriveToApril extends CommandBase {
   }
   @Override
   public void execute(){
-    currentDistance = m_aprilVisionSubsystem.getCoordinates().z;
-    aprilTagVisible = m_aprilVisionSubsystem.getCoordinates().aprilTagVisible;
+    currentDistance = m_aprilVisionSubsystem.getCoordinates(4).z;
+    aprilTagVisible = m_aprilVisionSubsystem.getCoordinates(4).aprilTagVisible;
 
     forwardTarget();
   }
   private void forwardTarget(){
     if(aprilTagVisible){
-      System.out.println("April Tag Visible under DTA");
       if(currentDistance > targetDistance && !inverted){
       System.out.println(currentDistance);
       m_driveSubsystem.drive(-robotSpeed, 0);
@@ -56,7 +55,6 @@ public class DriveToApril extends CommandBase {
     }else{
       if(!aprilTagVisible){
       commandFinished = false;
-      System.out.println("NO APRILTAGS VISIBLE");
       }
     }
   }

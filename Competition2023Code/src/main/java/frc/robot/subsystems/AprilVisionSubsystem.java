@@ -22,32 +22,47 @@ public class AprilVisionSubsystem extends SubsystemBase {
 
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry t_t6t_rs = table.getEntry("json");
-
     float distanceMultiplier = 0.876f;
+    int fidLocation;
+    boolean fidLocFound;
     public AprilVisionSubsystem() {}
     Gson gson = new Gson();
 
-    public Coordinate getCoordinates() {
-        updateCoordinates();
+    public Coordinate getCoordinates(int targetId) {
+        updateCoordinates(targetId);
         return coordinate;
     }
 
-    private void updateCoordinates() {
+    private void updateCoordinates(int targetId) {
         String jsonString = t_t6t_rs.getString("");
         limelightjson thirteenthReason = gson.fromJson(jsonString, limelightjson.class);
-
         if (thirteenthReason.Results.Fiducial.length != 0) {
-            coordinate.x = thirteenthReason.Results.Fiducial[0].t6t_rs[0];
-            coordinate.y = thirteenthReason.Results.Fiducial[0].t6t_rs[1];
-            coordinate.z = thirteenthReason.Results.Fiducial[0].t6t_rs[2];
-            coordinate.rx = thirteenthReason.Results.Fiducial[0].t6t_rs[3];
-            coordinate.ry = thirteenthReason.Results.Fiducial[0].t6t_rs[4];
-            coordinate.rz = thirteenthReason.Results.Fiducial[0].t6t_rs[5];
-            coordinate.aprilTagVisible = true;
-        } else {
+             for (int i = 0; i < thirteenthReason.Results.Fiducial.length; i++) {
+                if(thirteenthReason.Results.Fiducial[i].fID == targetId){
+                    fidLocation = i;
+                    fidLocFound = true;
+                    break;
+                }else{
+                    fidLocFound = false;
+                }
+            }if(!fidLocFound){
+                System.out.println("TARGET FIDUCIAL NOT FOUND!");
+                coordinate.aprilTagVisible = false;
+            }else{
+                coordinate.x = thirteenthReason.Results.Fiducial[fidLocation].t6t_rs[0];
+                coordinate.y = thirteenthReason.Results.Fiducial[fidLocation].t6t_rs[1];
+                coordinate.z = thirteenthReason.Results.Fiducial[fidLocation].t6t_rs[2];
+                coordinate.rx = thirteenthReason.Results.Fiducial[fidLocation].t6t_rs[3];
+                coordinate.ry = thirteenthReason.Results.Fiducial[fidLocation].t6t_rs[4];
+                coordinate.rz = thirteenthReason.Results.Fiducial[fidLocation].t6t_rs[5];
+                coordinate.aprilTagVisible = true;
+            } 
+        }else{
             coordinate.aprilTagVisible = false;
+            System.out.println("NO FIDUCIALS IN VIEW!");
         }
     }
+
 public class Coordinate {
     public float x;
     public float y;
