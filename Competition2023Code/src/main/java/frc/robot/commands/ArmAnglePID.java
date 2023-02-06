@@ -19,6 +19,7 @@ import frc.robot.subsystems.ArmSubsystem;
 
 public class ArmAnglePID extends PIDCommand {
   /** Creates a new ArmAnglePID. */
+  public double[] indexValues = {Math.PI/4, Math.PI/3, Math.PI/2};
   public ArmAnglePID(ArmSubsystem arm, double angle) {
     super(
         // The controller that the command will use
@@ -26,7 +27,7 @@ public class ArmAnglePID extends PIDCommand {
         // This should return the measurement
         () -> arm.getArmAngleDegrees(),
         // This should return the setpoint (can also be a constant)
-        angle,
+        arm.getIndex()+1,
         // This uses the output
         output -> {
           arm.getArmAngleDegrees();

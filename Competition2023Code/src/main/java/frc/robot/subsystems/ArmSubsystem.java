@@ -58,12 +58,22 @@ public class ArmSubsystem extends SubsystemBase {
     //armMotorRight.follow(armMotorLeft);
   }
 
-  public void incrementIndex() {
+  public void increaseIndex() {
     if (index > 2) {
       index = 0;
     } else {
       index += 1; 
     }
+  }
+  public void decreaseIndex() {
+    if (index == 0) {
+      index = 2;
+    } else {
+      index -= 1; 
+    }
+  }
+  public int getIndex() {
+    return index; 
   }
 
   public void resetAngleEncoder() {
