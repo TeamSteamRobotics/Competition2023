@@ -72,9 +72,9 @@ public final class Constants {
 
     public final static double[] positions = {Math.PI / 4, Math.PI / 3, Math.PI /2 }; 
 
-    public static final double length_kP = 0;
-    public static final double length_kI = 0;
-    public static final double length_kD = 0;
+    public static final double length_kP = 0.9;
+    public static final double length_kI = 0.1;
+    public static final double length_kD = 0.05;
 
     public static final double anglePIDTolerance = .05
     ;
@@ -85,7 +85,8 @@ public final class Constants {
     public static final double middleGoalArmAnglePos = 0;
     public static final double highGoalArmAnglePos = 0;
 
-    public static final double armConversionFactor = 0;
+    public static final double armConversionFactor = 0.0652149; //Meters per rotation
+    public static final double maxArmLengthMeters = 0.5519;
 
     public static final double intakeSpeed = 0.5;
 

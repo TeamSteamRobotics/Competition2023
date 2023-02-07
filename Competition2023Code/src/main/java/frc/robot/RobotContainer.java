@@ -18,6 +18,8 @@ import frc.robot.commands.Auto.Auto9;
 import frc.robot.commands.Drive;
 import frc.robot.commands.DriveRotationPID;
 import frc.robot.commands.EncoderDriveDistance;
+import frc.robot.commands.ExtendArm;
+import frc.robot.commands.ExtendArmPID;
 import frc.robot.commands.Intake;
 import frc.robot.commands.RotateArm;
 import frc.robot.commands.Auto.Auto1;
@@ -56,15 +58,17 @@ public class RobotContainer {
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
   private final AprilVisionSubsystem m_aprilVisionSubsystem = new AprilVisionSubsystem(); 
 
+
   private final Joystick joystick = new Joystick(0);
   private final Trigger driveToTarget = new JoystickButton(joystick, 9);
   private final Trigger toggleArmUp = new JoystickButton(joystick, 4);
   private final Trigger toggleArmDown = new JoystickButton(joystick, 3);
   private final Trigger arm90 = new JoystickButton(joystick, 5);
   private final Trigger arm45 = new JoystickButton(joystick, 6);
-  private final Trigger intakeTest = new JoystickButton(joystick, 8);
+  private final Trigger extendArmManual = new JoystickButton(joystick, 8);
+  private final Trigger retractArmManual = new JoystickButton(joystick, 7);
   private final Trigger unintakeTest = new JoystickButton(joystick, 7);
-
+  private final Trigger extendArmPID = new JoystickButton(joystick, 1);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -91,6 +95,11 @@ public class RobotContainer {
         new EncoderDriveDistance(m_visionSubsystem.visionDistanceTest(), m_driveSubsystem))
       
     );
+
+    extendArmPID.onTrue(new ExtendArmPID(m_armSubsystem, .20));
+
+    extendArmManual.whileTrue(new ExtendArm(m_armSubsystem, .2));
+    retractArmManual.whileTrue(new ExtendArm(m_armSubsystem, -.2));
     
     toggleArmUp.onTrue( 
       new ArmTogglePID(m_armSubsystem, true)
@@ -109,7 +118,6 @@ public class RobotContainer {
       ) 
     );
     */
-  intakeTest.whileTrue(new Intake(m_armSubsystem));
   
 
     //new InstantCommand(() -> m_visionSubsystem.visionDistanceTest(), m_visionSubsystem));

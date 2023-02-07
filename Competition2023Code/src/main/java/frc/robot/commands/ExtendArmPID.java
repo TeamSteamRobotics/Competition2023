@@ -14,6 +14,7 @@ import frc.robot.subsystems.ArmSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ExtendArmPID extends PIDCommand {
   /** Creates a new ExtendArmPID. */
+  ArmSubsystem arm;
   public ExtendArmPID(ArmSubsystem arm, double length) {
     super(
         // The controller that the command will use
@@ -24,11 +25,13 @@ public class ExtendArmPID extends PIDCommand {
         length,
         // This uses the output
         output -> {
-          arm.extendArm(output);
+          arm.extendArm(-output);
           // Use the output here
         });
         addRequirements(arm);
+        
         getController().setTolerance(ArmConstants.lengthPIDTolerance);
+      this.arm = arm;
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
   }
@@ -36,6 +39,6 @@ public class ExtendArmPID extends PIDCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return getController().atSetpoint();
+    return getController().atSetpoint() || arm.armLengthMeters() >= ArmConstants.maxArmLengthMeters-.05;
   }
 }

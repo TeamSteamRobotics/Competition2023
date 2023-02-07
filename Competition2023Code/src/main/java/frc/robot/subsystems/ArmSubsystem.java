@@ -29,9 +29,7 @@ import frc.robot.Constants.MotorIDConstants;
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
 
-
-
-  //private CANSparkMax elevatorMotor = new CANSparkMax(5, MotorType.kBrushless);
+  private CANSparkMax elevatorMotor = new CANSparkMax(6, MotorType.kBrushless);
 
   private CANSparkMax armMotorLeft = new CANSparkMax(MotorIDConstants.leftElevatorMotor, MotorType.kBrushless);
   private CANSparkMax armMotorRight = new CANSparkMax(MotorIDConstants.rightElevatorMotor, MotorType.kBrushless);
@@ -39,10 +37,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   private CANSparkMax intakeMotor = new CANSparkMax(MotorIDConstants.intakeMotor, MotorType.kBrushless);
 
-  //private RelativeEncoder elevatorEncoder = elevatorMotor.getEncoder();
-
-  private RelativeEncoder angleEncoderRight = armMotorRight.getEncoder();
-  private RelativeEncoder angleEncoderLeft = armMotorLeft.getEncoder();
+  private RelativeEncoder elevatorEncoder = elevatorMotor.getEncoder();
 
   private DutyCycleEncoder armEncoder = new DutyCycleEncoder(0);
 
@@ -57,6 +52,7 @@ public class ArmSubsystem extends SubsystemBase {
   public ArmSubsystem() {
     armEncoder.setDistancePerRotation(2 * Math.PI);
     armEncoder.setPositionOffset(dutyCycleOffset);
+    elevatorEncoder.setPosition(0);
     //armMotorRight.setInverted(false);
     //armMotorLeft.setInverted(false);
     //armMotorRight.follow(armMotorLeft);
@@ -80,23 +76,22 @@ public class ArmSubsystem extends SubsystemBase {
     return index; 
   }
 
-  public void resetAngleEncoder() {
+  /*public void resetAngleEncoder() {
     angleEncoderRight.setPosition(0);
     angleEncoderLeft.setPosition(0);
-  }
+  }*/
 
   public void resetElevatorEncoders() {
     //elevatorEncoder.setPosition(0);
   }
 
   public double armLengthMeters() {
-    return 0;
-    //return (elevatorEncoder.getPosition()) * ArmConstants.armConversionFactor;
+    return -1 * (elevatorEncoder.getPosition()) * ArmConstants.armConversionFactor;
   }
 
-  public double armAngleDegrees() {
+  /*public double armAngleDegrees() {
     return (angleEncoderRight.getPosition() * angleEncoderLeft.getPosition() * 180);
-  }
+  }*/
 
   public double getArmAngleDegrees(){
     //return 0.0;
@@ -128,14 +123,12 @@ public class ArmSubsystem extends SubsystemBase {
   }
 // angleLeftMotor sets armMotorLeft to input speed
   public void angleLeftMotor(double speed) {
-    System.out.println(armMotorLeft.getInverted());
-    System.out.println(armMotorRight.getInverted());
-    
     armMotorLeft.set(speed);
   }
 //Creates extendArm method with speed input
   public void extendArm(double speed){
-    //elevatorMotor.set(speed);
+    elevatorMotor.set(speed);
+    System.out.println(armLengthMeters());
   }
 // intake sets intakeMotor to input speed
   public void intake(double speed){
@@ -148,7 +141,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 //Creates stopElevator method
   public void stopElevator(){
-   // elevatorMotor.set(0);
+    elevatorMotor.set(0);
   }
 
   // stopIntake sets intakeMotor to 0
