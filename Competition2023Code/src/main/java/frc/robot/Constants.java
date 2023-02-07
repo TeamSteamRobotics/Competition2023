@@ -88,6 +88,11 @@ public final class Constants {
     public static final double armConversionFactor = 0;
 
     public static final double intakeSpeed = 0.5;
+
+    public static final double resetPosition = 0.48677233;
+    public static final double lowPosition = 0.7119198;
+    public static final double middlePosition = 1.62316;
+    public static final double highPosition = 0; 
   }
 
   public final class MotorIDConstants {
