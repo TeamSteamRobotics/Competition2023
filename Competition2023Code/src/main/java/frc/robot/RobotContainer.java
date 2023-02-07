@@ -5,11 +5,28 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+
+import frc.robot.commands.Drive;
+
+
+import frc.robot.commands.DriveToApril; 
+import frc.robot.subsystems.DriveSubsystem;
+
+import frc.robot.subsystems.AprilVisionSubsystem; 
+
+import java.nio.file.attribute.PosixFilePermissions;
+
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.simulation.JoystickSim;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -20,16 +37,28 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  
+  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final AprilVisionSubsystem m_aprilVisionSubsystem = new AprilVisionSubsystem(); 
+
+  private final Joystick joystick = new Joystick(0);
+  private final Trigger testButton = new JoystickButton(joystick, 4);
+  private final Trigger testButtonAlternate = new JoystickButton(joystick, 3);
+  private final Trigger intakeTest = new JoystickButton(joystick, 6);
+  private final Trigger unintakeTest = new JoystickButton(joystick, 7);
+  private final Trigger button = new JoystickButton(joystick, 5);
+  private final Trigger driveToApril = new JoystickButton(joystick, 9);
+  private final Trigger driveToAprilInverted = new JoystickButton(joystick, 10); 
+  
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
+
     configureBindings();
+    m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
+
   }
 
   /**
@@ -42,22 +71,33 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
+    driveToApril.onTrue(
+      //new ParallelDeadlineGroup(
+        new DriveToApril(m_aprilVisionSubsystem, m_driveSubsystem, 0.5f, 1.5f, false)
+    );
+    driveToAprilInverted.onTrue(
+      //new ParallelDeadlineGroup(
+        new DriveToApril(m_aprilVisionSubsystem, m_driveSubsystem, 0.5f, 2.5f, true)
+    );
+      
+  
+    
+    /*testButtonAlternate.onTrue( new ParallelDeadlineGroup (
+      new WaitCommand(2),
+      new RotateArm(m_armSubsystem, -0.1)
+      ) 
+    );
+    */
+ 
+  
 
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    //new InstantCommand(() -> m_visionSubsystem.visionDistanceTest(), m_visionSubsystem));
   }
-
+ 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
-  }
+  
 }
