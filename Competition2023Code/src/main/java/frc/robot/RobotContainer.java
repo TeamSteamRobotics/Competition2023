@@ -61,8 +61,9 @@ public class RobotContainer {
 
   private final Joystick joystick = new Joystick(0);
   private final Trigger extendArmPID = new JoystickButton(joystick, 1);
-  private final Trigger toggleArmDown = new JoystickButton(joystick, 3);
-  private final Trigger toggleArmUp = new JoystickButton(joystick, 4);
+  private final Trigger toggleArmUp = new JoystickButton(joystick, 3);
+  private final Trigger toggleArmDown = new JoystickButton(joystick, 4);
+  
   private final Trigger arm90 = new JoystickButton(joystick, 5);
   private final Trigger arm45 = new JoystickButton(joystick, 6);
   private final Trigger retractArmManual = new JoystickButton(joystick, 7);
@@ -91,33 +92,24 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    driveToTarget.onTrue(
+    driveToTarget.onTrue( 
      new SequentialCommandGroup(
         new InstantCommand(m_driveSubsystem::resetEncoders), 
         new EncoderDriveDistance(m_visionSubsystem.visionDistanceTest(), m_driveSubsystem))
-      
-    );
+    ); //9
 
-    extendArmPID.onTrue(new ExtendArmPID(m_armSubsystem, .20));
+    extendArmPID.onTrue(new ExtendArmPID(m_armSubsystem, .20)); //1
 
-    extendArmManual.whileTrue(new ExtendArm(m_armSubsystem, .2));
-    retractArmManual.whileTrue(new ExtendArm(m_armSubsystem, -.2));
+    extendArmManual.whileTrue(new ExtendArm(m_armSubsystem, .2)); //8
+    retractArmManual.whileTrue(new ExtendArm(m_armSubsystem, -.2)); //7
     
     //arm toggles 
-    toggleArmUp.onTrue(new ArmTogglePID(m_armSubsystem, true)); 
-    toggleArmDown.onTrue(new ArmTogglePID(m_armSubsystem, false));
+    toggleArmUp.onTrue(new ArmTogglePID(m_armSubsystem, true)); //3
+    toggleArmDown.onTrue(new ArmTogglePID(m_armSubsystem, false)); //4
 
-    arm90.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI / 2));
-
-    arm45.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI/4));
-    
-    /*testButtonAlternate.onTrue( new ParallelDeadlineGroup (
-      new WaitCommand(2),
-      new RotateArm(m_armSubsystem, -0.1)
-      ) 
-    );
-    */
-  
+    //arm position sets
+    arm90.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI / 2)); //5
+    arm45.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI/4)); //6
 
     //new InstantCommand(() -> m_visionSubsystem.visionDistanceTest(), m_visionSubsystem));
   }
