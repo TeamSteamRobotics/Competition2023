@@ -65,12 +65,12 @@ public final class Constants {
     public static final double kD = 0.00001;
   }
 
-  public final class ArmConstants {
+  public static class ArmConstants {
     public static final double angle_kP = 0.4;
     public static final double angle_kI = 0.1;
     public static final double angle_kD = 0.05; // 67.6 / 100;
 
-    public final double[] positions = {Math.PI / 4, Math.PI / 3, Math.PI /2 }; 
+    public final static double[] positions = {Math.PI / 4, Math.PI / 3, Math.PI /2 }; 
 
     public static final double length_kP = 0;
     public static final double length_kI = 0;

@@ -57,8 +57,8 @@ public class RobotContainer {
 
   private final Joystick joystick = new Joystick(0);
   private final Trigger driveToTarget = new JoystickButton(joystick, 9);
-  private final Trigger testButton = new JoystickButton(joystick, 4);
-  private final Trigger testButtonAlternate = new JoystickButton(joystick, 3);
+  private final Trigger toggleArmUp = new JoystickButton(joystick, 4);
+  private final Trigger toggleArmDown = new JoystickButton(joystick, 3);
   private final Trigger intakeTest = new JoystickButton(joystick, 6);
   private final Trigger unintakeTest = new JoystickButton(joystick, 7);
   private final Trigger driveToApril = new JoystickButton(joystick, 6);
@@ -90,8 +90,11 @@ public class RobotContainer {
       
     );
     
-    testButton.onTrue( 
-      new ArmAnglePID(m_armSubsystem, Math.PI/4)
+    toggleArmUp.onTrue( 
+      new ArmAnglePID(m_armSubsystem, true)
+    );
+    toggleArmDown.onTrue( 
+      new ArmAnglePID(m_armSubsystem, false)
     );
 
     
