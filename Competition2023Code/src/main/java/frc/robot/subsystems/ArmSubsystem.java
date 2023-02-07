@@ -76,11 +76,6 @@ public class ArmSubsystem extends SubsystemBase {
     return index; 
   }
 
-  /*public void resetAngleEncoder() {
-    angleEncoderRight.setPosition(0);
-    angleEncoderLeft.setPosition(0);
-  }*/
-
   public void resetElevatorEncoders() {
     //elevatorEncoder.setPosition(0);
   }
@@ -89,21 +84,11 @@ public class ArmSubsystem extends SubsystemBase {
     return -1 * (elevatorEncoder.getPosition()) * ArmConstants.armConversionFactor;
   }
 
-  /*public double armAngleDegrees() {
-    return (angleEncoderRight.getPosition() * angleEncoderLeft.getPosition() * 180);
-  }*/
-
   public double getArmAngleDegrees(){
-    //return 0.0;
     System.out.println(armEncoder.getDistance());
     return armEncoder.getDistance();
   }
   
-  //angleArm sets armMotors to input speed
-  public void angleArm(double speed){
-    armMotors.set(speed);
-  }
-
   public void zachRotateArm(double speed){
     if(armEncoder.getDistance() > 1.8){
       armMotorLeft.set(0);
@@ -118,18 +103,20 @@ public class ArmSubsystem extends SubsystemBase {
    
   }
 
+  //sets individual arm motor 
   public void angleRightMotor(double speed) {
     armMotorRight.set(speed);
   }
-// angleLeftMotor sets armMotorLeft to input speed
   public void angleLeftMotor(double speed) {
     armMotorLeft.set(speed);
   }
-//Creates extendArm method with speed input
+
+//extends arm by setting elevator speed
   public void extendArm(double speed){
     elevatorMotor.set(speed);
     System.out.println(armLengthMeters());
   }
+  
 // intake sets intakeMotor to input speed
   public void intake(double speed){
     intakeMotor.set(speed);

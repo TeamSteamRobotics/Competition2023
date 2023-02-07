@@ -31,7 +31,7 @@ public class ArmAnglePID extends PIDCommand {
         // This uses the output
         output -> {
           arm.getArmAngleDegrees();
-          arm.angleArm(output);
+          arm.setArmSpeed(output);
           // Use the output here
         });
     addRequirements(arm);
