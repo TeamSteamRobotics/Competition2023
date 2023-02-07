@@ -60,15 +60,17 @@ public class RobotContainer {
 
 
   private final Joystick joystick = new Joystick(0);
-  private final Trigger driveToTarget = new JoystickButton(joystick, 9);
-  private final Trigger toggleArmUp = new JoystickButton(joystick, 4);
+  private final Trigger extendArmPID = new JoystickButton(joystick, 1);
   private final Trigger toggleArmDown = new JoystickButton(joystick, 3);
+  private final Trigger toggleArmUp = new JoystickButton(joystick, 4);
   private final Trigger arm90 = new JoystickButton(joystick, 5);
   private final Trigger arm45 = new JoystickButton(joystick, 6);
-  private final Trigger extendArmManual = new JoystickButton(joystick, 8);
   private final Trigger retractArmManual = new JoystickButton(joystick, 7);
+  private final Trigger extendArmManual = new JoystickButton(joystick, 8);
+  private final Trigger driveToTarget = new JoystickButton(joystick, 9);
+ 
   private final Trigger unintakeTest = new JoystickButton(joystick, 7);
-  private final Trigger extendArmPID = new JoystickButton(joystick, 1);
+  
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -101,12 +103,9 @@ public class RobotContainer {
     extendArmManual.whileTrue(new ExtendArm(m_armSubsystem, .2));
     retractArmManual.whileTrue(new ExtendArm(m_armSubsystem, -.2));
     
-    toggleArmUp.onTrue( 
-      new ArmTogglePID(m_armSubsystem, true)
-    );
-    toggleArmDown.onTrue( 
-      new ArmTogglePID(m_armSubsystem, false)
-    );
+    //arm toggles 
+    toggleArmUp.onTrue(new ArmTogglePID(m_armSubsystem, true)); 
+    toggleArmDown.onTrue(new ArmTogglePID(m_armSubsystem, false));
 
     arm90.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI / 2));
 
