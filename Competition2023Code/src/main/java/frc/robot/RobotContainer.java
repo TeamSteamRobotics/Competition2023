@@ -23,6 +23,7 @@ import frc.robot.commands.RotateArm;
 import frc.robot.commands.Auto.Auto1;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.commands.DriveToApril; 
+import frc.robot.commands.ArmTogglePID; 
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.AprilVisionSubsystem; 
@@ -61,7 +62,6 @@ public class RobotContainer {
   private final Trigger toggleArmDown = new JoystickButton(joystick, 3);
   private final Trigger intakeTest = new JoystickButton(joystick, 6);
   private final Trigger unintakeTest = new JoystickButton(joystick, 7);
-  private final Trigger driveToApril = new JoystickButton(joystick, 6);
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -91,10 +91,10 @@ public class RobotContainer {
     );
     
     toggleArmUp.onTrue( 
-      new ArmAnglePID(m_armSubsystem, true)
+      new ArmTogglePID(m_armSubsystem, true)
     );
     toggleArmDown.onTrue( 
-      new ArmAnglePID(m_armSubsystem, false)
+      new ArmTogglePID(m_armSubsystem, false)
     );
 
     
