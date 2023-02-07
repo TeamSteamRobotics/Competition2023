@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import javax.print.CancelablePrintJob;
+import javax.swing.SingleSelectionModel;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.AbsoluteEncoder;
@@ -18,6 +19,8 @@ import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
@@ -47,6 +50,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   private int index = 0; 
 
+  private Solenoid intakeSolenoid =  new Solenoid(PneumaticsModuleType.CTREPCM, 0);
 
   //Another encoder will be placed, it is not on the motor controllers and it is on the rotate arm part
 
@@ -162,5 +166,13 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void retractIntake(){
+    intakeSolenoid.set(false);
+  }
+
+  public void deployIntake(){
+    intakeSolenoid.set(true);
   }
 }
