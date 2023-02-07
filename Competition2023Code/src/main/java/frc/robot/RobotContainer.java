@@ -57,7 +57,7 @@ public class RobotContainer {
     // Configure the trigger bindings
 
     configureBindings();
-    m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
+    m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, m_aprilVisionSubsystem, () -> joystick.getY(), () -> joystick.getX()));
 
   }
 
@@ -73,11 +73,11 @@ public class RobotContainer {
   private void configureBindings() {
     driveToApril.onTrue(
       //new ParallelDeadlineGroup(
-        new DriveToApril(m_aprilVisionSubsystem, m_driveSubsystem, 0.5f, 1.5f, false)
+        new DriveToApril(m_aprilVisionSubsystem, m_driveSubsystem, 0.5f, 2f, false)
     );
     driveToAprilInverted.onTrue(
       //new ParallelDeadlineGroup(
-        new DriveToApril(m_aprilVisionSubsystem, m_driveSubsystem, 0.5f, 2.5f, true)
+        new DriveToApril(m_aprilVisionSubsystem, m_driveSubsystem, 0.5f, 3.5f, true)
     );
       
   

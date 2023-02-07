@@ -7,6 +7,7 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.AprilVisionSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class Drive extends CommandBase {
@@ -15,14 +16,16 @@ public class Drive extends CommandBase {
   DriveSubsystem m_driveSubsystem;
   DoubleSupplier driveSpeed;
   DoubleSupplier rotationSpeed;
+  AprilVisionSubsystem m_aprilVisionSubsystem;
 
-  public Drive(DriveSubsystem driveSubsystem, DoubleSupplier driveSpeed, DoubleSupplier rotationSpeed) {
+  public Drive(DriveSubsystem driveSubsystem ,AprilVisionSubsystem vision, DoubleSupplier driveSpeed, DoubleSupplier rotationSpeed) {
 
     m_driveSubsystem = driveSubsystem;
+    m_aprilVisionSubsystem = vision;
     this.driveSpeed = driveSpeed;
     this.rotationSpeed = rotationSpeed;
 
-    addRequirements(driveSubsystem);
+    addRequirements(driveSubsystem, vision);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -34,6 +37,7 @@ public class Drive extends CommandBase {
   @Override
   public void execute() {
     m_driveSubsystem.drive(driveSpeed.getAsDouble(), rotationSpeed.getAsDouble());
+    System.out.println(m_aprilVisionSubsystem.getCoordinates(4).z);
   }
 
   // Called once the command ends or is interrupted.

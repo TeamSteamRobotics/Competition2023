@@ -22,7 +22,7 @@ public class AprilVisionSubsystem extends SubsystemBase {
 
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry t_t6t_rs = table.getEntry("json");
-    float distanceMultiplier = 0.876f;
+    float distanceMultiplier = 0.754f;
     int fidLocation;
     boolean fidLocFound;
     public AprilVisionSubsystem() {}
@@ -51,7 +51,7 @@ public class AprilVisionSubsystem extends SubsystemBase {
             }else{
                 coordinate.x = thirteenthReason.Results.Fiducial[fidLocation].t6t_rs[0];
                 coordinate.y = thirteenthReason.Results.Fiducial[fidLocation].t6t_rs[1];
-                coordinate.z = thirteenthReason.Results.Fiducial[fidLocation].t6t_rs[2] * distanceMultiplier;
+                coordinate.z = thirteenthReason.Results.Fiducial[fidLocation].t6t_rs[2] * 0.754f - 0.045f;
                 coordinate.rx = thirteenthReason.Results.Fiducial[fidLocation].t6t_rs[3];
                 coordinate.ry = thirteenthReason.Results.Fiducial[fidLocation].t6t_rs[4];
                 coordinate.rz = thirteenthReason.Results.Fiducial[fidLocation].t6t_rs[5];
