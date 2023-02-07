@@ -2,39 +2,49 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.DriveCommands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
-import frc.robot.Constants.DriveStraightPIDConstants;
+import frc.robot.Constants.EncoderDriveDistanceConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class DriveStraighPID extends PIDCommand {
-  /** Creates a new DriveStraighPID. */
-  public DriveStraighPID(DriveSubsystem drive, double speed) {
+public class EncoderDriveDistance extends PIDCommand {
+  /** Creates a new EncoderDriveDistance. */
+
+  
+
+  DriveSubsystem drive;
+  public EncoderDriveDistance(double distanceMeters, DriveSubsystem drive) {
+    
     super(
         // The controller that the command will use
-        new PIDController(DriveStraightPIDConstants.kP, DriveStraightPIDConstants.kI, DriveStraightPIDConstants.kD),
+        new PIDController(EncoderDriveDistanceConstants.kP, EncoderDriveDistanceConstants.kI, EncoderDriveDistanceConstants.kD),
         // This should return the measurement
-        () -> drive.getEncoderDiffernce(),
+        () -> drive.getEncoderDistanceMeters(),
         // This should return the setpoint (can also be a constant)
-        0,
+        distanceMeters,
         // This uses the output
         output -> {
-          drive.drive(speed, output);
+          /*if(output > 0.2)
+            drive.drive(.2, 0);
+          else*/
+            drive.drive(-output / 2, 0);
           // Use the output here
         });
-    addRequirements(drive);
+      
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
+    addRequirements(drive);
+    getController().setTolerance(.01,1);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return this.getController().atSetpoint();
+    return getController().atSetpoint();
   }
 }

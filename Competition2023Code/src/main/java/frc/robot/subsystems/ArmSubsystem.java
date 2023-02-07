@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import javax.print.CancelablePrintJob;
+import javax.swing.SingleSelectionModel;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.AbsoluteEncoder;
@@ -18,6 +19,8 @@ import edu.wpi.first.wpilibj.AnalogEncoder;
 import edu.wpi.first.wpilibj.DutyCycle;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
@@ -26,9 +29,7 @@ import frc.robot.Constants.MotorIDConstants;
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
 
-
-
-  //private CANSparkMax elevatorMotor = new CANSparkMax(5, MotorType.kBrushless);
+  private CANSparkMax elevatorMotor = new CANSparkMax(6, MotorType.kBrushless);
 
   private CANSparkMax armMotorLeft = new CANSparkMax(MotorIDConstants.leftElevatorMotor, MotorType.kBrushless);
   private CANSparkMax armMotorRight = new CANSparkMax(MotorIDConstants.rightElevatorMotor, MotorType.kBrushless);
@@ -36,28 +37,44 @@ public class ArmSubsystem extends SubsystemBase {
 
   private CANSparkMax intakeMotor = new CANSparkMax(MotorIDConstants.intakeMotor, MotorType.kBrushless);
 
-  //private RelativeEncoder elevatorEncoder = elevatorMotor.getEncoder();
-
-  private RelativeEncoder angleEncoderRight = armMotorRight.getEncoder();
-  private RelativeEncoder angleEncoderLeft = armMotorLeft.getEncoder();
+  private RelativeEncoder elevatorEncoder = elevatorMotor.getEncoder();
 
   private DutyCycleEncoder armEncoder = new DutyCycleEncoder(0);
 
   private double dutyCycleOffset = 0.158333;
 
+  private int index = 0; 
+
+  private Solenoid intakeSolenoid =  new Solenoid(PneumaticsModuleType.CTREPCM, 0);
+
   //Another encoder will be placed, it is not on the motor controllers and it is on the rotate arm part
 
   public ArmSubsystem() {
-    armEncoder.setDistancePerRotation(360);
+    armEncoder.setDistancePerRotation(2 * Math.PI);
     armEncoder.setPositionOffset(dutyCycleOffset);
+    elevatorEncoder.setPosition(0);
     //armMotorRight.setInverted(false);
     //armMotorLeft.setInverted(false);
     //armMotorRight.follow(armMotorLeft);
   }
 
-  public void resetAngleEncoder() {
-    angleEncoderRight.setPosition(0);
-    angleEncoderLeft.setPosition(0);
+  public void incrementIndex(Boolean increasing) {
+    if (increasing) {
+      if (index > 2) {
+        index = 0;
+      } else {
+        index += 1; 
+      }
+    } else {
+      if (index == 0) {
+        index = 2;
+      } else {
+        index -= 1; 
+      }
+    }
+  }
+  public int getIndex() {
+    return index; 
   }
 
   public void resetElevatorEncoders() {
@@ -65,44 +82,42 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public double armLengthMeters() {
-    return 0;
-    //return (elevatorEncoder.getPosition()) * ArmConstants.armConversionFactor;
-  }
-
-  public double armAngleDegrees() {
-    return (angleEncoderRight.getPosition() * angleEncoderLeft.getPosition() * 180);
+    return -1 * (elevatorEncoder.getPosition()) * ArmConstants.armConversionFactor;
   }
 
   public double getArmAngleDegrees(){
-    //return 0.0;
     System.out.println(armEncoder.getDistance());
     return armEncoder.getDistance();
   }
   
-  //angleArm sets armMotors to input speed
-  public void angleArm(double speed){
-    armMotors.set(speed);
+  public void setArmSpeed(double speed){
+    if(armEncoder.getDistance() > 1.8){
+      armMotorLeft.set(0);
+      armMotorRight.set(0);
+    } else if(armEncoder.getDistance() < .44){
+      armMotorLeft.set(0);
+      armMotorRight.set(0);
+    } else{
+      armMotorLeft.set(speed);
+      armMotorRight.set(speed);
+    }
+   
   }
 
-  public void zachRotateArm(double speed){
-    armMotorLeft.set(speed);
+  //sets individual arm motor 
+  public void setRightMotor(double speed) {
     armMotorRight.set(speed);
+  }
+  public void setLeftMotor(double speed) {
+    armMotorLeft.set(speed);
   }
 
-  public void angleRightMotor(double speed) {
-    armMotorRight.set(speed);
-  }
-// angleLeftMotor sets armMotorLeft to input speed
-  public void angleLeftMotor(double speed) {
-    System.out.println(armMotorLeft.getInverted());
-    System.out.println(armMotorRight.getInverted());
-    
-    armMotorLeft.set(speed);
-  }
-//Creates extendArm method with speed input
+//extends arm by setting elevator speed
   public void extendArm(double speed){
-    //elevatorMotor.set(speed);
+    elevatorMotor.set(speed);
+    System.out.println(armLengthMeters());
   }
+
 // intake sets intakeMotor to input speed
   public void intake(double speed){
     intakeMotor.set(speed);
@@ -114,7 +129,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 //Creates stopElevator method
   public void stopElevator(){
-   // elevatorMotor.set(0);
+    elevatorMotor.set(0);
   }
 
   // stopIntake sets intakeMotor to 0
@@ -132,5 +147,13 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void retractIntake(){
+    intakeSolenoid.set(false);
+  }
+
+  public void deployIntake(){
+    intakeSolenoid.set(true);
   }
 }

@@ -65,16 +65,19 @@ public final class Constants {
     public static final double kD = 0.00001;
   }
 
-  public final class ArmConstants {
-    public static final double angle_kP = 0.3;
-    public static final double angle_kI = 0;
-    public static final double angle_kD = 0;
+  public static class ArmConstants {
+    public static final double angle_kP = 0.9;
+    public static final double angle_kI = 0.16;
+    public static final double angle_kD = 0.05; // 67.6 / 100;
 
-    public static final double length_kP = 0;
-    public static final double length_kI = 0;
-    public static final double length_kD = 0;
+    public final static double[] positions = {Math.PI / 4, Math.PI / 3, Math.PI /2 }; 
 
-    public static final double anglePIDTolerance = 2;
+    public static final double length_kP = 0.9;
+    public static final double length_kI = 0.1;
+    public static final double length_kD = 0.05;
+
+    public static final double anglePIDTolerance = .05
+    ;
     public static final double lengthPIDTolerance = 0.1;
 
     public static final double retractedArmAnglePos = 0;
@@ -82,9 +85,15 @@ public final class Constants {
     public static final double middleGoalArmAnglePos = 0;
     public static final double highGoalArmAnglePos = 0;
 
-    public static final double armConversionFactor = 0;
+    public static final double armConversionFactor = 0.0652149; //Meters per rotation
+    public static final double maxArmLengthMeters = 0.5519;
 
     public static final double intakeSpeed = 0.5;
+
+    public static final double resetPosition = 0.48677233;
+    public static final double lowPosition = 0.7119198;
+    public static final double middlePosition = 1.62316;
+    public static final double highPosition = 0; 
   }
 
   public final class MotorIDConstants {

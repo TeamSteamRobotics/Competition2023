@@ -5,24 +5,27 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.ArmAnglePID;
-import frc.robot.commands.Auto.Auto10;
-import frc.robot.commands.Auto.Auto11;
-import frc.robot.commands.Auto.Auto2;
-import frc.robot.commands.Auto.Auto3;
-import frc.robot.commands.Auto.Auto4;
-import frc.robot.commands.Auto.Auto6;
-import frc.robot.commands.Auto.Auto7;
-import frc.robot.commands.Auto.Auto8;
-import frc.robot.commands.Auto.Auto9;
-import frc.robot.commands.Drive;
-import frc.robot.commands.DriveRotationPID;
-import frc.robot.commands.EncoderDriveDistance;
-import frc.robot.commands.Intake;
-import frc.robot.commands.RotateArm;
-import frc.robot.commands.Auto.Auto1;
+import frc.robot.commands.ArmCommands.ArmAnglePID;
+import frc.robot.commands.ArmCommands.ArmTogglePID;
+import frc.robot.commands.ArmCommands.ExtendArm;
+import frc.robot.commands.ArmCommands.ExtendArmPID;
+import frc.robot.commands.ArmCommands.Intake;
+import frc.robot.commands.ArmCommands.RotateArm;
+import frc.robot.commands.Autos.Auto1;
+import frc.robot.commands.Autos.Auto10;
+import frc.robot.commands.Autos.Auto11;
+import frc.robot.commands.Autos.Auto2;
+import frc.robot.commands.Autos.Auto3;
+import frc.robot.commands.Autos.Auto4;
+import frc.robot.commands.Autos.Auto6;
+import frc.robot.commands.Autos.Auto7;
+import frc.robot.commands.Autos.Auto8;
+import frc.robot.commands.Autos.Auto9;
+import frc.robot.commands.DriveCommands.Drive;
+import frc.robot.commands.DriveCommands.DriveRotationPID;
+import frc.robot.commands.DriveCommands.DriveToApril;
+import frc.robot.commands.DriveCommands.EncoderDriveDistance;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.commands.DriveToApril; 
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.AprilVisionSubsystem; 
@@ -55,14 +58,19 @@ public class RobotContainer {
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
   private final AprilVisionSubsystem m_aprilVisionSubsystem = new AprilVisionSubsystem(); 
 
+
   private final Joystick joystick = new Joystick(0);
-  private final Trigger testButton = new JoystickButton(joystick, 4);
-  private final Trigger testButtonAlternate = new JoystickButton(joystick, 3);
-  private final Trigger intakeTest = new JoystickButton(joystick, 6);
+  private final Trigger extendArmPID = new JoystickButton(joystick, 1);
+  private final Trigger toggleArmUp = new JoystickButton(joystick, 3);
+  private final Trigger toggleArmDown = new JoystickButton(joystick, 4);
+  
+  private final Trigger arm90 = new JoystickButton(joystick, 5);
+  private final Trigger arm45 = new JoystickButton(joystick, 6);
+  private final Trigger retractArmManual = new JoystickButton(joystick, 7);
+  private final Trigger extendArmManual = new JoystickButton(joystick, 8);
+  private final Trigger driveToTarget = new JoystickButton(joystick, 9);
+ 
   private final Trigger unintakeTest = new JoystickButton(joystick, 7);
-  private final Trigger button = new JoystickButton(joystick, 5);
-  private final Trigger driveToApril = new JoystickButton(joystick, 9);
-  private final Trigger driveToAprilInverted = new JoystickButton(joystick, 10); 
   
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -84,28 +92,24 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    driveToApril.onTrue(
-      //new ParallelDeadlineGroup(
-        new DriveToApril(m_aprilVisionSubsystem, m_driveSubsystem, 0.5f, 1.5f, false)
-    );
-    driveToAprilInverted.onTrue(
-      //new ParallelDeadlineGroup(
-        new DriveToApril(m_aprilVisionSubsystem, m_driveSubsystem, 0.5f, 2.5f, true)
-    );
-      
-    testButton.onTrue( 
-      new ArmAnglePID(m_armSubsystem, 50)
+    driveToTarget.onTrue( 
+     new SequentialCommandGroup(
+        new InstantCommand(m_driveSubsystem::resetEncoders), 
+        new EncoderDriveDistance(m_visionSubsystem.visionDistanceTest(), m_driveSubsystem))
+    ); //9
 
-   );
+    extendArmPID.onTrue(new ExtendArmPID(m_armSubsystem, .20)); //1
+
+    extendArmManual.whileTrue(new ExtendArm(m_armSubsystem, .2)); //8
+    retractArmManual.whileTrue(new ExtendArm(m_armSubsystem, -.2)); //7
     
-    /*testButtonAlternate.onTrue( new ParallelDeadlineGroup (
-      new WaitCommand(2),
-      new RotateArm(m_armSubsystem, -0.1)
-      ) 
-    );
-    */
-  intakeTest.whileTrue(new Intake(m_armSubsystem));
-  
+    //arm toggles 
+    toggleArmUp.onTrue(new ArmTogglePID(m_armSubsystem, true)); //3
+    toggleArmDown.onTrue(new ArmTogglePID(m_armSubsystem, false)); //4
+
+    //arm position sets
+    arm90.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI / 2)); //5
+    arm45.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI/4)); //6
 
     //new InstantCommand(() -> m_visionSubsystem.visionDistanceTest(), m_visionSubsystem));
   }

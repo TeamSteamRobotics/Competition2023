@@ -2,25 +2,21 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Auto;
+package frc.robot.commands.ArmCommands;
 
-import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
 
-public class Auto1 extends CommandBase {
-  /** Creates a new AutoDoNothing. */
+public class RotateArm extends CommandBase {
+  /** Creates a new RotateArm. */
 
-  DriveSubsystem m_driveSubsystem;
-  ArmSubsystem armSubsystem;
-  
-  public Auto1(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem) {
+  ArmSubsystem m_ArmSubsystem;
+  double speed;
 
-    this.m_driveSubsystem = driveSubsystem;
-    this.armSubsystem = armSubsystem;
-    addRequirements(m_driveSubsystem, armSubsystem);
+  public RotateArm(ArmSubsystem armSubsystem, double speed) {
+    this.speed = speed;
+    m_ArmSubsystem = armSubsystem;
+    addRequirements(armSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -31,13 +27,15 @@ public class Auto1 extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_driveSubsystem.stop();
-    armSubsystem.stopAll();
+    m_ArmSubsystem.getArmAngleDegrees();
+    m_ArmSubsystem.setArmSpeed(speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_ArmSubsystem.stopArm();
+  }
 
   // Returns true when the command should end.
   @Override
