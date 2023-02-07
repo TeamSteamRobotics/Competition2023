@@ -58,18 +58,19 @@ public class ArmSubsystem extends SubsystemBase {
     //armMotorRight.follow(armMotorLeft);
   }
 
-  public void increaseIndex() {
-    if (index > 2) {
-      index = 0;
+  public void incrementIndex(Boolean increasing) {
+    if (increasing) {
+      if (index > 2) {
+        index = 0;
+      } else {
+        index += 1; 
+      }
     } else {
-      index += 1; 
-    }
-  }
-  public void decreaseIndex() {
-    if (index == 0) {
-      index = 2;
-    } else {
-      index -= 1; 
+      if (index == 0) {
+        index = 2;
+      } else {
+        index -= 1; 
+      }
     }
   }
   public int getIndex() {
@@ -89,7 +90,7 @@ public class ArmSubsystem extends SubsystemBase {
     return armEncoder.getDistance();
   }
   
-  public void zachRotateArm(double speed){
+  public void setArmSpeed(double speed){
     if(armEncoder.getDistance() > 1.8){
       armMotorLeft.set(0);
       armMotorRight.set(0);
@@ -104,10 +105,10 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   //sets individual arm motor 
-  public void angleRightMotor(double speed) {
+  public void setRightMotor(double speed) {
     armMotorRight.set(speed);
   }
-  public void angleLeftMotor(double speed) {
+  public void setLeftMotor(double speed) {
     armMotorLeft.set(speed);
   }
 
@@ -116,7 +117,7 @@ public class ArmSubsystem extends SubsystemBase {
     elevatorMotor.set(speed);
     System.out.println(armLengthMeters());
   }
-  
+
 // intake sets intakeMotor to input speed
   public void intake(double speed){
     intakeMotor.set(speed);

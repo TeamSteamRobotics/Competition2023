@@ -14,8 +14,8 @@ public class RotateArm extends CommandBase {
   double speed;
 
   public RotateArm(ArmSubsystem armSubsystem, double speed) {
-  this.speed = speed;
-  m_ArmSubsystem = armSubsystem;
+    this.speed = speed;
+    m_ArmSubsystem = armSubsystem;
     addRequirements(armSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -28,7 +28,7 @@ public class RotateArm extends CommandBase {
   @Override
   public void execute() {
     m_ArmSubsystem.getArmAngleDegrees();
-    m_ArmSubsystem.zachRotateArm(speed);
+    m_ArmSubsystem.setArmSpeed(speed);
   }
 
   // Called once the command ends or is interrupted.
