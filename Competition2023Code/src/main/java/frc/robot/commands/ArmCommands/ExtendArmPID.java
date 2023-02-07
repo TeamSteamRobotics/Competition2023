@@ -2,40 +2,43 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.ArmCommands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
-import frc.robot.Constants;
-import frc.robot.Constants.GyroTurnConstants;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.Constants.ArmConstants;
+import frc.robot.subsystems.ArmSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class GyroTurn extends PIDCommand {
-  /** Creates a new GyroTurn. */
-  public GyroTurn(double turnAngleDegrees, DriveSubsystem drive) {
+public class ExtendArmPID extends PIDCommand {
+  /** Creates a new ExtendArmPID. */
+  ArmSubsystem arm;
+  public ExtendArmPID(ArmSubsystem arm, double length) {
     super(
         // The controller that the command will use
-        new PIDController(GyroTurnConstants.kP, GyroTurnConstants.kI, GyroTurnConstants.kD),
+        new PIDController(ArmConstants.length_kP, ArmConstants.length_kI, ArmConstants.length_kD),
         // This should return the measurement
-        () -> drive.gyroAngleDegrees(),
+        () -> arm.armLengthMeters(),
         // This should return the setpoint (can also be a constant)
-        turnAngleDegrees,
+        length,
         // This uses the output
         output -> {
-          drive.drive(0, output);
+          arm.extendArm(-output);
+          // Use the output here
         });
-      addRequirements(drive);
+        addRequirements(arm);
+        
+        getController().setTolerance(ArmConstants.lengthPIDTolerance);
+      this.arm = arm;
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
-    getController().setTolerance(GyroTurnConstants.tolerance);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return getController().atSetpoint();
+    return getController().atSetpoint() || arm.armLengthMeters() >= ArmConstants.maxArmLengthMeters-.05;
   }
 }
