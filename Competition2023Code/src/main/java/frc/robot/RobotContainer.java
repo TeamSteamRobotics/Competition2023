@@ -84,38 +84,14 @@ public class RobotContainer {
     m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
     m_armSubsystem.setDefaultCommand(positionCommand);
   }
-
-/*   private enum CommandSelector{
-    RESET,
-    LOW,
-    MIDDLE,
-    HIGH
-  } */
-
-  /* private CommandSelector select(){
-
-    if(m_armSubsystem::getIndex == 0){
-      return CommandSelector.RESET;
-    } 
-    if(m_armSubsystem.getIndex() == 1){
-      return CommandSelector.LOW;
-    }
-    if(m_armSubsystem.getIndex() == 2){
-      return CommandSelector.MIDDLE;
-    }
-    if(m_armSubsystem.getIndex() == 3){
-      return CommandSelector.HIGH;
-    }
-    return CommandSelector.RESET;
-  } */
-
+  
   private final Command positionCommand = 
     new SelectCommand(
       Map.ofEntries(
           Map.entry(0, new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition)),
-          Map.entry(1, new ArmAnglePID(m_armSubsystem, Math.PI / 4)),
-          Map.entry(2, new ArmAnglePID(m_armSubsystem, Math.PI / 3)),
-          Map.entry(3, new ArmAnglePID(m_armSubsystem, Math.PI / 2))),
+          Map.entry(1, new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition)),
+          Map.entry(2, new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition)),
+          Map.entry(3, new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition))),
           m_armSubsystem::getIndex);
 
   /**
@@ -140,10 +116,8 @@ public class RobotContainer {
     retractArmManual.whileTrue(new ExtendArm(m_armSubsystem, -.2)); //7
     
     //arm toggles 
-    //toggleArmUp.onTrue(new ArmTogglePID(m_armSubsystem, true)); //3
-    //toggleArmDown.onTrue(new ArmTogglePID(m_armSubsystem, false)); //4
-    toggleArmUp.onTrue(new InstantCommand(m_armSubsystem::increaseIndex, m_armSubsystem));
-    toggleArmDown.onTrue(new InstantCommand(m_armSubsystem::decreaseIndex, m_armSubsystem));
+    toggleArmUp.onTrue(new InstantCommand(m_armSubsystem::increaseIndex, m_armSubsystem)); //3
+    toggleArmDown.onTrue(new InstantCommand(m_armSubsystem::decreaseIndex, m_armSubsystem)); //4
 
     //arm position sets
     arm90.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI / 2)); //5
