@@ -4,9 +4,9 @@
 
 package frc.robot;
 
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArmCommands.ArmAnglePID;
-import frc.robot.commands.ArmCommands.ArmTogglePID;
 import frc.robot.commands.ArmCommands.ExtendArm;
 import frc.robot.commands.ArmCommands.ExtendArmPID;
 import frc.robot.commands.ArmCommands.Intake;
@@ -31,14 +31,17 @@ import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.AprilVisionSubsystem; 
 
 import java.nio.file.attribute.PosixFilePermissions;
+import java.util.Map;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.simulation.JoystickSim;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.SelectCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -79,8 +82,41 @@ public class RobotContainer {
 
     configureBindings();
     m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
-
+    m_armSubsystem.setDefaultCommand(positionCommand);
   }
+
+/*   private enum CommandSelector{
+    RESET,
+    LOW,
+    MIDDLE,
+    HIGH
+  } */
+
+  /* private CommandSelector select(){
+
+    if(m_armSubsystem::getIndex == 0){
+      return CommandSelector.RESET;
+    } 
+    if(m_armSubsystem.getIndex() == 1){
+      return CommandSelector.LOW;
+    }
+    if(m_armSubsystem.getIndex() == 2){
+      return CommandSelector.MIDDLE;
+    }
+    if(m_armSubsystem.getIndex() == 3){
+      return CommandSelector.HIGH;
+    }
+    return CommandSelector.RESET;
+  } */
+
+  private final Command positionCommand = 
+    new SelectCommand(
+      Map.ofEntries(
+          Map.entry(0, new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition)),
+          Map.entry(1, new ArmAnglePID(m_armSubsystem, Math.PI / 4)),
+          Map.entry(2, new ArmAnglePID(m_armSubsystem, Math.PI / 3)),
+          Map.entry(3, new ArmAnglePID(m_armSubsystem, Math.PI / 2))),
+          m_armSubsystem::getIndex);
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -104,8 +140,10 @@ public class RobotContainer {
     retractArmManual.whileTrue(new ExtendArm(m_armSubsystem, -.2)); //7
     
     //arm toggles 
-    toggleArmUp.onTrue(new ArmTogglePID(m_armSubsystem, true)); //3
-    toggleArmDown.onTrue(new ArmTogglePID(m_armSubsystem, false)); //4
+    //toggleArmUp.onTrue(new ArmTogglePID(m_armSubsystem, true)); //3
+    //toggleArmDown.onTrue(new ArmTogglePID(m_armSubsystem, false)); //4
+    toggleArmUp.onTrue(new InstantCommand(m_armSubsystem::increaseIndex, m_armSubsystem));
+    toggleArmDown.onTrue(new InstantCommand(m_armSubsystem::decreaseIndex, m_armSubsystem));
 
     //arm position sets
     arm90.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI / 2)); //5
@@ -113,6 +151,7 @@ public class RobotContainer {
 
     //new InstantCommand(() -> m_visionSubsystem.visionDistanceTest(), m_visionSubsystem));
   }
+
   public Command ChooseAuto(AutoType type) {
     switch(type){
         case do_nothing:

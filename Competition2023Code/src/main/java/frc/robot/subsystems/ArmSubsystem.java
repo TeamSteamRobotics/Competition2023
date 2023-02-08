@@ -43,7 +43,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   private double dutyCycleOffset = 0.158333;
 
-  private int index = 0; 
+  private static int index = 0; 
 
   private Solenoid intakeSolenoid =  new Solenoid(PneumaticsModuleType.CTREPCM, 0);
 
@@ -58,21 +58,24 @@ public class ArmSubsystem extends SubsystemBase {
     //armMotorRight.follow(armMotorLeft);
   }
 
-  public void incrementIndex(Boolean increasing) {
-    if (increasing) {
-      if (index > 2) {
-        index = 0;
-      } else {
-        index += 1; 
-      }
+  public void increaseIndex(){
+    if(index > 3){
+      index = 0;
     } else {
-      if (index == 0) {
-        index = 2;
-      } else {
-        index -= 1; 
-      }
+      index += 1;
     }
+    System.out.println(index);
   }
+
+  public void decreaseIndex(){
+    if(index < 0){
+      index = 3;
+    } else {
+      index -= 1;
+    }
+    System.out.println(index);
+  }
+
   public int getIndex() {
     return index; 
   }
