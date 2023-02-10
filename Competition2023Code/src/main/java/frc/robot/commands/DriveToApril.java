@@ -15,6 +15,7 @@ public class DriveToApril extends CommandBase {
   private boolean aprilTagVisible;
   public float robotSpeed;
   private float currentDistance;
+  private float currentDistanceRotation;
   private boolean commandFinished;
   private boolean inverted;
 
@@ -29,12 +30,14 @@ public class DriveToApril extends CommandBase {
     inverted = invertDistance;
 
     currentDistance = 0.0f;
+    currentDistanceRotation = 0.0f;
 
     commandFinished = false;
   }
   @Override
   public void execute(){
-    currentDistance = m_aprilVisionSubsystem.getCoordinates(6).x;
+    currentDistanceRotation = m_aprilVisionSubsystem.getCoordinates(6).x;
+    currentDistance = m_aprilVisionSubsystem.getCoordinates(6).z;
     aprilTagVisible = m_aprilVisionSubsystem.getCoordinates(6).aprilTagVisible;
 
     centerTarget();
@@ -61,16 +64,14 @@ public class DriveToApril extends CommandBase {
   }
   private void centerTarget(){
     if(aprilTagVisible){
-      if(currentDistance > 2){
+      if(currentDistanceRotation > 1){
         m_driveSubsystem.drive(0, robotSpeed);
         commandFinished = false;
-      }else if(currentDistance < -2){
+      }else if(currentDistanceRotation < -1){
         m_driveSubsystem.drive(0, -robotSpeed);
         commandFinished = false;
       }else{
-        commandFinished = true;
-
-        m_driveSubsystem.drive(0, 0);
+       forwardTarget();
       }
     }
   }
