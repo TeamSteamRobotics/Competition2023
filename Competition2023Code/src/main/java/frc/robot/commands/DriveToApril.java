@@ -34,10 +34,10 @@ public class DriveToApril extends CommandBase {
   }
   @Override
   public void execute(){
-    currentDistance = m_aprilVisionSubsystem.getCoordinates(4).z;
-    aprilTagVisible = m_aprilVisionSubsystem.getCoordinates(4).aprilTagVisible;
+    currentDistance = m_aprilVisionSubsystem.getCoordinates(6).x;
+    aprilTagVisible = m_aprilVisionSubsystem.getCoordinates(6).aprilTagVisible;
 
-    forwardTarget();
+    centerTarget();
   }
   private void forwardTarget(){
     if(aprilTagVisible){
@@ -55,6 +55,22 @@ public class DriveToApril extends CommandBase {
     }else{
       if(!aprilTagVisible){
       commandFinished = false;
+      }
+    }
+    //Thanks chatgpt for saving my ass like forty times
+  }
+  private void centerTarget(){
+    if(aprilTagVisible){
+      if(currentDistance > 2){
+        m_driveSubsystem.drive(0, robotSpeed);
+        commandFinished = false;
+      }else if(currentDistance < -2){
+        m_driveSubsystem.drive(0, -robotSpeed);
+        commandFinished = false;
+      }else{
+        commandFinished = true;
+
+        m_driveSubsystem.drive(0, 0);
       }
     }
   }
