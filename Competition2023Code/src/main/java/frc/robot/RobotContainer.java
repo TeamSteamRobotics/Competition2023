@@ -85,6 +85,10 @@ public class RobotContainer {
   private final Trigger extendArm = new JoystickButton(joystick, 9);
   private final Trigger unextendArm = new JoystickButton(joystick, 10);
   private final Trigger manualArm = new JoystickButton(joystick, 2);
+
+  private final Trigger unintake = new JoystickButton(joystick, 6);
+  private final Trigger deploy = new JoystickButton(joystick, 7);
+  private final Trigger undeploy = new JoystickButton(joystick, 8);
  
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
