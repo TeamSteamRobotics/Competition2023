@@ -65,6 +65,7 @@ public class RobotContainer {
 
   private final Joystick joystick = new Joystick(0);
   private final Trigger extendArmPID = new JoystickButton(joystick, 1);
+  private final Trigger retractArmPID = new JoystickButton(joystick, 2);
   private final Trigger toggleArmUp = new JoystickButton(joystick, 3);
   private final Trigger toggleArmDown = new JoystickButton(joystick, 4);
   private final POVButton povButton = new POVButton(joystick, 1);
@@ -112,6 +113,7 @@ public class RobotContainer {
     ); //9
 
     extendArmPID.onTrue(new ExtendArmPID(m_armSubsystem, .20)); //1
+    retractArmPID.onTrue(new ExtendArmPID(m_armSubsystem, -.10)); //2
 
     extendArmManual.whileTrue(new ExtendArm(m_armSubsystem, .2)); //8
     retractArmManual.whileTrue(new ExtendArm(m_armSubsystem, -.2)); //7
