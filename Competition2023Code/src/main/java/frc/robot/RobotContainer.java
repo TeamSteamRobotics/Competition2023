@@ -76,6 +76,7 @@ public class RobotContainer {
   private final Trigger extendArm = new JoystickButton(joystick, 9);
   private final Trigger unextendArm = new JoystickButton(joystick, 10);
   private final Trigger manualArm = new JoystickButton(joystick, 2);
+  private final Trigger driveToTarget = new JoystickButton(joystick, 11)
 
   
  
@@ -116,12 +117,12 @@ public class RobotContainer {
 
     extendArm.onTrue(new ExtendArmPID(m_armSubsystem, .20)); //1
 
-    extendArmManual.whileTrue(new ExtendArm(m_armSubsystem, .2)); //8
-    retractArmManual.whileTrue(new ExtendArm(m_armSubsystem, -.2)); //7
+    extendArm.whileTrue(new ExtendArm(m_armSubsystem, .2)); //8
+    unextendArm.whileTrue(new ExtendArm(m_armSubsystem, -.2)); //7
     
     //arm toggles 
-    toggleArmUp.onTrue(new InstantCommand(m_armSubsystem::increaseIndex, m_armSubsystem)); //3
-    toggleArmDown.onTrue(new InstantCommand(m_armSubsystem::decreaseIndex, m_armSubsystem)); //4
+    rotateArmUp.onTrue(new InstantCommand(m_armSubsystem::increaseIndex, m_armSubsystem)); //3
+    rotateArmDown.onTrue(new InstantCommand(m_armSubsystem::decreaseIndex, m_armSubsystem)); //4
 
     //arm position sets
     /*arm90.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI / 2)); //5
