@@ -46,6 +46,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -66,7 +67,7 @@ public class RobotContainer {
   private final Trigger extendArmPID = new JoystickButton(joystick, 1);
   private final Trigger toggleArmUp = new JoystickButton(joystick, 3);
   private final Trigger toggleArmDown = new JoystickButton(joystick, 4);
-  
+  private final POVButton povButton = new POVButton(joystick, 1);
   private final Trigger arm90 = new JoystickButton(joystick, 5);
   private final Trigger arm45 = new JoystickButton(joystick, 6);
   private final Trigger retractArmManual = new JoystickButton(joystick, 7);
@@ -84,7 +85,7 @@ public class RobotContainer {
     m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
     m_armSubsystem.setDefaultCommand(positionCommand);
   }
-  
+
   private final Command positionCommand = 
     new SelectCommand(
       Map.ofEntries(
