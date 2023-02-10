@@ -82,7 +82,7 @@ public class RobotContainer {
   private final Trigger extendArm = new JoystickButton(joystick, 9);
   private final Trigger unextendArm = new JoystickButton(joystick, 10);
   private final Trigger manualArm = new JoystickButton(joystick, 2);
-  
+ 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
