@@ -64,6 +64,8 @@ public class RobotContainer {
 
 
   private final Joystick joystick = new Joystick(0);
+
+  /* 
   private final Trigger extendArmPID = new JoystickButton(joystick, 1);
   private final Trigger toggleArmUp = new JoystickButton(joystick, 3);
   private final Trigger toggleArmDown = new JoystickButton(joystick, 4);
@@ -75,6 +77,7 @@ public class RobotContainer {
   private final Trigger driveToTarget = new JoystickButton(joystick, 9);
  
   private final Trigger unintakeTest = new JoystickButton(joystick, 7);
+  */
   
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -105,6 +108,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    /* 
     driveToTarget.onTrue( 
      new SequentialCommandGroup(
         new InstantCommand(m_driveSubsystem::resetEncoders), 
@@ -125,6 +129,7 @@ public class RobotContainer {
     arm45.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI/4)); //6
 
     //new InstantCommand(() -> m_visionSubsystem.visionDistanceTest(), m_visionSubsystem));
+    */
   }
 
   public Command ChooseAuto(AutoType type) {
