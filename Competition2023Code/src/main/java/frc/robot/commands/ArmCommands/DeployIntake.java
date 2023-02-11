@@ -1,7 +1,7 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
+/* 
 package frc.robot.commands.ArmCommands;
 
 import edu.wpi.first.wpilibj.AddressableLED;
@@ -10,7 +10,7 @@ import frc.robot.subsystems.ArmSubsystem;
 
 public class DeployIntake extends CommandBase {
   ArmSubsystem m_ArmSubsystem;
-  /** Creates a new DeployIntake. */
+  /** Creates a new DeployIntake. 
   public DeployIntake(ArmSubsystem m_ArmSubsystem) {
     this.m_ArmSubsystem = m_ArmSubsystem;
     addRequirements(m_ArmSubsystem);
@@ -37,3 +37,4 @@ public class DeployIntake extends CommandBase {
     return false;
   }
 }
+*/

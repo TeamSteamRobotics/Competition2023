@@ -32,7 +32,7 @@ public class ArmSubsystem extends SubsystemBase {
   private CANSparkMax armMotorRight = new CANSparkMax(MotorIDConstants.rightElevatorMotor, MotorType.kBrushless);
   private MotorControllerGroup armMotors = new MotorControllerGroup(armMotorLeft, armMotorRight);
 
-  private CANSparkMax intakeMotor = new CANSparkMax(MotorIDConstants.intakeMotor, MotorType.kBrushless);
+ // private CANSparkMax intakeMotor = new CANSparkMax(MotorIDConstants.intakeMotor, MotorType.kBrushless);
 
   private RelativeEncoder elevatorEncoder = elevatorMotor.getEncoder();
 
@@ -42,8 +42,8 @@ public class ArmSubsystem extends SubsystemBase {
 
   private static int index = 0; 
 
-  private Solenoid intakeSolenoid =  new Solenoid(PneumaticsModuleType.CTREPCM, 0);
-
+ // private Solenoid intakeSolenoid =  new Solenoid(PneumaticsModuleType.CTREPCM, 0);
+    
   //Another encoder will be placed, it is not on the motor controllers and it is on the rotate arm part
 
   public ArmSubsystem() {
@@ -120,9 +120,10 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
 // intake sets intakeMotor to input speed
-  public void intake(double speed){
+  /* public void intake(double speed){
     intakeMotor.set(speed);
   }
+  */
 //stopArm sets armMotors to 0
   public void stopArm(){
     armMotors.set(0);
@@ -134,27 +135,29 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   // stopIntake sets intakeMotor to 0
-  public void stopIntake(){
+  /*public void stopIntake(){
     intakeMotor.set(0);
-  }
+  } */
   
   // stopAll sets intakeMotor and armMotor to 0
-  public void stopAll(){
+ /*  public void stopAll(){
     //elevatorMotor.set(0);
     intakeMotor.set(0);
-    armMotors.set(0);
+    armMotors.set(0); 
   }
+  */ 
 //Overrides code
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
   }
 
-  public void retractIntake(){
+  /* public void retractIntake(){
     intakeSolenoid.set(false);
   }
 
   public void deployIntake(){
     intakeSolenoid.set(true);
   }
-}
+  */
+}  

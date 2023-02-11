@@ -32,7 +32,7 @@ public class Auto1 extends CommandBase {
   @Override
   public void execute() {
     m_driveSubsystem.stop();
-    armSubsystem.stopAll();
+    //armSubsystem.stopAll();
   }
 
   // Called once the command ends or is interrupted.
