@@ -46,7 +46,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -64,18 +63,20 @@ public class RobotContainer {
 
 
   private final Joystick joystick = new Joystick(0);
-  private final Trigger extendArmPID = new JoystickButton(joystick, 1);
+  private final Trigger unIntake = new JoystickButton(joystick, 1);
+  private final Trigger intake = new JoystickButton(joystick, 2);
   private final Trigger toggleArmUp = new JoystickButton(joystick, 3);
   private final Trigger toggleArmDown = new JoystickButton(joystick, 4);
-  private final POVButton povButton = new POVButton(joystick, 1);
-  private final Trigger arm90 = new JoystickButton(joystick, 5);
-  private final Trigger arm45 = new JoystickButton(joystick, 6);
-  private final Trigger retractArmManual = new JoystickButton(joystick, 7);
-  private final Trigger extendArmManual = new JoystickButton(joystick, 8);
-  private final Trigger driveToTarget = new JoystickButton(joystick, 9);
- 
-  private final Trigger unintakeTest = new JoystickButton(joystick, 7);
-  
+  //private final Trigger arm90 = new JoystickButton(joystick, 5);
+  //private final Trigger arm45 = new JoystickButton(joystick, 6);
+  private final Trigger deployIntake = new JoystickButton(joystick, 7);
+  private final Trigger unDeployIntake = new JoystickButton(joystick, 8);
+  private final Trigger extendArmManual = new JoystickButton(joystick, 9);
+  private final Trigger retractArmManual = new JoystickButton(joystick, 10);
+  private final Trigger extendArmPID = new JoystickButton(joystick, 11);
+  private final Trigger driveToTarget = new JoystickButton(joystick, 12);
+  private final Trigger extendLiftArmTest = new JoystickButton(joystick, 5);
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -83,9 +84,10 @@ public class RobotContainer {
 
     configureBindings();
     m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
+
     m_armSubsystem.setDefaultCommand(positionCommand);
   }
-
+  
   private final Command positionCommand = 
     new SelectCommand(
       Map.ofEntries(
@@ -110,9 +112,9 @@ public class RobotContainer {
         new InstantCommand(m_driveSubsystem::resetEncoders), 
         new EncoderDriveDistance(m_visionSubsystem.visionDistanceTest(), m_driveSubsystem))
     ); //9
-
+    
     extendArmPID.onTrue(new ExtendArmPID(m_armSubsystem, .20)); //1
-
+    extendLiftArmTest.onTrue(new SequentialCommandGroup(new ArmAnglePID(m_armSubsystem, Math.PI / 4) , new ExtendArmPID(m_armSubsystem, .2)));
     extendArmManual.whileTrue(new ExtendArm(m_armSubsystem, .2)); //8
     retractArmManual.whileTrue(new ExtendArm(m_armSubsystem, -.2)); //7
     
@@ -121,10 +123,11 @@ public class RobotContainer {
     toggleArmDown.onTrue(new InstantCommand(m_armSubsystem::decreaseIndex, m_armSubsystem)); //4
 
     //arm position sets
-    arm90.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI / 2)); //5
-    arm45.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI/4)); //6
+    //arm90.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI / 2)); //5
+    //arm45.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI/4)); //6
 
     //new InstantCommand(() -> m_visionSubsystem.visionDistanceTest(), m_visionSubsystem));
+
   }
 
   public Command ChooseAuto(AutoType type) {

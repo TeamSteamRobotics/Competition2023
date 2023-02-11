@@ -50,6 +50,7 @@ public class ArmSubsystem extends SubsystemBase {
     armEncoder.setDistancePerRotation(2 * Math.PI);
     armEncoder.setPositionOffset(dutyCycleOffset);
     elevatorEncoder.setPosition(0);
+    
     //armMotorRight.setInverted(false);
     //armMotorLeft.setInverted(false);
     //armMotorRight.follow(armMotorLeft);
