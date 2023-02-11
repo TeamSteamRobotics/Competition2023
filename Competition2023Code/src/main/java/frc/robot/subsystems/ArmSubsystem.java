@@ -28,19 +28,15 @@ public class ArmSubsystem extends SubsystemBase {
 
 
 
-  private CANSparkMax armMotorLeft = new CANSparkMax(MotorIDConstants.leftElevatorMotor, MotorType.kBrushless);
-  private CANSparkMax armMotorRight = new CANSparkMax(MotorIDConstants.rightElevatorMotor, MotorType.kBrushless);
+  private CANSparkMax armMotorLeft = new CANSparkMax(MotorIDConstants.leftShoulderMotor, MotorType.kBrushless);
+  private CANSparkMax armMotorRight = new CANSparkMax(MotorIDConstants.rightShoulerMotor, MotorType.kBrushless);
   private MotorControllerGroup armMotors = new MotorControllerGroup(armMotorLeft, armMotorRight);
-
- private CANSparkMax intakeMotor = new CANSparkMax(MotorIDConstants.intakeMotor, MotorType.kBrushless);
 
   private DutyCycleEncoder armEncoder = new DutyCycleEncoder(0);
 
   private double dutyCycleOffset = 0.618333;
 
   private static int index = 0; 
-
-  private Solenoid intakeSolenoid =  new Solenoid(PneumaticsModuleType.CTREPCM, 0);
     
   //Another encoder will be placed, it is not on the motor controllers and it is on the rotate arm part
 
@@ -112,13 +108,6 @@ public class ArmSubsystem extends SubsystemBase {
   public void setLeftMotor(double speed) {
     armMotorLeft.set(speed);
   }
-
-
-
-// intake sets intakeMotor to input speed
-   public void intake(double speed){
-    intakeMotor.set(speed);
-  }
   
 //stopArm sets armMotors to 0
   public void stopArm(){
@@ -126,27 +115,11 @@ public class ArmSubsystem extends SubsystemBase {
 
   }
 
-
-  // stopIntake sets intakeMotor to 0
-  public void stopIntake(){
-    intakeMotor.set(0);
-  } 
-  
-
-  
 //Overrides code
   @Override
   public void periodic() {
     //System.out.println(armEncoder.getDistance());
     // This method will be called once per scheduler run
-  }
-
-   public void retractIntake(){
-    intakeSolenoid.set(false);
-  }
-
-  public void deployIntake(){
-    intakeSolenoid.set(true);
   }
   
 }  

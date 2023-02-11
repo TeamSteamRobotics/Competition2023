@@ -10,10 +10,11 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.MotorIDConstants;
 
 public class ArmExtensionSubsystem extends SubsystemBase {
   /** Creates a new ArmExtensionSubsystem. */
-  private CANSparkMax elevatorMotor = new CANSparkMax(6, MotorType.kBrushless);
+  private CANSparkMax elevatorMotor = new CANSparkMax(MotorIDConstants.elevatorMotor, MotorType.kBrushless);
   private RelativeEncoder elevatorEncoder = elevatorMotor.getEncoder();
   public ArmExtensionSubsystem() {
     elevatorEncoder.setPosition(0);

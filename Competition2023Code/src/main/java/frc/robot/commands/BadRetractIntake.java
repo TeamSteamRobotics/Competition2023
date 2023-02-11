@@ -1,17 +1,20 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
+/* 
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSubsystem;
 
-public class DeployIntake extends CommandBase {
-  /** Creates a new DeployIntake. */
-ArmSubsystem armSubsystem;
+public class BadRetractIntake extends CommandBase {
+  */
+  /** Creates a new RetractIntake. */
+/* 
+  ArmSubsystem armSubsystem;
 
-  public DeployIntake(ArmSubsystem armSubsystem) {
+  public BadRetractIntake(ArmSubsystem armSubsystem) 
+  {
     this.armSubsystem = armSubsystem;
     addRequirements(armSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -24,8 +27,7 @@ ArmSubsystem armSubsystem;
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSubsystem.deployIntake();
-
+    armSubsystem.retractIntake();
   }
 
   // Called once the command ends or is interrupted.
@@ -37,5 +39,5 @@ ArmSubsystem armSubsystem;
   public boolean isFinished() {
     return false;
   }
-
 }
+ */

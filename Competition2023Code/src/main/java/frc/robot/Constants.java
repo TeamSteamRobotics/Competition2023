@@ -100,7 +100,9 @@ public final class Constants {
     public static final short rightFrontDrive = 8;
 
     public static final short intakeMotor = 5;
-    public static final short leftElevatorMotor = 4;
-    public static final short rightElevatorMotor = 7;
+    public static final short leftShoulderMotor = 4;
+    public static final short rightShoulerMotor = 7;
+
+    public static final short elevatorMotor = 6;
   }
 }
