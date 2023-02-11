@@ -75,7 +75,7 @@ public class RobotContainer {
   private final Trigger retractArmManual = new JoystickButton(joystick, 10);
   private final Trigger extendArmPID = new JoystickButton(joystick, 11);
   private final Trigger driveToTarget = new JoystickButton(joystick, 12);
-
+  private final Trigger extendLiftArmTest = new JoystickButton(joystick, 5);
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -112,9 +112,9 @@ public class RobotContainer {
         new InstantCommand(m_driveSubsystem::resetEncoders), 
         new EncoderDriveDistance(m_visionSubsystem.visionDistanceTest(), m_driveSubsystem))
     ); //9
-
+    
     extendArmPID.onTrue(new ExtendArmPID(m_armSubsystem, .20)); //1
-
+    extendLiftArmTest.onTrue(new SequentialCommandGroup(new ArmAnglePID(m_armSubsystem, Math.PI / 4) , new ExtendArmPID(m_armSubsystem, .2)));
     extendArmManual.whileTrue(new ExtendArm(m_armSubsystem, .2)); //8
     retractArmManual.whileTrue(new ExtendArm(m_armSubsystem, -.2)); //7
     
