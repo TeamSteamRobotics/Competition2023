@@ -114,22 +114,22 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    intake.whileTrue(new Intake(m_intakeSubsystem));
+    intake.whileTrue(new Intake(m_intakeSubsystem)); //2
 
-    unIntake.whileTrue(new ReverseIntake(m_intakeSubsystem));
+    unIntake.whileTrue(new ReverseIntake(m_intakeSubsystem)); //1
 
-    deployIntake.onTrue(new DeployIntake(m_intakeSubsystem));
+    deployIntake.onTrue(new DeployIntake(m_intakeSubsystem)); //7
 
-    unDeployIntake.onTrue(new RetractIntake(m_intakeSubsystem));
+    unDeployIntake.onTrue(new RetractIntake(m_intakeSubsystem)); //8
 
     driveToTarget.onTrue( 
      new SequentialCommandGroup(
         new InstantCommand(m_driveSubsystem::resetEncoders), 
         new EncoderDriveDistance(m_visionSubsystem.visionDistanceTest(), m_driveSubsystem))
-    ); //9
+    ); //12
     
     extendArmPID.onTrue(new ExtendArmPID(m_armExtensionSubsystem, .20)); //11
-    extendLiftArmTest.onTrue(new SequentialCommandGroup(new ArmAnglePID(m_armSubsystem, Math.PI / 4) , new ExtendArmPID(m_armExtensionSubsystem, .2)));
+    extendLiftArmTest.onTrue(new SequentialCommandGroup(new ArmAnglePID(m_armSubsystem, Math.PI / 4) , new ExtendArmPID(m_armExtensionSubsystem, .2))); //5
     extendArmManual.whileTrue(new ExtendArm(m_armExtensionSubsystem, .2)); //9
     retractArmManual.whileTrue(new ExtendArm(m_armExtensionSubsystem, -.2)); //10
 
