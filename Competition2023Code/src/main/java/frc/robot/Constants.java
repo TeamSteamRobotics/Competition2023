@@ -80,10 +80,7 @@ public final class Constants {
     ;
     public static final double lengthPIDTolerance = 0.1;
 
-    public static final double retractedArmAnglePos = 0;
-    public static final double intakeArmAnglePos = 0;
-    public static final double middleGoalArmAnglePos = 0;
-    public static final double highGoalArmAnglePos = 0;
+    public static final double extendArmPIDoffset= 0.1739;
 
     public static final double armConversionFactor = 0.0652149; //Meters per rotation
     public static final double maxArmLengthMeters = 0.5519;
