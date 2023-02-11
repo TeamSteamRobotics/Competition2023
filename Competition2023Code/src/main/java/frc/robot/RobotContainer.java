@@ -111,6 +111,20 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    intake.whileTrue(
+      new Intake(m_ArmSubsystem)
+    );
+    unIntake.whileTrue(
+      new ReverseIntake(m_ArmSubsystem)
+    );
+    deployIntake.onTrue(
+      new DeployIntake(m_ArmSubsystem)
+    );
+    unDeployIntake.onTrue(
+      new RetractIntake(m_ArmSubsystem)
+
+    );
+
     driveToTarget.onTrue( 
      new SequentialCommandGroup(
         new InstantCommand(m_driveSubsystem::resetEncoders), 
