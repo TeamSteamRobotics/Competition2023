@@ -86,7 +86,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public double armLengthMeters() {
-    return -1 * (elevatorEncoder.getPosition()) * ArmConstants.armConversionFactor;
+    return (-1 * (elevatorEncoder.getPosition()) * ArmConstants.armConversionFactor)+ArmConstants.extendArmPIDoffset;
   }
 
   public double getArmAngleDegrees(){
