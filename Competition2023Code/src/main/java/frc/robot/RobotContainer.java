@@ -73,11 +73,11 @@ public class RobotContainer {
   private void configureBindings() {
     driveToApril.onTrue(
       //new ParallelDeadlineGroup(
-        new DriveToApril(m_aprilVisionSubsystem, m_driveSubsystem, 0.25f, 2f, false)
+        new DriveToApril(m_aprilVisionSubsystem, m_driveSubsystem, 0.5f, 1f, false)
     );
     driveToAprilInverted.onTrue(
       //new ParallelDeadlineGroup(
-        new DriveToApril(m_aprilVisionSubsystem, m_driveSubsystem, 0.25f, 3.5f, true)
+        new DriveToApril(m_aprilVisionSubsystem, m_driveSubsystem, 0.5f, 3.5f, true)
     );
       
   

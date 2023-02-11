@@ -37,8 +37,8 @@ public class Drive extends CommandBase {
   @Override
   public void execute() {
     m_driveSubsystem.drive(driveSpeed.getAsDouble(), rotationSpeed.getAsDouble());
-    System.out.println(m_aprilVisionSubsystem.getCoordinates(6).z);
-    System.out.println(m_aprilVisionSubsystem.getCoordinates(6).x);
+    System.out.println("Current Distance: " + m_aprilVisionSubsystem.getCoordinates(6).z);
+    System.out.println("Current Rotation: " + m_aprilVisionSubsystem.getCoordinates(6).x);
   }
 
   // Called once the command ends or is interrupted.

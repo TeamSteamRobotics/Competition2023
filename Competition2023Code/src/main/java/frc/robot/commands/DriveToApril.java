@@ -3,6 +3,7 @@ package frc.robot.commands;
 
 import java.util.Set;
 
+import edu.wpi.first.math.trajectory.constraint.CentripetalAccelerationConstraint;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.AprilVisionSubsystem;
@@ -40,20 +41,27 @@ public class DriveToApril extends CommandBase {
     currentDistance = m_aprilVisionSubsystem.getCoordinates(6).z;
     aprilTagVisible = m_aprilVisionSubsystem.getCoordinates(6).aprilTagVisible;
 
-    centerTarget();
+    forwardTarget();
   }
   private void forwardTarget(){
     if(aprilTagVisible){
+      System.out.println("Current Distance: " + currentDistance);
+      System.out.println("Current Rotation: " + currentDistanceRotation);
       if(currentDistance > targetDistance && !inverted){
-      System.out.println(currentDistance);
-      m_driveSubsystem.drive(-robotSpeed, 0);
+        if(currentDistanceRotation > 0.45){
+          m_driveSubsystem.drive(-robotSpeed, 0.35f);
+        }else if(currentDistanceRotation < -0.45){
+          m_driveSubsystem.drive(-robotSpeed, -0.35f);
+        }else{
+          m_driveSubsystem.drive(-robotSpeed, 0.0f);
+        }
       commandFinished = false;
       }else if(currentDistance < targetDistance && inverted){
-        System.out.println(currentDistance);
+        System.out.println("Current Distance: " + currentDistance);
         m_driveSubsystem.drive(robotSpeed, 0);
         commandFinished = false;
       }else{
-        commandFinished = true;
+        commandFinished = false;
       }
     }else{
       if(!aprilTagVisible){
@@ -62,19 +70,23 @@ public class DriveToApril extends CommandBase {
     }
     //Thanks chatgpt for saving my ass like forty times
   }
-  private void centerTarget(){
-    if(aprilTagVisible){
-      if(currentDistanceRotation > 1){
-        m_driveSubsystem.drive(0, robotSpeed);
+ /*  private void centerTarget(boolean finalCenter){
+    if(aprilTagVisible && currentDistance > targetDistance - 0.5){
+      System.out.println("Current Rotation: " + currentDistanceRotation);
+      if(currentDistanceRotation > 1.5){
+        m_driveSubsystem.drive(0, 0.5f);
         commandFinished = false;
-      }else if(currentDistanceRotation < -1){
-        m_driveSubsystem.drive(0, -robotSpeed);
+      }else if(currentDistanceRotation < 1){
+        m_driveSubsystem.drive(0, -0.5f);
         commandFinished = false;
-      }else{
+      }else if(!finalCenter){
        forwardTarget();
+      }else{
+        forwardTarget();
       }
     }
   }
+  */
   @Override
   public void end(boolean interrupted) {
     m_driveSubsystem.stop();
