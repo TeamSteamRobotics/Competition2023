@@ -7,12 +7,13 @@ package frc.robot.commands.ArmCommands;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 public class DeployIntake extends CommandBase {
-  ArmSubsystem m_ArmSubsystem;
+  IntakeSubsystem m_IntakeSubsystem;
   // Creates a new DeployIntake. 
-  public DeployIntake(ArmSubsystem m_ArmSubsystem) {
-    this.m_ArmSubsystem = m_ArmSubsystem;
+  public DeployIntake(IntakeSubsystem m_ArmSubsystem) {
+    this.m_IntakeSubsystem = m_ArmSubsystem;
     addRequirements(m_ArmSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -24,7 +25,7 @@ public class DeployIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ArmSubsystem.deployIntake();
+    m_IntakeSubsystem.deployIntake();
   }
 
   // Called once the command ends or is interrupted.

@@ -8,13 +8,14 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 public class Intake extends CommandBase {
   // Creates a new Intake. 
-  ArmSubsystem m_ArmSubsystem;
+  IntakeSubsystem m_IntakeSubsystem;
 
-  public Intake(ArmSubsystem m_ArmSubsystem) {
-    this.m_ArmSubsystem = m_ArmSubsystem;
+  public Intake(IntakeSubsystem m_ArmSubsystem) {
+    this.m_IntakeSubsystem = m_ArmSubsystem;
     addRequirements(m_ArmSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -27,13 +28,13 @@ public class Intake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ArmSubsystem.intake(ArmConstants.intakeSpeed);
+    m_IntakeSubsystem.intake(ArmConstants.intakeSpeed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_ArmSubsystem.stopIntake();
+    m_IntakeSubsystem.stopIntake();
   }
 
   // Returns true when the command should end.
