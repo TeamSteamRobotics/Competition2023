@@ -27,8 +27,10 @@ import frc.robot.commands.DriveCommands.DriveToApril;
 import frc.robot.commands.DriveCommands.EncoderDriveDistance;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
-import frc.robot.subsystems.AprilVisionSubsystem; 
+import frc.robot.subsystems.AprilVisionSubsystem;
+import frc.robot.subsystems.ArmExtensionSubsystem;
 
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Map;
@@ -60,6 +62,8 @@ public class RobotContainer {
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
   private final AprilVisionSubsystem m_aprilVisionSubsystem = new AprilVisionSubsystem(); 
+  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+  private final ArmExtensionSubsystem m_armExtensionSubsystem = new ArmExtensionSubsystem();
 
 
   private final Joystick joystick = new Joystick(0);
@@ -113,10 +117,10 @@ public class RobotContainer {
         new EncoderDriveDistance(m_visionSubsystem.visionDistanceTest(), m_driveSubsystem))
     ); //9
     
-    extendArmPID.onTrue(new ExtendArmPID(m_armSubsystem, .20)); //11
-    extendLiftArmTest.onTrue(new SequentialCommandGroup(new ArmAnglePID(m_armSubsystem, Math.PI / 4) , new ExtendArmPID(m_armSubsystem, .2)));
-    extendArmManual.whileTrue(new ExtendArm(m_armSubsystem, .2)); //9
-    retractArmManual.whileTrue(new ExtendArm(m_armSubsystem, -.2)); //10
+    extendArmPID.onTrue(new ExtendArmPID(m_armExtensionSubsystem, .20)); //11
+    extendLiftArmTest.onTrue(new SequentialCommandGroup(new ArmAnglePID(m_armSubsystem, Math.PI / 4) , new ExtendArmPID(m_armExtensionSubsystem, .2)));
+    extendArmManual.whileTrue(new ExtendArm(m_armExtensionSubsystem, .2)); //9
+    retractArmManual.whileTrue(new ExtendArm(m_armExtensionSubsystem, -.2)); //10
     
     //arm toggles 
     toggleArmUp.whileTrue(new RotateArm(m_armSubsystem, 0.2)); //3
