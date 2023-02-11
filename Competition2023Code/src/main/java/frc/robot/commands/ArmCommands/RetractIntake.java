@@ -13,7 +13,7 @@ public class RetractIntake extends CommandBase {
   IntakeSubsystem m_IntakeSubsystem;
   public RetractIntake(IntakeSubsystem m_ArmSubsystem) {
     this.m_IntakeSubsystem = m_ArmSubsystem;
-    addRequirements(m_ArmSubsystem); 
+    addRequirements(m_IntakeSubsystem); 
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

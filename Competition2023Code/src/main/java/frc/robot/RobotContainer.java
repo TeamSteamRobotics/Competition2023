@@ -6,9 +6,13 @@ package frc.robot;
 
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.DeployIntake;
+import frc.robot.commands.RetractIntake;
 import frc.robot.commands.ArmCommands.ArmAnglePID;
 import frc.robot.commands.ArmCommands.ExtendArm;
 import frc.robot.commands.ArmCommands.ExtendArmPID;
+import frc.robot.commands.ArmCommands.Intake;
+import frc.robot.commands.ArmCommands.ReverseIntake;
 //import frc.robot.commands.ArmCommands.Intake;
 import frc.robot.commands.ArmCommands.RotateArm;
 import frc.robot.commands.Autos.Auto1;
@@ -111,21 +115,10 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    intake.whileTrue(
-      new Intake(m_ArmSubsystem)
-    );
-    unIntake.whileTrue(
-      new ReverseIntake(m_ArmSubsystem)
-    );
-    deployIntake.onTrue(
-      new DeployIntake(m_ArmSubsystem)
-    );
-    unDeployIntake.onTrue(
-      new RetractIntake(m_ArmSubsystem)
-
-    );
-
-    
+    intake.whileTrue(new Intake(m_intakeSubsystem));
+    unIntake.whileTrue(new ReverseIntake(m_intakeSubsystem));
+    deployIntake.onTrue(new DeployIntake(m_intakeSubsystem));
+    unDeployIntake.onTrue(new RetractIntake(m_intakeSubsystem));
 
     driveToTarget.onTrue( 
      new SequentialCommandGroup(
@@ -137,6 +130,8 @@ public class RobotContainer {
     extendLiftArmTest.onTrue(new SequentialCommandGroup(new ArmAnglePID(m_armSubsystem, Math.PI / 4) , new ExtendArmPID(m_armExtensionSubsystem, .2)));
     extendArmManual.whileTrue(new ExtendArm(m_armExtensionSubsystem, .2)); //9
     retractArmManual.whileTrue(new ExtendArm(m_armExtensionSubsystem, -.2)); //10
+
+    
     
     //arm toggles 
     toggleArmUp.whileTrue(new RotateArm(m_armSubsystem, 0.2)); //3
