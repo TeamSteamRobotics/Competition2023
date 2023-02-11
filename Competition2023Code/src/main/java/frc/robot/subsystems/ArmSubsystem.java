@@ -26,15 +26,13 @@ import frc.robot.Constants.MotorIDConstants;
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
 
-  private CANSparkMax elevatorMotor = new CANSparkMax(6, MotorType.kBrushless);
+
 
   private CANSparkMax armMotorLeft = new CANSparkMax(MotorIDConstants.leftElevatorMotor, MotorType.kBrushless);
   private CANSparkMax armMotorRight = new CANSparkMax(MotorIDConstants.rightElevatorMotor, MotorType.kBrushless);
   private MotorControllerGroup armMotors = new MotorControllerGroup(armMotorLeft, armMotorRight);
 
  private CANSparkMax intakeMotor = new CANSparkMax(MotorIDConstants.intakeMotor, MotorType.kBrushless);
-
-  private RelativeEncoder elevatorEncoder = elevatorMotor.getEncoder();
 
   private DutyCycleEncoder armEncoder = new DutyCycleEncoder(0);
 
@@ -52,7 +50,6 @@ public class ArmSubsystem extends SubsystemBase {
   public ArmSubsystem() {
     armEncoder.setDistancePerRotation(2 * Math.PI);
     armEncoder.setPositionOffset(dutyCycleOffset);
-    elevatorEncoder.setPosition(0);
     
     //armMotorRight.setInverted(false);
     //armMotorLeft.setInverted(false);
@@ -85,9 +82,6 @@ public class ArmSubsystem extends SubsystemBase {
     //elevatorEncoder.setPosition(0);
   }
 
-  public double armLengthMeters() {
-    return (-1 * (elevatorEncoder.getPosition()) * ArmConstants.armConversionFactor)+ArmConstants.extendArmPIDoffset;
-  }
 
   public double getArmAngleDegrees(){
     System.out.println(armEncoder.getDistance());
@@ -119,11 +113,7 @@ public class ArmSubsystem extends SubsystemBase {
     armMotorLeft.set(speed);
   }
 
-//extends arm by setting elevator speed
-  public void extendArm(double speed){
-    elevatorMotor.set(speed);
-    System.out.println(armLengthMeters());
-  }
+
 
 // intake sets intakeMotor to input speed
    public void intake(double speed){
@@ -135,22 +125,14 @@ public class ArmSubsystem extends SubsystemBase {
     armMotors.set(0);
 
   }
-//Creates stopElevator method
-  public void stopElevator(){
-    elevatorMotor.set(0);
-  }
+
 
   // stopIntake sets intakeMotor to 0
   public void stopIntake(){
     intakeMotor.set(0);
   } 
   
-  // stopAll sets intakeMotor and armMotor to 0
-   public void stopAll(){
-    //elevatorMotor.set(0);
-    intakeMotor.set(0);
-    armMotors.set(0); 
-  }
+
   
 //Overrides code
   @Override

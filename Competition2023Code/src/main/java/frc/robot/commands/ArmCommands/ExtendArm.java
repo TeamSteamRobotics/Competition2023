@@ -4,20 +4,19 @@
 
 package frc.robot.commands.ArmCommands;
 
-import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ArmExtensionSubsystem;
 
 public class ExtendArm extends CommandBase {
   /** Creates a new ExtendArm. */
 
-  ArmSubsystem m_ArmSubsystem;
+  ArmExtensionSubsystem armExtensionSubsystem;
   double speed;
 
 
-  public ExtendArm(ArmSubsystem m_ArmSubsystem, double speed) {
-    this.m_ArmSubsystem = m_ArmSubsystem;
+  public ExtendArm(ArmExtensionSubsystem armExtensionSubsystem, double speed) {
+    this.armExtensionSubsystem = armExtensionSubsystem;
     this.speed = speed;  
 
   }
@@ -29,13 +28,13 @@ public class ExtendArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ArmSubsystem.extendArm(-speed);
+    armExtensionSubsystem.extendArm(-speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_ArmSubsystem.stopElevator();
+    armExtensionSubsystem.stopElevator();
   }
 
   // Returns true when the command should end.

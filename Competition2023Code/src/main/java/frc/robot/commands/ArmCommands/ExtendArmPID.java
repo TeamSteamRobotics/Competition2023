@@ -7,6 +7,7 @@ package frc.robot.commands.ArmCommands;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.subsystems.ArmExtensionSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -14,8 +15,8 @@ import frc.robot.subsystems.ArmSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ExtendArmPID extends PIDCommand {
   /** Creates a new ExtendArmPID. */
-  ArmSubsystem arm;
-  public ExtendArmPID(ArmSubsystem arm, double length) {
+  ArmExtensionSubsystem arm;
+  public ExtendArmPID(ArmExtensionSubsystem arm, double length) {
     super(
         // The controller that the command will use
         new PIDController(ArmConstants.length_kP, ArmConstants.length_kI, ArmConstants.length_kD),
