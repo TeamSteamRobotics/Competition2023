@@ -6,15 +6,14 @@ package frc.robot.commands.ArmCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class ReverseIntake extends CommandBase {
   // Creates a new ReverseIntake. 
-  IntakeSubsystem m_ArmSubsystem;
-  public ReverseIntake(IntakeSubsystem m_ArmSubsystem) {
-    this.m_ArmSubsystem = m_ArmSubsystem;
-    addRequirements(m_ArmSubsystem);
+  IntakeSubsystem m_intakeSubsystem;
+  public ReverseIntake(IntakeSubsystem m_intakeSubsystem) {
+    this.m_intakeSubsystem = m_intakeSubsystem;
+    addRequirements(m_intakeSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -25,13 +24,13 @@ public class ReverseIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ArmSubsystem.intake(ArmConstants.intakeSpeed * -1);
+    m_intakeSubsystem.intake(ArmConstants.intakeSpeed * -1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_ArmSubsystem.stopIntake();
+    m_intakeSubsystem.stopIntake();
   }
 
   // Returns true when the command should end.
