@@ -68,7 +68,7 @@ public class RobotContainer {
   private final Trigger toggleArmUp = new JoystickButton(joystick, 3);
   private final Trigger toggleArmDown = new JoystickButton(joystick, 4);
   //private final Trigger arm90 = new JoystickButton(joystick, 5);
-  //private final Trigger arm45 = new JoystickButton(joystick, 6);
+  private final Trigger arm45 = new JoystickButton(joystick, 6);
   private final Trigger deployIntake = new JoystickButton(joystick, 7);
   private final Trigger unDeployIntake = new JoystickButton(joystick, 8);
   private final Trigger extendArmManual = new JoystickButton(joystick, 9);
@@ -85,7 +85,7 @@ public class RobotContainer {
     configureBindings();
     m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
 
-    m_armSubsystem.setDefaultCommand(positionCommand);
+    //m_armSubsystem.setDefaultCommand(positionCommand);
   }
   
   private final Command positionCommand = 
@@ -113,14 +113,14 @@ public class RobotContainer {
         new EncoderDriveDistance(m_visionSubsystem.visionDistanceTest(), m_driveSubsystem))
     ); //9
     
-    extendArmPID.onTrue(new ExtendArmPID(m_armSubsystem, .20)); //1
-    extendLiftArmTest.onTrue(new SequentialCommandGroup(new ArmAnglePID(m_armSubsystem, Math.PI / 4) , new ExtendArmPID(m_armSubsystem, .2)));
-    extendArmManual.whileTrue(new ExtendArm(m_armSubsystem, .2)); //8
-    retractArmManual.whileTrue(new ExtendArm(m_armSubsystem, -.2)); //7
+    extendArmPID.onTrue(new ExtendArmPID(m_armSubsystem, .20)); //11
+    //extendLiftArmTest.onTrue(new SequentialCommandGroup(new ArmAnglePID(m_armSubsystem, Math.PI / 4) , new ExtendArmPID(m_armSubsystem, .2)));
+    extendArmManual.whileTrue(new ExtendArm(m_armSubsystem, .2)); //9
+    retractArmManual.whileTrue(new ExtendArm(m_armSubsystem, -.2)); //10
     
     //arm toggles 
-    toggleArmUp.onTrue(new InstantCommand(m_armSubsystem::increaseIndex, m_armSubsystem)); //3
-    toggleArmDown.onTrue(new InstantCommand(m_armSubsystem::decreaseIndex, m_armSubsystem)); //4
+    toggleArmUp.onTrue(new RotateArm(m_armSubsystem, 0.2)); //3
+    toggleArmDown.onTrue(new RotateArm(m_armSubsystem, -0.2)); //4
 
     //arm position sets
     //arm90.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI / 2)); //5
