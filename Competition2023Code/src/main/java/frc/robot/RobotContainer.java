@@ -75,7 +75,7 @@ public class RobotContainer {
   private final Trigger toggleArmUp = new JoystickButton(joystick, 3);
   private final Trigger toggleArmDown = new JoystickButton(joystick, 4);
   //private final Trigger arm90 = new JoystickButton(joystick, 5);
-  private final Trigger arm45 = new JoystickButton(joystick, 6);
+  private final Trigger armTest = new JoystickButton(joystick, 6);
   private final Trigger deployIntake = new JoystickButton(joystick, 7);
   private final Trigger unDeployIntake = new JoystickButton(joystick, 8);
   private final Trigger extendArmManual = new JoystickButton(joystick, 9);
@@ -141,7 +141,7 @@ public class RobotContainer {
 
     //arm position sets
     //arm90.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI / 2)); //5
-    //arm45.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI/4)); //6
+    armTest.onTrue(new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition)); //6
 
     //new InstantCommand(() -> m_visionSubsystem.visionDistanceTest(), m_visionSubsystem));
 

@@ -45,7 +45,7 @@ public class DriveSubsystem extends SubsystemBase {
     //System.out.println("leftback" + leftback.get());
     //System.out.println("rightfront" + rightfront.get());
     //System.out.println("rightback" + rightback.get());
-    diffDrive.arcadeDrive(-speed, rotation);
+    diffDrive.arcadeDrive(speed, -rotation);
   }
 
   public double encoderDifference() {

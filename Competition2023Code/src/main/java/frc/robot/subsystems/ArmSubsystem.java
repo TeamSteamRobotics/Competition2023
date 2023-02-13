@@ -118,7 +118,7 @@ public class ArmSubsystem extends SubsystemBase {
 //Overrides code
   @Override
   public void periodic() {
-    //System.out.println(armEncoder.getDistance());
+    System.out.println(armEncoder.getDistance());
     // This method will be called once per scheduler run
   }
   
