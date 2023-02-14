@@ -21,7 +21,13 @@ public class ArmExtensionSubsystem extends SubsystemBase {
   }
 
   public double armLengthMeters() {
-    return (-1 * (elevatorEncoder.getPosition()) * ArmConstants.armConversionFactor)+ArmConstants.extendArmPIDoffset;
+    //System.out.println(elevatorEncoder.getPosition());
+    double distance = (-1 * (elevatorEncoder.getPosition()) * ArmConstants.armConversionFactor);
+    return distance;
+  }
+
+  public void resetEncoder() {
+    elevatorEncoder.setPosition(0);
   }
 
   //Creates stopElevator method
@@ -37,6 +43,7 @@ public class ArmExtensionSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    System.out.println(armLengthMeters());
     // This method will be called once per scheduler run
   }
 }

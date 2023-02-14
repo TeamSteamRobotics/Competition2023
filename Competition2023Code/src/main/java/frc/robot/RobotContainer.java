@@ -129,8 +129,10 @@ public class RobotContainer {
     ); //12
     
     extendArmPID.onTrue(new ExtendArmPID(m_armExtensionSubsystem, .20)); //11
-    extendLiftArmTest.onTrue(new SequentialCommandGroup(new ArmAnglePID(m_armSubsystem, Math.PI / 4) , new ExtendArmPID(m_armExtensionSubsystem, .2))); //5
-    extendArmManual.whileTrue(new ExtendArm(m_armExtensionSubsystem, .2)); //9
+    extendLiftArmTest.onTrue(
+      new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition));
+      //new ExtendArmPID(m_armExtensionSubsystem, .2))); //5
+    extendArmManual.onTrue(new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength)); //9
     retractArmManual.whileTrue(new ExtendArm(m_armExtensionSubsystem, -.2)); //10
 
     

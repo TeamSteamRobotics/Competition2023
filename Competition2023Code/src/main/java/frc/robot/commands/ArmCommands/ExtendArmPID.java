@@ -26,6 +26,7 @@ public class ExtendArmPID extends PIDCommand {
         length,
         // This uses the output
         output -> {
+          System.out.println("Output: " + output);
           arm.extendArm(-output);
           // Use the output here
         });
@@ -35,6 +36,11 @@ public class ExtendArmPID extends PIDCommand {
       this.arm = arm;
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
+  }
+
+  @Override
+  public void initialize() {
+      arm.resetEncoder();
   }
 
   // Returns true when the command should end.
