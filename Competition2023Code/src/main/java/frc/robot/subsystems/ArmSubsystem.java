@@ -85,16 +85,16 @@ public class ArmSubsystem extends SubsystemBase {
   }
   
   public void setArmSpeed(double speed){
-    if(armEncoder.getDistance() > 1.8){
-      //System.out.println("First if");
+    if(armEncoder.getDistance() > 2.2){
+      System.out.println("First if");
       armMotorLeft.set(0);
       armMotorRight.set(0);
     } else if(armEncoder.getDistance() < .44){
-      //System.out.println("Second if");
+      System.out.println("Second if");
       armMotorLeft.set(0);
       armMotorRight.set(0);
     } else{
-      //System.out.println("Else statement");
+      System.out.println("Else statement");
       armMotorLeft.set(speed);
       armMotorRight.set(speed);
     }
@@ -118,7 +118,7 @@ public class ArmSubsystem extends SubsystemBase {
 //Overrides code
   @Override
   public void periodic() {
-    //System.out.println(armEncoder.getDistance());
+    System.out.println(armEncoder.getDistance());
     // This method will be called once per scheduler run
   }
   

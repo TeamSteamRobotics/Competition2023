@@ -39,6 +39,7 @@ import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Map;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.simulation.JoystickSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -70,6 +71,7 @@ public class RobotContainer {
 
 
   private final Joystick joystick = new Joystick(0);
+  private final XboxController xbox = new XboxController(1);
   private final Trigger unIntake = new JoystickButton(joystick, 1);
   private final Trigger intake = new JoystickButton(joystick, 2);
   private final Trigger toggleArmUp = new JoystickButton(joystick, 3);
@@ -83,6 +85,7 @@ public class RobotContainer {
   private final Trigger extendArmPID = new JoystickButton(joystick, 11);
   private final Trigger driveToTarget = new JoystickButton(joystick, 12);
   private final Trigger extendLiftArmTest = new JoystickButton(joystick, 5);
+
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -130,9 +133,9 @@ public class RobotContainer {
     
     extendArmPID.onTrue(new ExtendArmPID(m_armExtensionSubsystem, .20)); //11
     extendLiftArmTest.onTrue(
-      new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition));
+      new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition));
       //new ExtendArmPID(m_armExtensionSubsystem, .2))); //5
-    extendArmManual.onTrue(new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength)); //9
+    extendArmManual.whileTrue(new ExtendArm(m_armExtensionSubsystem, .2)); //9
     retractArmManual.whileTrue(new ExtendArm(m_armExtensionSubsystem, -.2)); //10
 
     
@@ -143,7 +146,8 @@ public class RobotContainer {
 
     //arm position sets
     //arm90.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI / 2)); //5
-    armTest.onTrue(new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition)); //6
+    //armTest.onTrue(new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition)); //6
+    armTest.onTrue(new InstantCommand(() -> m_armExtensionSubsystem.resetEncoder()));
 
     //new InstantCommand(() -> m_visionSubsystem.visionDistanceTest(), m_visionSubsystem));
 
