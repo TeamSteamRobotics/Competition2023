@@ -66,6 +66,7 @@ public class DriveToApril extends CommandBase {
 public void asyncLog(){
     CompletableFuture<Void> future = CompletableFuture.runAsync(() ->{
       System.out.println("Current X/Rotation: " + m_aprilVisionSubsystem.getCoordinates(6).x);
+      //System.out.println("Current RX/Rotation of Apriltag in 3D space: " + m_aprilVisionSubsystem.getCoordinates(6).rx);
       System.out.println("Current Z/Distance: " + m_aprilVisionSubsystem.getCoordinates(6).z);
     });
   }
