@@ -133,7 +133,7 @@ public class RobotContainer {
     
     extendArmPID.onTrue(new ExtendArmPID(m_armExtensionSubsystem, .20)); //11
     extendLiftArmTest.onTrue(
-      new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition));
+      new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition));
       //new ExtendArmPID(m_armExtensionSubsystem, .2))); //5
     extendArmManual.whileTrue(new ExtendArm(m_armExtensionSubsystem, .2)); //9
     retractArmManual.whileTrue(new ExtendArm(m_armExtensionSubsystem, -.2)); //10
