@@ -25,6 +25,25 @@ public class ArmExtensionSubsystem extends SubsystemBase {
     double distance = (-1 * (elevatorEncoder.getPosition()) * ArmConstants.armConversionFactor);
     return distance;
   }
+  private static int extensionIndex = 0;
+  public void increaseExtensionIndex(){
+    extensionIndex += 1;
+    System.out.println(extensionIndex);
+  }
+
+  public void decreaseExtensionIndex(){
+    extensionIndex -= 1;
+    System.out.println(extensionIndex);
+  }
+
+  public int getExtensionIndex() {
+    return extensionIndex % 4; 
+  }
+
+  public void resetElevatorEncoders() {
+    //elevatorEncoder.setPosition(0);
+  }
+
 
   public void resetEncoder() {
     elevatorEncoder.setPosition(0);

@@ -95,17 +95,28 @@ public class RobotContainer {
     configureBindings();
     m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
 
-    //m_armSubsystem.setDefaultCommand(positionCommand);
+    m_armSubsystem.setDefaultCommand(rotationCommand);
+    m_armExtensionSubsystem.setDefaultCommand(extentionCommand);
+    
   }
   
-  private final Command positionCommand = 
+  private final Command rotationCommand = 
     new SelectCommand(
       Map.ofEntries(
           Map.entry(0, new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition)),
           Map.entry(1, new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition)),
           Map.entry(2, new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition)),
           Map.entry(3, new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition))),
-          m_armSubsystem::getIndex);
+          m_armSubsystem::getRotationIndex);
+
+  private final Command extentionCommand = 
+    new SelectCommand(
+      Map.ofEntries(
+          Map.entry(0, new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength)),
+          Map.entry(1, new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength)),
+          Map.entry(2, new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength)),
+          Map.entry(3, new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))),
+          m_armExtensionSubsystem::getExtensionIndex);
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -141,8 +152,8 @@ public class RobotContainer {
     
     
     //arm toggles 
-    toggleArmUp.whileTrue(new RotateArm(m_armSubsystem, 0.2)); //3
-    toggleArmDown.whileTrue(new RotateArm(m_armSubsystem, -0.2)); //4
+    toggleArmUp.onTrue(new InstantCommand(m_armSubsystem::increaseRotationIndex, m_armSubsystem)); //3
+    toggleArmDown.onTrue(new InstantCommand(m_armSubsystem::decreaseRotationIndex, m_armSubsystem)); //4
 
     //arm position sets
     //arm90.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI / 2)); //5

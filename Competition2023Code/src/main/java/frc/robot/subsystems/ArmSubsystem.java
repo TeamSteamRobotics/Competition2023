@@ -36,8 +36,8 @@ public class ArmSubsystem extends SubsystemBase {
 
   private double dutyCycleOffset = 0.618333;
 
-  private static int index = 0; 
-    
+  private static int rotationIndex = 0; 
+
   //Another encoder will be placed, it is not on the motor controllers and it is on the rotate arm part
 
 
@@ -52,26 +52,18 @@ public class ArmSubsystem extends SubsystemBase {
     //armMotorRight.follow(armMotorLeft);
   }
 
-  public void increaseIndex(){
-    if(index > 3){
-      index = 0;
-    } else {
-      index += 1;
-    }
-    System.out.println(index);
+  public void increaseRotationIndex(){
+    rotationIndex += 1;
+    System.out.println(rotationIndex);
   }
 
-  public void decreaseIndex(){
-    if(index < 0){
-      index = 3;
-    } else {
-      index -= 1;
-    }
-    System.out.println(index);
+  public void decreaseRotationIndex(){
+    rotationIndex -= 1;
+    System.out.println(rotationIndex);
   }
 
-  public int getIndex() {
-    return index; 
+  public int getRotationIndex() {
+    return rotationIndex % 4; 
   }
 
   public void resetElevatorEncoders() {
