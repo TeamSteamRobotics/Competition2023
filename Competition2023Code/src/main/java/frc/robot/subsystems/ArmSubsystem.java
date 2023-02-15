@@ -89,10 +89,12 @@ public class ArmSubsystem extends SubsystemBase {
       System.out.println("First if");
       armMotorLeft.set(0);
       armMotorRight.set(0);
+      armEncoder.reset();
     } else if(armEncoder.getDistance() < .44){
       System.out.println("Second if");
       armMotorLeft.set(0);
       armMotorRight.set(0);
+      armEncoder.reset();
     } else{
       System.out.println("Else statement");
       armMotorLeft.set(speed);

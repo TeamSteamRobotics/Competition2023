@@ -117,6 +117,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+
     intake.whileTrue(new Intake(m_intakeSubsystem)); //2
 
     unIntake.whileTrue(new ReverseIntake(m_intakeSubsystem)); //1

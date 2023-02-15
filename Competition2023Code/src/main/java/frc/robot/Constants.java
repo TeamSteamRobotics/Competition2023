@@ -93,9 +93,9 @@ public final class Constants {
     public static final double highPosition = 1.8; //constants not finished
 
     public static final double resetPositionLength = 0;
-    public static final double lowPositionLength = 0.278;
-    public static final double middlePositionLength = 0.172;
-    public static final double highPositionLength = 0.541;
+    public static final double lowPositionLength = 0.278; 
+    public static final double middlePositionLength = 0.172; 
+    public static final double highPositionLength = 0.541; 
   }
 
   public final class MotorIDConstants {
