@@ -146,8 +146,8 @@ public class RobotContainer {
     extendLiftArmTest.onTrue(
       new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition));
       //new ExtendArmPID(m_armExtensionSubsystem, .2))); //5
-    extendArmManual.whileTrue(new ExtendArm(m_armExtensionSubsystem, .2)); //9
-    retractArmManual.whileTrue(new ExtendArm(m_armExtensionSubsystem, -.2)); //10
+    extendArmManual.onTrue(new InstantCommand(m_armExtensionSubsystem::increaseExtensionIndex, m_armExtensionSubsystem)); //9
+    retractArmManual.onTrue(new InstantCommand(m_armExtensionSubsystem::decreaseExtensionIndex, m_armExtensionSubsystem)); //10
 
     
     
