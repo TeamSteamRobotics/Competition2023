@@ -87,14 +87,12 @@ public class ArmSubsystem extends SubsystemBase {
   public void setArmSpeed(double speed){
     if(armEncoder.getDistance() > 2.2){
       System.out.println("First if");
-      armMotorLeft.set(0);
-      armMotorRight.set(0);
       armEncoder.reset();
+      armEncoder.setPositionOffset(dutyCycleOffset);
     } else if(armEncoder.getDistance() < .44){
       System.out.println("Second if");
-      armMotorLeft.set(0);
-      armMotorRight.set(0);
       armEncoder.reset();
+      armEncoder.setPositionOffset(dutyCycleOffset);
     } else{
       System.out.println("Else statement");
       armMotorLeft.set(speed);
