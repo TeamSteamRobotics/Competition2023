@@ -74,17 +74,15 @@ public class RobotContainer {
   private final XboxController xbox = new XboxController(1);
   private final Trigger unIntake = new JoystickButton(joystick, 1);
   private final Trigger intake = new JoystickButton(joystick, 2);
-  private final Trigger toggleArmUp = new JoystickButton(joystick, 3);
-  private final Trigger toggleArmDown = new JoystickButton(joystick, 4);
-  //private final Trigger arm90 = new JoystickButton(joystick, 5);
-  private final Trigger armTest = new JoystickButton(joystick, 6);
+  private final Trigger rotateArmToggleUp = new JoystickButton(joystick, 3);
+  private final Trigger rotateArmToggleDown = new JoystickButton(joystick, 5);
   private final Trigger deployIntake = new JoystickButton(joystick, 7);
-  private final Trigger unDeployIntake = new JoystickButton(joystick, 8);
-  private final Trigger extendArmManual = new JoystickButton(joystick, 9);
-  private final Trigger retractArmManual = new JoystickButton(joystick, 10);
-  private final Trigger extendArmPID = new JoystickButton(joystick, 11);
-  private final Trigger driveToTarget = new JoystickButton(joystick, 12);
-  private final Trigger extendLiftArmTest = new JoystickButton(joystick, 5);
+  private final Trigger retractIntake = new JoystickButton(joystick, 8);
+  private final Trigger extendArmToggleUp = new JoystickButton(joystick, 4);
+  private final Trigger extendArmToggleDown = new JoystickButton(joystick, 6);
+  //private final Trigger extendArmPID = new JoystickButton(joystick, 11);
+  //private final Trigger driveToTarget = new JoystickButton(joystick, 12);
+  //private final Trigger extendLiftArmTest = new JoystickButton(joystick, 5);
 
 
 
@@ -134,31 +132,19 @@ public class RobotContainer {
 
     deployIntake.onTrue(new DeployIntake(m_intakeSubsystem)); //7
 
-    unDeployIntake.onTrue(new RetractIntake(m_intakeSubsystem)); //8
+    retractIntake.onTrue(new RetractIntake(m_intakeSubsystem)); //8
+    
+    extendArmToggleUp.onTrue(new InstantCommand(m_armExtensionSubsystem::increaseExtensionIndex, m_armExtensionSubsystem)); //4
+    extendArmToggleDown.onTrue(new InstantCommand(m_armExtensionSubsystem::decreaseExtensionIndex, m_armExtensionSubsystem)); //16
 
-    driveToTarget.onTrue( 
-     new SequentialCommandGroup(
-        new InstantCommand(m_driveSubsystem::resetEncoders), 
-        new EncoderDriveDistance(m_visionSubsystem.visionDistanceTest(), m_driveSubsystem))
-    ); //12
-    
-    extendArmPID.onTrue(new ExtendArmPID(m_armExtensionSubsystem, .20)); //11
-    extendLiftArmTest.onTrue(
-      new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition));
-      //new ExtendArmPID(m_armExtensionSubsystem, .2))); //5
-    extendArmManual.onTrue(new InstantCommand(m_armExtensionSubsystem::increaseExtensionIndex, m_armExtensionSubsystem)); //9
-    retractArmManual.onTrue(new InstantCommand(m_armExtensionSubsystem::decreaseExtensionIndex, m_armExtensionSubsystem)); //10
-
-    
-    
     //arm toggles 
-    toggleArmUp.onTrue(new InstantCommand(m_armSubsystem::increaseRotationIndex, m_armSubsystem)); //3
-    toggleArmDown.onTrue(new InstantCommand(m_armSubsystem::decreaseRotationIndex, m_armSubsystem)); //4
+    rotateArmToggleUp.onTrue(new InstantCommand(m_armSubsystem::increaseRotationIndex, m_armSubsystem)); //3
+    rotateArmToggleDown.onTrue(new InstantCommand(m_armSubsystem::decreaseRotationIndex, m_armSubsystem)); //5
 
     //arm position sets
     //arm90.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI / 2)); //5
     //armTest.onTrue(new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition)); //6
-    armTest.onTrue(new InstantCommand(() -> m_armExtensionSubsystem.resetEncoder()));
+    //armTest.onTrue(new InstantCommand(() -> m_armExtensionSubsystem.resetEncoder()));
 
     //new InstantCommand(() -> m_visionSubsystem.visionDistanceTest(), m_visionSubsystem));
 
