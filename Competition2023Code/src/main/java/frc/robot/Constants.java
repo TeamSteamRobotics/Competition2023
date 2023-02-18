@@ -66,19 +66,19 @@ public final class Constants {
   }
 
   public static class ArmConstants {
-    public static final double angle_kP = .6;
+    public static final double angle_kP = .7;
     public static final double angle_kI = 0.16;
     public static final double angle_kD = 0.05; // 67.6 / 100;
 
     public final static double[] positions = {Math.PI / 4, Math.PI / 3, Math.PI /2 }; 
 
-    public static final double length_kP = 3.5;
+    public static final double length_kP = 10;
     public static final double length_kI = 0.5;
     public static final double length_kD = 0.1;
 
     public static final double anglePIDTolerance = .05
     ;
-    public static final double lengthPIDTolerance = 0.01;
+    public static final double lengthPIDTolerance = 0.001;
 
     public static final double extendArmPIDoffset= 0.1739;
 
@@ -87,7 +87,7 @@ public final class Constants {
 
     public static final double intakeSpeed = 0.5;
 
-    public static final double resetPosition = 0.48677233;
+    public static final double resetPosition = 0.53677233;
     public static final double lowPosition = .8;//0.7119198;
     public static final double middlePosition = 1.62316;
     public static final double highPosition = 1.8; //constants not finished
