@@ -16,8 +16,10 @@ public class ArmExtensionSubsystem extends SubsystemBase {
   /** Creates a new ArmExtensionSubsystem. */
   private CANSparkMax elevatorMotor = new CANSparkMax(MotorIDConstants.elevatorMotor, MotorType.kBrushless);
   private RelativeEncoder elevatorEncoder = elevatorMotor.getEncoder();
+  private static int extensionIndex = 0;
+
   public ArmExtensionSubsystem() {
-    elevatorEncoder.setPosition(0);
+    //elevatorEncoder.setPosition(0);
   }
 
   public double armLengthMeters() {
@@ -25,7 +27,7 @@ public class ArmExtensionSubsystem extends SubsystemBase {
     double distance = (-1 * (elevatorEncoder.getPosition()) * ArmConstants.armConversionFactor);
     return distance;
   }
-  private static int extensionIndex = 0;
+  
   public void increaseExtensionIndex(){
     extensionIndex += 1;
     System.out.println(extensionIndex);
@@ -43,7 +45,17 @@ public class ArmExtensionSubsystem extends SubsystemBase {
   public void resetElevatorEncoders() {
     //elevatorEncoder.setPosition(0);
   }
-
+  public void resetExtensionIndex(){
+    extensionIndex  = 0;
+  }
+  long nowTime = 0;
+  public void resetExtensionLength(){
+    long initTime = System.currentTimeMillis();
+    while(nowTime < 250) {
+      this.extendArm(.3);
+      nowTime = System.currentTimeMillis() - initTime;
+    }
+  }
 
   public void resetEncoder() {
     elevatorEncoder.setPosition(0);
@@ -57,7 +69,7 @@ public class ArmExtensionSubsystem extends SubsystemBase {
   //extends arm by setting elevator speed
   public void extendArm(double speed){
     elevatorMotor.set(speed);
-    System.out.println(armLengthMeters());
+    //System.out.println(armLengthMeters());
   }
 
   @Override

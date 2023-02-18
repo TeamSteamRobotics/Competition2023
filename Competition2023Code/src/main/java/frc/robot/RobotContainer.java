@@ -67,19 +67,19 @@ public class RobotContainer {
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
   private final AprilVisionSubsystem m_aprilVisionSubsystem = new AprilVisionSubsystem(); 
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-  private final ArmExtensionSubsystem m_armExtensionSubsystem = new ArmExtensionSubsystem();
+  public final ArmExtensionSubsystem m_armExtensionSubsystem = new ArmExtensionSubsystem();
 
 
   private final Joystick joystick = new Joystick(0);
   private final XboxController xbox = new XboxController(1);
   private final Trigger unIntake = new JoystickButton(joystick, 1);
   private final Trigger intake = new JoystickButton(joystick, 2);
-  private final Trigger rotateArmToggleUp = new JoystickButton(joystick, 3);
-  private final Trigger rotateArmToggleDown = new JoystickButton(joystick, 5);
+  private final Trigger rotateArmToggleUp = new JoystickButton(joystick, 5);
+  private final Trigger rotateArmToggleDown = new JoystickButton(joystick, 3);
   private final Trigger deployIntake = new JoystickButton(joystick, 7);
   private final Trigger retractIntake = new JoystickButton(joystick, 8);
-  private final Trigger extendArmToggleUp = new JoystickButton(joystick, 4);
-  private final Trigger extendArmToggleDown = new JoystickButton(joystick, 6);
+  private final Trigger extendArmToggleUp = new JoystickButton(joystick, 6);
+  private final Trigger extendArmToggleDown = new JoystickButton(joystick, 4);
   //private final Trigger extendArmPID = new JoystickButton(joystick, 11);
   //private final Trigger driveToTarget = new JoystickButton(joystick, 12);
   //private final Trigger extendLiftArmTest = new JoystickButton(joystick, 5);
@@ -93,8 +93,8 @@ public class RobotContainer {
     configureBindings();
     m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
 
-    m_armSubsystem.setDefaultCommand(rotationCommand);
-    m_armExtensionSubsystem.setDefaultCommand(extentionCommand);
+    //m_armSubsystem.setDefaultCommand(rotationCommand);
+    //m_armExtensionSubsystem.setDefaultCommand(extentionCommand);
     
   }
   
@@ -134,12 +134,12 @@ public class RobotContainer {
 
     retractIntake.onTrue(new RetractIntake(m_intakeSubsystem)); //8
     
-    extendArmToggleUp.onTrue(new InstantCommand(m_armExtensionSubsystem::increaseExtensionIndex, m_armExtensionSubsystem)); //4
-    extendArmToggleDown.onTrue(new InstantCommand(m_armExtensionSubsystem::decreaseExtensionIndex, m_armExtensionSubsystem)); //16
+    extendArmToggleUp.onTrue(new InstantCommand(m_armExtensionSubsystem::increaseExtensionIndex, m_armExtensionSubsystem)); //6
+    extendArmToggleDown.onTrue(new InstantCommand(m_armExtensionSubsystem::decreaseExtensionIndex, m_armExtensionSubsystem)); //4
 
     //arm toggles 
-    rotateArmToggleUp.onTrue(new InstantCommand(m_armSubsystem::increaseRotationIndex, m_armSubsystem)); //3
-    rotateArmToggleDown.onTrue(new InstantCommand(m_armSubsystem::decreaseRotationIndex, m_armSubsystem)); //5
+    rotateArmToggleUp.onTrue(new InstantCommand(m_armSubsystem::increaseRotationIndex, m_armSubsystem)); //5
+    rotateArmToggleDown.onTrue(new InstantCommand(m_armSubsystem::decreaseRotationIndex, m_armSubsystem)); //3
 
     //arm position sets
     //arm90.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI / 2)); //5

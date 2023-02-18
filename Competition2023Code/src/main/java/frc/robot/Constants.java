@@ -66,13 +66,13 @@ public final class Constants {
   }
 
   public static class ArmConstants {
-    public static final double angle_kP = .9;
+    public static final double angle_kP = .6;
     public static final double angle_kI = 0.16;
     public static final double angle_kD = 0.05; // 67.6 / 100;
 
     public final static double[] positions = {Math.PI / 4, Math.PI / 3, Math.PI /2 }; 
 
-    public static final double length_kP = 5;
+    public static final double length_kP = 3.5;
     public static final double length_kI = 0.5;
     public static final double length_kD = 0.1;
 
@@ -95,7 +95,7 @@ public final class Constants {
     public static final double resetPositionLength = 0;
     public static final double lowPositionLength = 0.278;
     public static final double middlePositionLength = 0.172;
-    public static final double highPositionLength = 0.541;
+    public static final double highPositionLength = 0.461;
   }
 
   public final class MotorIDConstants {
