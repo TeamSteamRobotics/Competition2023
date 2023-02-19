@@ -26,11 +26,13 @@ public class ExtendArmPID extends PIDCommand {
         length,
         // This uses the output
         output -> {
-          System.out.println("Output: " + output);
+          //System.out.println("Output: " + output);
+         // System.out.println(getController.getPositionError());
           arm.extendArm(-output);
           // Use the output here
         });
         addRequirements(arm);
+  
         
         getController().setTolerance(ArmConstants.lengthPIDTolerance);
       this.arm = arm;
@@ -40,8 +42,10 @@ public class ExtendArmPID extends PIDCommand {
 
   @Override
   public void initialize() {
-      arm.resetEncoder();
+      //arm.resetEncoder();
   }
+
+
 
   // Returns true when the command should end.
   @Override

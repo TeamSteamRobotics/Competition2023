@@ -36,8 +36,8 @@ public class ArmSubsystem extends SubsystemBase {
 
   private double dutyCycleOffset = 0.618333;
 
-  private static int index = 0; 
-    
+  private static int rotationIndex = 0; 
+
   //Another encoder will be placed, it is not on the motor controllers and it is on the rotate arm part
 
 
@@ -52,26 +52,18 @@ public class ArmSubsystem extends SubsystemBase {
     //armMotorRight.follow(armMotorLeft);
   }
 
-  public void increaseIndex(){
-    if(index > 3){
-      index = 0;
-    } else {
-      index += 1;
-    }
-    System.out.println(index);
+  public void increaseRotationIndex(){
+    rotationIndex += 1;
+    System.out.println(rotationIndex);
   }
 
-  public void decreaseIndex(){
-    if(index < 0){
-      index = 3;
-    } else {
-      index -= 1;
-    }
-    System.out.println(index);
+  public void decreaseRotationIndex(){
+    rotationIndex -= 1;
+    System.out.println(rotationIndex);
   }
 
-  public int getIndex() {
-    return index; 
+  public int getRotationIndex() {
+    return rotationIndex % 4; 
   }
 
   public void resetElevatorEncoders() {
@@ -86,15 +78,15 @@ public class ArmSubsystem extends SubsystemBase {
   
   public void setArmSpeed(double speed){
     if(armEncoder.getDistance() > 2.2){
-      System.out.println("First if");
+      //System.out.println("First if");
       armEncoder.reset();
       armEncoder.setPositionOffset(dutyCycleOffset);
     } else if(armEncoder.getDistance() < .44){
-      System.out.println("Second if");
+      //System.out.println("Second if");
       armEncoder.reset();
       armEncoder.setPositionOffset(dutyCycleOffset);
     } else{
-      System.out.println("Else statement");
+      //System.out.println("Else statement");
       armMotorLeft.set(speed);
       armMotorRight.set(speed);
     }
@@ -118,7 +110,7 @@ public class ArmSubsystem extends SubsystemBase {
 //Overrides code
   @Override
   public void periodic() {
-    System.out.println(armEncoder.getDistance());
+    //System.out.println(armEncoder.getDistance());
     // This method will be called once per scheduler run
   }
   

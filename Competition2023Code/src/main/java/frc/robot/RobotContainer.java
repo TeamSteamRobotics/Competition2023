@@ -67,24 +67,26 @@ public class RobotContainer {
   private final ArmSubsystem m_armSubsystem = new ArmSubsystem();
   private final AprilVisionSubsystem m_aprilVisionSubsystem = new AprilVisionSubsystem(); 
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-  private final ArmExtensionSubsystem m_armExtensionSubsystem = new ArmExtensionSubsystem();
+  public final ArmExtensionSubsystem m_armExtensionSubsystem = new ArmExtensionSubsystem();
 
 
   private final Joystick joystick = new Joystick(0);
   private final XboxController xbox = new XboxController(1);
   private final Trigger unIntake = new JoystickButton(joystick, 1);
   private final Trigger intake = new JoystickButton(joystick, 2);
-  private final Trigger toggleArmUp = new JoystickButton(joystick, 3);
-  private final Trigger toggleArmDown = new JoystickButton(joystick, 4);
-  //private final Trigger arm90 = new JoystickButton(joystick, 5);
-  private final Trigger armTest = new JoystickButton(joystick, 6);
+  private final Trigger rotateArmToggleUp = new JoystickButton(joystick, 5);
+  private final Trigger rotateArmToggleDown = new JoystickButton(joystick, 3);
   private final Trigger deployIntake = new JoystickButton(joystick, 7);
-  private final Trigger unDeployIntake = new JoystickButton(joystick, 8);
-  private final Trigger extendArmManual = new JoystickButton(joystick, 9);
-  private final Trigger retractArmManual = new JoystickButton(joystick, 10);
-  private final Trigger extendArmPID = new JoystickButton(joystick, 11);
-  private final Trigger driveToTarget = new JoystickButton(joystick, 12);
-  private final Trigger extendLiftArmTest = new JoystickButton(joystick, 5);
+  private final Trigger retractIntake = new JoystickButton(joystick, 8);
+  private final Trigger extendArmToggleUp = new JoystickButton(joystick, 6);
+  private final Trigger extendArmToggleDown = new JoystickButton(joystick, 4);
+  //private final Trigger extendArmPID = new JoystickButton(joystick, 11);
+  //private final Trigger driveToTarget = new JoystickButton(joystick, 12);
+  //private final Trigger extendLiftArmTest = new JoystickButton(joystick, 5);
+
+  int armIndex = 0;
+  int intakeIndex = 0;
+  boolean isIncreasing = false; 
 
 
 
@@ -96,16 +98,160 @@ public class RobotContainer {
     m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
 
     //m_armSubsystem.setDefaultCommand(positionCommand);
+    //m_armExtensionSubsystem.setDefaultCommand(extentionCommand);
+    
   }
   
+
+public int GetArmIndex(){
+  return armIndex;
+}
+
+public int GetIntakeIndex(){
+  return intakeIndex;
+}
+
+public void increaseArmIndex(){
+  armIndex++;
+}
+
+public void decreaseArmIndex(){
+  armIndex--;
+}
+  
+/* 
+public Command getArmCommand(){
+  System.out.println("Reached GetArmCommand");
+  if(isIncreasing){
+
+    if(armIndex >= 3){
+      armIndex = 3;
+    }
+
+    System.out.println("INDEX: " + armIndex);
+    return new SelectCommand(
+      Map.ofEntries(
+        Map.entry(0,
+          new ParallelCommandGroup(
+            new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition),
+            new SequentialCommandGroup(
+              new WaitCommand(1),
+              new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength)))),
+        Map.entry(1, 
+          new ParallelCommandGroup(
+            new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition),
+            new SequentialCommandGroup(
+              new WaitCommand(1),
+              new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength)))),
+        Map.entry(2, 
+          new ParallelCommandGroup(
+            new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition),
+            new SequentialCommandGroup(
+              new WaitCommand(1),
+              new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength)))),
+        Map.entry(3, 
+          new ParallelCommandGroup(
+            new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
+            new SequentialCommandGroup(
+              new WaitCommand(1),
+              new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))))),
+      this::GetArmIndex);
+      } 
+    
+  else {
+
+    if(armIndex <= 0){
+
+      armIndex = 0;
+    }
+
+    System.out.println("INDEX: " + armIndex);
+    return new SelectCommand(
+      Map.ofEntries(
+        Map.entry(0,
+          new ParallelCommandGroup(
+            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength),
+            new SequentialCommandGroup(
+              new WaitCommand(1),
+              new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition)))),
+        Map.entry(1, 
+          new ParallelCommandGroup(
+            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength),  
+            new SequentialCommandGroup(
+              new WaitCommand(1),
+              new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition)))),
+        Map.entry(2, 
+          new ParallelCommandGroup(
+            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength),
+            new SequentialCommandGroup(
+              new WaitCommand(1),
+              new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition)))),
+        Map.entry(3, 
+          new ParallelCommandGroup(
+            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength),
+            new SequentialCommandGroup(
+              new WaitCommand(1),
+              new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition))))),
+      this::GetArmIndex);
+  }
+    
+} */
+
   private final Command positionCommand = 
+  new SelectCommand(
+    Map.ofEntries(
+      Map.entry(0,
+        new ParallelCommandGroup(
+          new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition),
+          new SequentialCommandGroup(
+            new WaitCommand(1),
+            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength)))),
+      Map.entry(1, 
+        new ParallelCommandGroup(
+          new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition),
+          new SequentialCommandGroup(
+            new WaitCommand(1),
+            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength)))),
+      Map.entry(2, 
+        new ParallelCommandGroup(
+          new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition),
+          new SequentialCommandGroup(
+            new WaitCommand(1),
+            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength)))),
+      Map.entry(3, 
+        new ParallelCommandGroup(
+          new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
+          new SequentialCommandGroup(
+            new WaitCommand(1),
+            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))))),
+    this::GetArmIndex);
+
+  private final Command intakeCommand = 
+  new SelectCommand(
+    Map.ofEntries(
+        Map.entry(0, new Intake(m_intakeSubsystem, ArmConstants.intakeSpeed)),
+        Map.entry(1, new Intake(m_intakeSubsystem, .1)),
+        Map.entry(2, new Intake(m_intakeSubsystem, 0))),
+        this::GetIntakeIndex);
+
+
+  private final Command rotationCommand = 
     new SelectCommand(
       Map.ofEntries(
           Map.entry(0, new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition)),
           Map.entry(1, new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition)),
           Map.entry(2, new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition)),
           Map.entry(3, new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition))),
-          m_armSubsystem::getIndex);
+          m_armSubsystem::getRotationIndex);
+
+  private final Command extentionCommand = 
+    new SelectCommand(
+      Map.ofEntries(
+          Map.entry(0, new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength)),
+          Map.entry(1, new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength)),
+          Map.entry(2, new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength)),
+          Map.entry(3, new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))),
+          m_armExtensionSubsystem::getExtensionIndex);
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -117,38 +263,86 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-
-    intake.whileTrue(new Intake(m_intakeSubsystem)); //2
+    intake.whileTrue(new Intake(m_intakeSubsystem, ArmConstants.intakeSpeed)); //2
 
     unIntake.whileTrue(new ReverseIntake(m_intakeSubsystem)); //1
 
     deployIntake.onTrue(new DeployIntake(m_intakeSubsystem)); //7
 
-    unDeployIntake.onTrue(new RetractIntake(m_intakeSubsystem)); //8
+    retractIntake.onTrue(new RetractIntake(m_intakeSubsystem)); //8
 
-    driveToTarget.onTrue( 
-     new SequentialCommandGroup(
-        new InstantCommand(m_driveSubsystem::resetEncoders), 
-        new EncoderDriveDistance(m_visionSubsystem.visionDistanceTest(), m_driveSubsystem))
-    ); //12
+    //5
+    rotateArmToggleUp.onTrue(
+    new ParallelCommandGroup(
+      new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength),
+      
+      //new ParallelRaceGroup(
+      //    new ExtendArm(m_armExtensionSubsystem, -.5), 
+      //    new WaitCommand(1)),
+      new SequentialCommandGroup(
+        new ParallelRaceGroup(
+          new RotateArm(m_armSubsystem, .02),
+          new WaitCommand(1)), 
+        new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition))
+      )
+    );
     
-    extendArmPID.onTrue(new ExtendArmPID(m_armExtensionSubsystem, .20)); //11
-    extendLiftArmTest.onTrue(
-      new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition));
-      //new ExtendArmPID(m_armExtensionSubsystem, .2))); //5
-    extendArmManual.whileTrue(new ExtendArm(m_armExtensionSubsystem, .2)); //9
-    retractArmManual.whileTrue(new ExtendArm(m_armExtensionSubsystem, -.2)); //10
+    //6
+ /*    extendArmToggleUp.onTrue(
+    new ParallelCommandGroup(
+      new ParallelRaceGroup(
+        new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength),
+        new WaitCommand(.8)),
+      new SequentialCommandGroup(
+        new WaitCommand(1), 
+        new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition)),
+      new SequentialCommandGroup(
+        new WaitCommand(2),
+        new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength))
+      )
+    ); */
+    
+    extendArmToggleUp.onTrue(
+    new ParallelCommandGroup(
+      new SequentialCommandGroup(
+        new WaitCommand(1),
+        new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition)),
+      new SequentialCommandGroup(
+        new ParallelRaceGroup(
+          new ExtendArm(m_armExtensionSubsystem, -0.2), 
+          new WaitCommand(1)),
+        new WaitCommand(1),
+        new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength))));
+    
+
+    //3
+    rotateArmToggleDown.onTrue(new ParallelCommandGroup(
+        new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition),
+      new SequentialCommandGroup(
+        new WaitCommand(1),
+        new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength))));
+
+    //4
+    extendArmToggleDown.onTrue(new ParallelCommandGroup(
+        new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
+      new SequentialCommandGroup(
+        new WaitCommand(1),
+        new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))));
 
     
-    
+    //extendArmToggleUp.onTrue(new InstantCommand(m_armExtensionSubsystem::increaseExtensionIndex, m_armExtensionSubsystem)); //6
+    //extendArmToggleDown.onTrue(new InstantCommand(m_armExtensionSubsystem::decreaseExtensionIndex, m_armExtensionSubsystem)); //4
+
     //arm toggles 
-    toggleArmUp.whileTrue(new RotateArm(m_armSubsystem, 0.2)); //3
-    toggleArmDown.whileTrue(new RotateArm(m_armSubsystem, -0.2)); //4
-
+    //rotateArmToggleUp.onTrue(new InstantCommand(m_armSubsystem::increaseRotationIndex, m_armSubsystem)); //5
+    //rotateArmToggleDown.onTrue(new InstantCommand(m_armSubsystem::decreaseRotationIndex, m_armSubsystem)); //3
+    //rotateArmToggleUp.onTrue(new InstantCommand(() -> increaseArmIndex()));
+      //new InstantCommand(() -> getArmCommand(true)));
+    //rotateArmToggleDown.onTrue(new InstantCommand(() -> armIndex--));
     //arm position sets
     //arm90.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI / 2)); //5
     //armTest.onTrue(new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition)); //6
-    armTest.onTrue(new InstantCommand(() -> m_armExtensionSubsystem.resetEncoder()));
+    //armTest.onTrue(new InstantCommand(() -> m_armExtensionSubsystem.resetEncoder()));
 
     //new InstantCommand(() -> m_visionSubsystem.visionDistanceTest(), m_visionSubsystem));
 
