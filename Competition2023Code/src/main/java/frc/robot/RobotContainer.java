@@ -16,13 +16,11 @@ import frc.robot.commands.ArmCommands.ReverseIntake;
 import frc.robot.commands.ArmCommands.RotateArm;
 import frc.robot.commands.Autos.Auto1;
 import frc.robot.commands.Autos.Auto10;
-import frc.robot.commands.Autos.Auto11;
 import frc.robot.commands.Autos.Auto2;
 import frc.robot.commands.Autos.Auto3;
 import frc.robot.commands.Autos.Auto4;
 import frc.robot.commands.Autos.Auto6;
 import frc.robot.commands.Autos.Auto7;
-import frc.robot.commands.Autos.Auto8;
 import frc.robot.commands.Autos.Auto9;
 import frc.robot.commands.DriveCommands.Drive;
 import frc.robot.commands.DriveCommands.DriveRotationPID;
@@ -80,9 +78,7 @@ public class RobotContainer {
   private final Trigger retractIntake = new JoystickButton(joystick, 8);
   private final Trigger extendArmToggleUp = new JoystickButton(joystick, 6);
   private final Trigger extendArmToggleDown = new JoystickButton(joystick, 4);
-  //private final Trigger extendArmPID = new JoystickButton(joystick, 11);
-  //private final Trigger driveToTarget = new JoystickButton(joystick, 12);
-  //private final Trigger extendLiftArmTest = new JoystickButton(joystick, 5);
+
 
   int armIndex = 0;
   int intakeIndex = 0;
@@ -111,14 +107,7 @@ public int GetIntakeIndex(){
   return intakeIndex;
 }
 
-public void increaseArmIndex(){
-  armIndex++;
-}
 
-public void decreaseArmIndex(){
-  armIndex--;
-}
-  
 /* 
 public Command getArmCommand(){
   System.out.println("Reached GetArmCommand");
@@ -365,14 +354,11 @@ public Command getArmCommand(){
           return new Auto6(m_driveSubsystem, m_armSubsystem);
         case drive_forwards_score_drive_back_pick_up_piece:
           return new Auto7(m_driveSubsystem, m_armSubsystem);
-        case drive_back_move_pieces_to_our_side:
-          return new Auto8(m_driveSubsystem, m_armSubsystem);
         case drive_forwards_score_leave_community_pickup_piece_score:
           return new Auto9(m_driveSubsystem, m_armSubsystem);
         case drive_forwards_score_leave_community_dock_engage:
           return new Auto10(m_driveSubsystem, m_armSubsystem);
-        case drive_forwards_score_leave_community_go_to_plaer_station:
-          return new Auto11(m_driveSubsystem, m_armSubsystem);
+
         default:
             return null;
     }
