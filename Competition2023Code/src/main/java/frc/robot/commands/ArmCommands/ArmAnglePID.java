@@ -37,7 +37,7 @@ public class ArmAnglePID extends PIDCommand {
         });
     addRequirements(arm);
     this.getController().setTolerance(ArmConstants.anglePIDTolerance);
-    //this.getController().setIntegratorRange(angle, angle);
+    this.getController().setIntegratorRange(-0.4/ArmConstants.angle_kI, 0.4/ArmConstants.angle_kI);
     
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.

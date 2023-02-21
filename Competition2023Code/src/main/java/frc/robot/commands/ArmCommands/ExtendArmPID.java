@@ -32,7 +32,8 @@ public class ExtendArmPID extends PIDCommand {
         });
         addRequirements(arm);
   
-        
+        this.getController().setIntegratorRange(-0.4/ArmConstants.length_kI, 0.4/ArmConstants.length_kI);
+
         getController().setTolerance(ArmConstants.lengthPIDTolerance);
       this.arm = arm;
     // Use addRequirements() here to declare subsystem dependencies.

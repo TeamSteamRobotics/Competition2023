@@ -295,6 +295,9 @@ public Command getArmCommand(){
     new ParallelCommandGroup(
       new SequentialCommandGroup(
         new WaitCommand(1),
+        new DeployIntake(m_intakeSubsystem)),
+      new SequentialCommandGroup(
+        new WaitCommand(1),
         new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition)),
       new SequentialCommandGroup(
         new ParallelRaceGroup(
