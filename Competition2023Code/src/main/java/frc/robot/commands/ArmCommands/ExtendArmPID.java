@@ -26,8 +26,7 @@ public class ExtendArmPID extends PIDCommand {
         length,
         // This uses the output
         output -> {
-          //System.out.println("Output: " + output);
-         // System.out.println(getController.getPositionError());
+          //System.out.println("Length Output: " + output);
           arm.extendArm(-output);
           // Use the output here
         });
@@ -40,9 +39,15 @@ public class ExtendArmPID extends PIDCommand {
     // Configure additional PID options by calling `getController` here.
   }
 
+
   @Override
   public void initialize() {
       //arm.resetEncoder();
+  }
+
+  public void printthing() {
+    System.out.println(getController().getPositionError());
+
   }
 
 
