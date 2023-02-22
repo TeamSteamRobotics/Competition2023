@@ -99,13 +99,13 @@ public class RobotContainer {
   }
   
 
-public int GetArmIndex(){
-  return armIndex;
-}
+  public int GetArmIndex(){
+    return armIndex;
+  }
 
-public int GetIntakeIndex(){
-  return intakeIndex;
-}
+  public int GetIntakeIndex(){
+    return intakeIndex;
+  }
 
 
 /* 
