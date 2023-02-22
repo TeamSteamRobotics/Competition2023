@@ -99,13 +99,13 @@ public class RobotContainer {
   }
   
 
-  public int GetArmIndex(){
-    return armIndex;
-  }
+public int GetArmIndex(){
+  return armIndex;
+}
 
-  public int GetIntakeIndex(){
-    return intakeIndex;
-  }
+public int GetIntakeIndex(){
+  return intakeIndex;
+}
 
 
 /* 
@@ -293,9 +293,6 @@ public Command getArmCommand(){
     
     extendArmToggleUp.onTrue(
     new ParallelCommandGroup(
-      new SequentialCommandGroup(
-        new WaitCommand(1),
-        new DeployIntake(m_intakeSubsystem)),
       new SequentialCommandGroup(
         new WaitCommand(1),
         new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition)),
