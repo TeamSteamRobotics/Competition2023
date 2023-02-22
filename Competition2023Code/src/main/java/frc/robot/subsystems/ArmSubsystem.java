@@ -34,8 +34,8 @@ public class ArmSubsystem extends SubsystemBase {
 
   private DutyCycleEncoder armEncoder = new DutyCycleEncoder(0);
 
-  private double dutyCycleOffset = 0.618333;
-
+  private double dutyCycleOffset = 0.2017; //0.618333;
+  // 0 - 1 to 0 - 6.283: 1.2673
   private static int rotationIndex = 0; 
 
   //Another encoder will be placed, it is not on the motor controllers and it is on the rotate arm part
@@ -114,11 +114,11 @@ public class ArmSubsystem extends SubsystemBase {
     armMotors.set(0);
 
   }
-
+//2.838 - 1.5707 = 1.2673
 //Overrides code
   @Override
   public void periodic() {
-    //System.out.println(armEncoder.getDistance());
+    System.out.println(armEncoder.getDistance());
     // This method will be called once per scheduler run
   }
   
