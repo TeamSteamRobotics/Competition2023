@@ -56,6 +56,8 @@ public final class Constants {
   }
 
   public final class ArmConstants {
+    public static final double rotationConversionFactor = 0;
+
     public static final double angle_kP = 0.0;
     public static final double angle_kI = 0.0;
     public static final double angle_kD = 0.0;

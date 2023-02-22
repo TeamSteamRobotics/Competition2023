@@ -39,7 +39,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public double encoderDifference() {
     //System.out.println(leftfront.getSelectedSensorPosition() - rightfront.getSelectedSensorPosition());
-    return leftfront.getSelectedSensorPosition() - rightfront.getSelectedSensorPosition();
+    return (leftfront.getSelectedSensorPosition() - rightfront.getSelectedSensorPosition());
   }
 
   public void stop(){
