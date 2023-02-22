@@ -9,17 +9,17 @@ public class DriveToApril extends CommandBase {
   
   private AprilVisionSubsystem m_aprilVisionSubsystem;
   private DriveSubsystem m_driveSubsystem;
-  public float targetDistance;
-  public float secondTargetDistance;
+  public double targetDistance;
+  public double secondTargetDistance;
   private boolean aprilTagVisible;
-  public float robotSpeed;
-  private float currentDistance;
-  private float currentDistanceRotation;
+  public double robotSpeed;
+  private double currentDistance;
+  private double currentDistanceRotation;
   private boolean commandFinished;
   private boolean inverted;
-  private float tolerance;
-  private float targetRotation;
-  private float robotX;
+  private double tolerance;
+  private double targetRotation;
+  private double robotX;
   enum Step {
     ONE,
     TWO,
@@ -27,7 +27,7 @@ public class DriveToApril extends CommandBase {
     FOUR
   }
   Step currentStep;
-  public DriveToApril(AprilVisionSubsystem vision, DriveSubsystem drive, float speed, float distance, float secondDistance, boolean invertDistance) {
+  public DriveToApril(AprilVisionSubsystem vision, DriveSubsystem drive, double speed, double distance, double secondDistance, boolean invertDistance) {
     
     addRequirements(vision, drive);
     m_aprilVisionSubsystem = vision;
@@ -39,13 +39,12 @@ public class DriveToApril extends CommandBase {
     tolerance = 0.5f;
     currentDistance = 0.0f;
     currentDistanceRotation = 0.0f;
-    currentStep = Step.ONE;
+    currentStep = Step.TWO;
     commandFinished = false;
   }
   @Override
   public void initialize(){
-    targetRotation = m_aprilVisionSubsystem.getCoordinates(6, 0).x;
-    currentStep = Step.ONE;
+    currentStep = Step.TWO;
   }
   @Override
   public void execute(){
@@ -58,9 +57,11 @@ public class DriveToApril extends CommandBase {
     Log();
    switch(currentStep){
       case ONE:
+        System.out.println("ONE");
         doTurn();
       break;
       case TWO:
+        System.out.println("TWO");
         doForward();
       break;
 
@@ -74,26 +75,25 @@ public void Log(){
 
   }
   private void doTurn(){
-    if(aprilTagVisible && currentDistance > targetDistance){
-        m_driveSubsystem.drive(-robotSpeed, 0.35 * -Math.signum(currentDistanceRotation));
-      }else if(!aprilTagVisible && currentDistance > targetDistance){
-        m_driveSubsystem.drive(0, 0.35 * Math.signum(currentDistanceRotation));
-      }else{
+    if(aprilTagVisible){
+    if(Math.abs(currentDistanceRotation) > 0.8){
+      System.out.println("GOING SIDEWAYS");
+      m_driveSubsystem.drive(0 , 0.4 * Math.signum(currentDistanceRotation));
+    }else{
         currentStep = Step.TWO;
       }
     }
-  
+  }
   private void doForward(){
     if(aprilTagVisible){
-      if(Math.abs(currentDistanceRotation) > 0.3){
-        m_driveSubsystem.drive(0 , Math.signum(currentDistanceRotation) * 0.3);
-      }else if(Math.abs(currentDistanceRotation) < 0.3 && currentDistance > secondTargetDistance){
+     if(currentDistance > secondTargetDistance){
+        System.out.println("FORWARD");
         m_driveSubsystem.drive(-robotSpeed, 0);
       }else{
         commandFinished = true;
       }
-    }
   }
+}
 //or
 /*
  * if(currentDistance > secondTargetDistance){

@@ -16,7 +16,7 @@ public class AprilVisionSubsystem extends SubsystemBase {
 
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry tableEntry = table.getEntry("json");
-    float distanceMultiplier = 0.754f;
+    double distanceMultiplier = 0.754;
     int fidLocation;
     boolean fidLocFound;
     public AprilVisionSubsystem() {}
@@ -112,12 +112,12 @@ public class AprilVisionSubsystem extends SubsystemBase {
         }
     }
 public class Coordinate {
-    public float x;
-    public float y;
-    public float z;
-    public float rx;
-    public float ry;
-    public float rz;
+    public double x;
+    public double y;
+    public double z;
+    public double rx;
+    public double ry;
+    public double rz;
     public boolean aprilTagVisible;
 }
 
@@ -129,8 +129,8 @@ class ResultJson
 {
     public FiducialJson[] Fiducial;
     public int pID;
-    public float tl;
-    public float ts;
+    public double tl;
+    public double ts;
     public int v;
 }
 
@@ -138,9 +138,9 @@ class FiducialJson
 {
     public int fID;
     public String fam;
-    public float[] t6t_rs;
-    public float[] t6r_ts;
-    public float[] t6r_fs;
+    public double[] t6t_rs;
+    public double[] t6r_ts;
+    public double[] t6r_fs;
 }
 }
 

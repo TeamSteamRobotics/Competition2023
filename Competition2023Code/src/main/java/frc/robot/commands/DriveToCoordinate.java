@@ -1,51 +1,90 @@
 
 package frc.robot.commands;
 
+import java.util.Vector;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.AprilVisionSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.AprilVisionSubsystem.Coordinate;
 
 public class DriveToCoordinate extends CommandBase {
   
-  private AprilVisionSubsystem m_aprilVisionSubsystem;
-  private DriveSubsystem m_driveSubsystem;
-  public float targetDistance;
-  public float secondTargetDistance;
+  private AprilVisionSubsystem av;
+  private DriveSubsystem ds;
+
+  private Coordinate targetCoordinate;
+  private Coordinate robotCoordinateInitial;
+  private Coordinate robotCoordinateCurrent;
+
   private boolean aprilTagVisible;
-  public float robotSpeed;
-  private float currentDistance;
-  private float currentDistanceRotation;
+  public double robotSpeed;
+  private double targetAngle;
+  private double initialDistance;
+  private double initialAngle;
+  private double currentDistance;
+  private double currentRotation;
   private boolean commandFinished;
-  private boolean inverted;
-  private float tolerance;
-  private float targetRotation;
-  private float robotX;
+
   enum Step {
     ONE,
     TWO,
-    THREE,
-    FOUR
   }
   Step currentStep;
-  public DriveToCoordinate(AprilVisionSubsystem vision, DriveSubsystem drive, float speed, float distance, float secondDistance, boolean invertDistance) {
+  public DriveToCoordinate(AprilVisionSubsystem vision, DriveSubsystem drive, double speed, Coordinate targetCoordinate) {
     
     addRequirements(vision, drive);
-    m_aprilVisionSubsystem = vision;
-    m_driveSubsystem = drive;
+    av = vision;
+    ds = drive;
     robotSpeed = speed;
     commandFinished = false;
+    this.targetCoordinate = targetCoordinate;
   }
   @Override
   public void initialize(){
+    robotCoordinateInitial = av.getCoordinates(0, 3);
+    initialAngle = robotCoordinateInitial.rx;
+    initialDistance = robotCoordinateInitial.z;
+    targetAngle = initialAngle - Math.atan2(robotCoordinateInitial.x, robotCoordinateInitial.z);
   }
   @Override
   public void execute(){
+      robotCoordinateCurrent = av.getCoordinates(0, 3);
+      aprilTagVisible = robotCoordinateCurrent.aprilTagVisible;
+      if(aprilTagVisible){
+        currentRotation = robotCoordinateCurrent.rx;
+        currentDistance = robotCoordinateCurrent.z;
 
+        System.out.println("CURRENT DISTANCE: " + distance(robotCoordinateCurrent, targetCoordinate));
+
+        switch(currentStep){
+          case ONE:
+            turn();
+          break;
+          case TWO:
+            forward();
+        }
+      }
   }
 
+  public double distance(Coordinate current, Coordinate target){
+    double distance;
+    distance = Math.sqrt(Math.pow(target.x - current.x, 2) + Math.pow(target.y - current.y, 2));
+    return distance;
+  }
+  private void turn(){
+    ds.drive(0, 0.35 * (currentRotation - targetAngle));
+  }
+  private void forward(){
+    if(distance(robotCoordinateCurrent, targetCoordinate) > 0.5){
+    ds.drive(-robotSpeed, 0.25 * (currentRotation - targetAngle));
+    }else{
+      commandFinished = true;
+    }
+  }
   @Override
   public void end(boolean interrupted) {
-    m_driveSubsystem.stop();
+    ds.stop();
     commandFinished = true;
   }
   @Override
