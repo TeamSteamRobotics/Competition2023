@@ -91,7 +91,7 @@ public class RobotContainer {
     // Configure the trigger bindings
 
     configureBindings();
-    m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
+    //m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
 
     //m_armSubsystem.setDefaultCommand(positionCommand);
     //m_armExtensionSubsystem.setDefaultCommand(extentionCommand);
