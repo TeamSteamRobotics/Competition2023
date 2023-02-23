@@ -37,9 +37,9 @@ public class DriveSubsystem extends SubsystemBase {
     diffDrive.arcadeDrive(-speed, rotation);
   }
 
-  public double encoderDifference() {
+  public double getEncoderDifference() {
     //System.out.println(leftfront.getSelectedSensorPosition() - rightfront.getSelectedSensorPosition());
-    return (leftfront.getSelectedSensorPosition() - rightfront.getSelectedSensorPosition());
+    return (leftfront.getSelectedSensorPosition() - rightfront.getSelectedSensorPosition()); //* DriveConstants.driveConversionFactor;
   }
 
   public void stop(){
@@ -82,6 +82,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    System.out.println(getEncoderDifference());
     // This method will be called once per scheduler run
   }
 }

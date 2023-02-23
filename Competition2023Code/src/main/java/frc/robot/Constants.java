@@ -29,6 +29,7 @@ public final class Constants {
     public static final double kGridAprilTagHeightMeters = 0.59; // 59 centimeters to bottom
   }
   public static class DriveConstants {
+    public static final double driveConversionFactor = 0;
     public static final double encoderTicksToMeters = 0; // Will be filled out when more info arrives
     public static final double wheelRadiusMeters = 0.0762;
 
