@@ -108,83 +108,6 @@ public class RobotContainer {
     return armIndex;
   }
 
-/* 
-public Command getArmCommand(){
-  System.out.println("Reached GetArmCommand");
-  if(isIncreasing){
-
-    if(armIndex >= 3){
-      armIndex = 3;
-    }
-
-    System.out.println("INDEX: " + armIndex);
-    return new SelectCommand(
-      Map.ofEntries(
-        Map.entry(0,
-          new ParallelCommandGroup(
-            new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition),
-            new SequentialCommandGroup(
-              new WaitCommand(1),
-              new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength)))),
-        Map.entry(1, 
-          new ParallelCommandGroup(
-            new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition),
-            new SequentialCommandGroup(
-              new WaitCommand(1),
-              new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength)))),
-        Map.entry(2, 
-          new ParallelCommandGroup(
-            new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition),
-            new SequentialCommandGroup(
-              new WaitCommand(1),
-              new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength)))),
-        Map.entry(3, 
-          new ParallelCommandGroup(
-            new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
-            new SequentialCommandGroup(
-              new WaitCommand(1),
-              new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))))),
-      this::GetArmIndex);
-      } 
-    
-  else {
-
-    if(armIndex <= 0){
-
-      armIndex = 0;
-    }
-
-    System.out.println("INDEX: " + armIndex);
-    return new SelectCommand(
-      Map.ofEntries(
-        Map.entry(0,
-          new ParallelCommandGroup(
-            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength),
-            new SequentialCommandGroup(
-              new WaitCommand(1),
-              new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition)))),
-        Map.entry(1, 
-          new ParallelCommandGroup(
-            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength),  
-            new SequentialCommandGroup(
-              new WaitCommand(1),
-              new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition)))),
-        Map.entry(2, 
-          new ParallelCommandGroup(
-            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength),
-            new SequentialCommandGroup(
-              new WaitCommand(1),
-              new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition)))),
-        Map.entry(3, 
-          new ParallelCommandGroup(
-            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength),
-            new SequentialCommandGroup(
-              new WaitCommand(1),
-              new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition))))),
-      this::GetArmIndex);
-  }
-    
-} */
 
   private final Command positionCommand = 
   new SelectCommand(
@@ -319,22 +242,6 @@ public Command getArmCommand(){
         new SequentialCommandGroup(
           new WaitCommand(1),
           new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))));
-
-    //extendArmToggleUp.onTrue(new InstantCommand(m_armExtensionSubsystem::increaseExtensionIndex, m_armExtensionSubsystem)); //6
-    //extendArmToggleDown.onTrue(new InstantCommand(m_armExtensionSubsystem::decreaseExtensionIndex, m_armExtensionSubsystem)); //4
-
-    //arm toggles 
-    //rotateArmToggleUp.onTrue(new InstantCommand(m_armSubsystem::increaseRotationIndex, m_armSubsystem)); //5
-    //rotateArmToggleDown.onTrue(new InstantCommand(m_armSubsystem::decreaseRotationIndex, m_armSubsystem)); //3
-    //rotateArmToggleUp.onTrue(new InstantCommand(() -> increaseArmIndex()));
-      //new InstantCommand(() -> getArmCommand(true)));
-    //rotateArmToggleDown.onTrue(new InstantCommand(() -> armIndex--));
-    //arm position sets
-    //arm90.onTrue(new ArmAnglePID(m_armSubsystem, Math.PI / 2)); //5
-    //armTest.onTrue(new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition)); //6
-    //armTest.onTrue(new InstantCommand(() -> m_armExtensionSubsystem.resetEncoder()));
-
-    //new InstantCommand(() -> m_visionSubsystem.visionDistanceTest(), m_visionSubsystem));
 
   }
 
