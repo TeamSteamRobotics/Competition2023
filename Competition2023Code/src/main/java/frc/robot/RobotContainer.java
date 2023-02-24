@@ -5,7 +5,6 @@
 package frc.robot;
 
 import frc.robot.Constants.ArmConstants;
-import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArmCommands.DeployIntake;
 import frc.robot.commands.ArmCommands.RetractIntake;
 import frc.robot.commands.ArmCommands.ArmAnglePID;
@@ -13,7 +12,6 @@ import frc.robot.commands.ArmCommands.ExtendArm;
 import frc.robot.commands.ArmCommands.ExtendArmPID;
 import frc.robot.commands.ArmCommands.Intake;
 import frc.robot.commands.ArmCommands.ReverseIntake;
-import frc.robot.commands.ArmCommands.RotateArm;
 import frc.robot.commands.Autos.Auto1;
 import frc.robot.commands.Autos.Auto10;
 import frc.robot.commands.Autos.Auto2;
@@ -22,10 +20,8 @@ import frc.robot.commands.Autos.Auto4;
 import frc.robot.commands.Autos.Auto6;
 import frc.robot.commands.Autos.Auto7;
 import frc.robot.commands.Autos.Auto9;
+import frc.robot.commands.DriveCommands.CurvatureDrive;
 import frc.robot.commands.DriveCommands.Drive;
-import frc.robot.commands.DriveCommands.DriveRotationPID;
-import frc.robot.commands.DriveCommands.DriveToApril;
-import frc.robot.commands.DriveCommands.EncoderDriveDistance;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -34,18 +30,13 @@ import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.AprilVisionSubsystem;
 import frc.robot.subsystems.ArmExtensionSubsystem;
 
-import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Map;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.simulation.JoystickSim;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SelectCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -71,19 +62,19 @@ public class RobotContainer {
   private final PneumaticsSubsystem m_pneumaticsSubsystem = new PneumaticsSubsystem();
 
 
-  private final Joystick joystick = new Joystick(0);
-  private final XboxController xbox = new XboxController(1);
-  private final Trigger unIntake = new JoystickButton(joystick, 1);
-  private final Trigger intake = new JoystickButton(joystick, 2);
-  private final Trigger rotateArmToggleUp = new JoystickButton(joystick, 5);
-  private final Trigger rotateArmToggleDown = new JoystickButton(joystick, 3);
-  private final Trigger deployIntake = new JoystickButton(joystick, 7);
-  private final Trigger retractIntake = new JoystickButton(joystick, 8);
-  private final Trigger extendArmToggleUp = new JoystickButton(joystick, 6);
-  private final Trigger extendArmToggleDown = new JoystickButton(joystick, 4);
-  private final Trigger intakeToggleTest = new JoystickButton(joystick, 9);
-  private final Trigger reverseIntakeToggleTest = new JoystickButton(joystick, 10);
+  private final CommandXboxController driverController = new CommandXboxController(0);
+  private final CommandXboxController operatorController = new CommandXboxController(1);
 
+  private final Trigger unIntake = operatorController.leftBumper();
+  private final Trigger intake = operatorController.rightBumper();
+  private final Trigger rotateArmToggleUp = operatorController.a();
+  private final Trigger rotateArmToggleDown = operatorController.y();
+  private final Trigger deployIntake = operatorController.povUp();
+  private final Trigger retractIntake = operatorController.povDown();
+  private final Trigger extendArmToggleUp = operatorController.x();
+  private final Trigger extendArmToggleDown = operatorController.b();
+  private final Trigger intakeToggleTest = operatorController.rightTrigger();
+  private final Trigger reverseIntakeToggleTest = operatorController.leftTrigger();
 
   int armIndex = 0;
   boolean isIncreasing = false; 
@@ -95,7 +86,7 @@ public class RobotContainer {
     // Configure the trigger bindings
 
     configureBindings();
-    m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
+    m_driveSubsystem.setDefaultCommand(new CurvatureDrive(driverController::getLeftY, driverController::getRightX, m_driveSubsystem));
     //m_intakeSubsystem.setDefaultCommand(intakeCommand);
 
     //m_armSubsystem.setDefaultCommand(positionCommand);
