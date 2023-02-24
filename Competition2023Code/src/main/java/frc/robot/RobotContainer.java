@@ -22,6 +22,7 @@ import frc.robot.commands.Autos.Auto4;
 import frc.robot.commands.Autos.Auto6;
 import frc.robot.commands.Autos.Auto7;
 import frc.robot.commands.Autos.Auto9;
+import frc.robot.commands.Autos.FollowTrajectory;
 import frc.robot.commands.DriveCommands.Drive;
 import frc.robot.commands.DriveCommands.DriveRotationPID;
 import frc.robot.commands.DriveCommands.DriveToApril;
@@ -245,8 +246,6 @@ public Command getArmCommand(){
     switch(type){
         case do_nothing:
           return new Auto1(m_driveSubsystem, m_armSubsystem, examplePath);
-        case path_planner:
-          return new Auto2(m_driveSubsystem, m_armSubsystem, examplePath, true);
         case drive_forwards_score_drive_back_dock:
           return new Auto3(m_driveSubsystem, m_armSubsystem);
         case drive_forwards_score:
@@ -262,7 +261,8 @@ public Command getArmCommand(){
           return new Auto9(m_driveSubsystem, m_armSubsystem);
         case drive_forwards_score_leave_community_dock_engage:
           return new Auto10(m_driveSubsystem, m_armSubsystem);
-
+        case path_planner:
+          return new FollowTrajectory(m_driveSubsystem, m_armSubsystem, examplePath, true);
         default:
             return null;
     }
