@@ -19,7 +19,10 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.MotorIDConstants;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -41,9 +44,10 @@ public class DriveSubsystem extends SubsystemBase {
   //Creates diffDrive from DifferentialDrive for left and right MotorControllerGroups
   private DifferentialDrive diffDrive = new DifferentialDrive(left, right);
   private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(27));
+  private DifferentialDriveOdometry m_odometry;
 
-  //private AHRS gyro = new AHRS();
-  //private AHRS navX = new AHRS(SerialPort.Port.kMXP);
+  private AHRS m_gyro = new AHRS();
+  private AHRS navX = new AHRS(SerialPort.Port.kMXP);
   
   //Inverts right MotorControllerGroup
   public DriveSubsystem() {
@@ -52,21 +56,22 @@ public class DriveSubsystem extends SubsystemBase {
 
   //Assigns arcadeDrive speed and rotation
   public void drive(double speed, double rotation){
-    //System.out.println("leftfront" + leftfront.get());
-    //System.out.println("leftback" + leftback.get());
-    //System.out.println("rightfront" + rightfront.get());
-    //System.out.println("rightback" + rightback.get());
     diffDrive.arcadeDrive(speed, -rotation);
-  }
-
-  public double encoderDifference() {
-    //System.out.println(leftfront.getSelectedSensorPosition() - rightfront.getSelectedSensorPosition());
-    return leftfront.getSelectedSensorPosition() - rightfront.getSelectedSensorPosition();
   }
 
   //sets arcadeDrive to 0 rotation and 0 speed
   public void stop(){
     diffDrive.arcadeDrive(0, 0);
+  }
+
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    left.setVoltage(leftVolts);
+    right.setVoltage(rightVolts);
+    diffDrive.feed();
+  }
+
+  public double encoderDifference() {
+    return leftfront.getSelectedSensorPosition() - rightfront.getSelectedSensorPosition();
   }
 
   // returns average of leftfront and rightfront motor positions
@@ -79,6 +84,14 @@ public class DriveSubsystem extends SubsystemBase {
     return leftfront.getSelectedSensorPosition() - rightfront.getSelectedSensorPosition();
   }
 
+  public double getLeftEncoderDistance() {
+    return leftfront.getSelectedSensorPosition() / 4096 * 2 * Math.PI * DriveConstants.wheelRadiusMeters; //* 2*Math.PI*DriveConstants.wheelRadiusMeters);
+  }
+
+  public double getRightEncoderDistance() {
+    return rightfront.getSelectedSensorPosition() / 4096 * 2 * Math.PI * DriveConstants.wheelRadiusMeters; //* 2*Math.PI*DriveConstants.wheelRadiusMeters);
+  }
+  
   // prints and returns distance driven
   public double getEncoderDistanceMeters() {
     double dist = leftfront.getSelectedSensorPosition() / 4096 * 2 * Math.PI * DriveConstants.wheelRadiusMeters; //* 2*Math.PI*DriveConstants.wheelRadiusMeters);
@@ -96,6 +109,13 @@ public class DriveSubsystem extends SubsystemBase {
     return rotationsPerSecond * DriveConstants.wheelRadiusMeters;
   }
 
+  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    double leftVelocity = leftfront.getSelectedSensorVelocity() / 4096 * 10 * DriveConstants.wheelRadiusMeters;
+    double rightVelocity = rightfront.getSelectedSensorVelocity() / 4096 * 10 * DriveConstants.wheelRadiusMeters;
+    return new DifferentialDriveWheelSpeeds(leftVelocity, rightVelocity);
+  }
+
+
   // resets position
   public void resetEncoders() {
     leftfront.setSelectedSensorPosition(0);
@@ -104,47 +124,39 @@ public class DriveSubsystem extends SubsystemBase {
 
   // resets gyro rotation 
   public void resetGyro() {
-    //navX.reset();
+    navX.reset();
   }
 
-  
   public double gyroAngleDegrees() {
-    //return navX.getAngle();
-    return 0;
+    return navX.getAngle();
   }
 
   public double gyroPitchDegrees() {
     return 0;
   }
 
-  // Assuming this method is part of a drivetrain subsystem that provides the necessary methods
-  public Command followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) {
-    return new SequentialCommandGroup(
-        new InstantCommand(() -> {
-          // Reset odometry for the first path you run during auto
-          if(isFirstPath){
-              this.resetOdometry(traj.getInitialPose());
-          }
-        }),
-        new PPRamseteCommand(
-            traj, 
-            this::getPose, // Pose supplier
-            new RamseteController(),
-            new SimpleMotorFeedforward(Constants.DriveStraightPIDConstants.kP, Constants.DriveStraightPIDConstants.kD, Constants.DriveStraightPIDConstants.kI),
-            this.kinematics, // DifferentialDriveKinematics
-            this::getWheelSpeeds, // DifferentialDriveWheelSpeeds supplier
-            new PIDController(0, 0, 0), // Left controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
-            new PIDController(0, 0, 0), // Right controller (usually the same values as left controller)
-            this::outputVolts, // Voltage biconsumer
-            true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
-            this // Requires this drive subsystem
-        )
-    );
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
+  }
+  
+  public void resetOdometry(Pose2d pose) {
+    resetEncoders();
+    m_odometry.resetPosition(
+        m_gyro.getRotation2d(), getLeftEncoderDistance(), getRightEncoderDistance(), pose);
+  }
+
+  public double getHeading() {
+    return m_gyro.getRotation2d().getDegrees();
+  }
+
+  public DifferentialDriveKinematics getKinematics() {
+    return kinematics; 
   }
 
   // Overrides code
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    m_odometry.update(
+      m_gyro.getRotation2d(), getLeftEncoderDistance(), getRightEncoderDistance());
   }
 }

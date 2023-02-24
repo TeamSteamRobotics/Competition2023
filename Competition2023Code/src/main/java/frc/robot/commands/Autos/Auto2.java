@@ -36,21 +36,21 @@ public class Auto2 extends SequentialCommandGroup {
           new InstantCommand(() -> {
             // Reset odometry for the first path you run during auto
             if(isFirstPath){
-                this.resetOdometry(traj.getInitialPose());
+                driveSubsystem.resetOdometry(traj.getInitialPose());
             }
           }),
           new PPRamseteCommand(
               traj, 
-              this::getPose, // Pose supplier
+              driveSubsystem::getPose, // Pose supplier
               new RamseteController(),
               new SimpleMotorFeedforward(KS,KV,KA),
-              this.kinematics, // DifferentialDriveKinematics
-              this::getWheelSpeeds, // DifferentialDriveWheelSpeeds supplier
+              driveSubsystem.getKinematics(), // DifferentialDriveKinematics
+              driveSubsystem::getWheelSpeeds, // DifferentialDriveWheelSpeeds supplier
               new PIDController(0, 0, 0), // Left controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
               new PIDController(0, 0, 0), // Right controller (usually the same values as left controller)
-              this::outputVolts, // Voltage biconsumer
+              driveSubsystem::tankDriveVolts, // Voltage biconsumer
               true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
-              this // Requires this drive subsystem
+              driveSubsystem // Requires this drive subsystem
           )
       )
     );

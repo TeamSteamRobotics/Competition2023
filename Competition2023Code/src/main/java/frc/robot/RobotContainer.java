@@ -84,7 +84,7 @@ public class RobotContainer {
   private final Trigger extendArmToggleUp = new JoystickButton(joystick, 6);
   private final Trigger extendArmToggleDown = new JoystickButton(joystick, 4);
 
-  PathPlannerTrajectory examplePath = PathPlanner.loadPath("Example Path", new PathConstraints(4, 3));
+  PathPlannerTrajectory examplePath = PathPlanner.loadPath("TestPath", new PathConstraints(4, 3));
 
   int armIndex = 0;
   int intakeIndex = 0;
@@ -245,7 +245,7 @@ public Command getArmCommand(){
     switch(type){
         case do_nothing:
           return new Auto1(m_driveSubsystem, m_armSubsystem, examplePath);
-        case drive_backwards_dock:
+        case path_planner:
           return new Auto2(m_driveSubsystem, m_armSubsystem, examplePath, true);
         case drive_forwards_score_drive_back_dock:
           return new Auto3(m_driveSubsystem, m_armSubsystem);
@@ -277,6 +277,6 @@ public Command getArmCommand(){
   public Command getAutonomousCommand() {
     //return new ParallelRaceGroup(new Drive(m_driveSubsystem, () -> 0.5, () -> 0), new WaitCommand(5) );
     // An example command will be run in autonomous
-    return ChooseAuto(AutoType.drive_forwards_score);
+    return ChooseAuto(AutoType.path_planner);
   }
 }
