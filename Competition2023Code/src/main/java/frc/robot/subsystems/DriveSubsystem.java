@@ -46,7 +46,7 @@ public class DriveSubsystem extends SubsystemBase {
   private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(27));
   private DifferentialDriveOdometry m_odometry;
 
-  private AHRS m_gyro = new AHRS();
+  //private AHRS m_gyro = new AHRS();
   private AHRS navX = new AHRS(SerialPort.Port.kMXP);
   
   //Inverts right MotorControllerGroup
@@ -141,11 +141,11 @@ public class DriveSubsystem extends SubsystemBase {
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
     m_odometry.resetPosition(
-        m_gyro.getRotation2d(), getLeftEncoderDistance(), getRightEncoderDistance(), pose);
+        navX.getRotation2d(), getLeftEncoderDistance(), getRightEncoderDistance(), pose);
   }
 
   public double getHeading() {
-    return m_gyro.getRotation2d().getDegrees();
+    return navX.getRotation2d().getDegrees();
   }
 
   public DifferentialDriveKinematics getKinematics() {
@@ -156,6 +156,6 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     m_odometry.update(
-      m_gyro.getRotation2d(), getLeftEncoderDistance(), getRightEncoderDistance());
+      navX.getRotation2d(), getLeftEncoderDistance(), getRightEncoderDistance());
   }
 }
