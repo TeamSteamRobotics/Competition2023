@@ -85,7 +85,7 @@ public class ArmSubsystem extends SubsystemBase {
       armMotorLeft.set(0);
       armMotorRight.set(0);
     }
-    else if(getArmAngleDegrees() > .3 && getArmAngleDegrees() < .44){
+    else if(getArmAngleDegrees() > .25 && getArmAngleDegrees() < .35){
       armMotorLeft.set(0);
       armMotorRight.set(0);
     }

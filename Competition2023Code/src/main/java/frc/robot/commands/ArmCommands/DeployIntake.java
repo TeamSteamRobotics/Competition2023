@@ -8,13 +8,14 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.PneumaticsSubsystem;
 
 public class DeployIntake extends CommandBase {
-  IntakeSubsystem m_IntakeSubsystem;
+  PneumaticsSubsystem pneumatics;
   // Creates a new DeployIntake. 
-  public DeployIntake(IntakeSubsystem m_ArmSubsystem) {
-    this.m_IntakeSubsystem = m_ArmSubsystem;
-    addRequirements(m_ArmSubsystem);
+  public DeployIntake(PneumaticsSubsystem pneumatics) {
+    this.pneumatics = pneumatics;
+    addRequirements(pneumatics);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -25,7 +26,7 @@ public class DeployIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_IntakeSubsystem.deployIntake();
+    pneumatics.deployIntake();
   }
 
   // Called once the command ends or is interrupted.
@@ -35,6 +36,6 @@ public class DeployIntake extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return pneumatics.getIsIntake();
   }
 }

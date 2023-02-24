@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj.Solenoid;
 public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new IntakeSubsystem. */
   private CANSparkMax intakeMotor = new CANSparkMax(MotorIDConstants.intakeMotor, MotorType.kBrushless);
-  private Solenoid intakeSolenoid =  new Solenoid(1, PneumaticsModuleType.CTREPCM, 0);
   //private Solenoid intake = new Solenoid(10, PneumaticsModuleType.CTREPCM, 0);
 
 
@@ -32,13 +31,7 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.set(0);
   }
 
-  public void retractIntake(){
-    intakeSolenoid.set(false);
-  }
 
-  public void deployIntake(){
-    intakeSolenoid.set(true);
-  }
 
   @Override
   public void periodic() {

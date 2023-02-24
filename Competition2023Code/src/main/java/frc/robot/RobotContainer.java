@@ -29,6 +29,7 @@ import frc.robot.commands.DriveCommands.EncoderDriveDistance;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.AprilVisionSubsystem;
 import frc.robot.subsystems.ArmExtensionSubsystem;
@@ -37,6 +38,7 @@ import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Map;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.simulation.JoystickSim;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -66,6 +68,7 @@ public class RobotContainer {
   private final AprilVisionSubsystem m_aprilVisionSubsystem = new AprilVisionSubsystem(); 
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   public final ArmExtensionSubsystem m_armExtensionSubsystem = new ArmExtensionSubsystem();
+  private final PneumaticsSubsystem m_pneumaticsSubsystem = new PneumaticsSubsystem();
 
 
   private final Joystick joystick = new Joystick(0);
@@ -91,7 +94,7 @@ public class RobotContainer {
     // Configure the trigger bindings
 
     configureBindings();
-    //m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
+    m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
 
     //m_armSubsystem.setDefaultCommand(positionCommand);
     //m_armExtensionSubsystem.setDefaultCommand(extentionCommand);
@@ -256,24 +259,22 @@ public Command getArmCommand(){
 
     unIntake.whileTrue(new ReverseIntake(m_intakeSubsystem)); //1
 
-    deployIntake.onTrue(new DeployIntake(m_intakeSubsystem)); //7
+    deployIntake.onTrue(new DeployIntake(m_pneumaticsSubsystem)); //7
 
-    retractIntake.onTrue(new RetractIntake(m_intakeSubsystem)); //8
+    retractIntake.onTrue(new RetractIntake(m_pneumaticsSubsystem)); //8
 
     //5
     rotateArmToggleUp.onTrue(
     new ParallelCommandGroup(
       new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength),
-      /* new SequentialCommandGroup(
+        new SequentialCommandGroup(
         new WaitCommand(0.5),
-        new RetractIntake(m_intakeSubsystem)), */
+        new RetractIntake(m_pneumaticsSubsystem)), 
       //new ParallelRaceGroup(
-      //    new ExtendArm(m_armExtensionSubsystem, -.5), 
-      //    new WaitCommand(1)),
+      //new ExtendArm(m_armExtensionSubsystem, -.5), 
+      //new WaitCommand(1)),
       new SequentialCommandGroup(
-        new ParallelRaceGroup(
-          new RotateArm(m_armSubsystem, .02),
-          new WaitCommand(1)), 
+        new WaitCommand(1), 
         new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition))
       )
     );
@@ -303,7 +304,8 @@ public Command getArmCommand(){
           new ExtendArm(m_armExtensionSubsystem, -0.2), 
           new WaitCommand(1)),
         new WaitCommand(1),
-        //new DeployIntake(m_intakeSubsystem),
+        new DeployIntake(m_pneumaticsSubsystem),
+        new WaitCommand(0.5),
         new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength))));
     
 
@@ -311,9 +313,9 @@ public Command getArmCommand(){
     rotateArmToggleDown.onTrue(
       new ParallelCommandGroup(
         new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition),
-       /*  new SequentialCommandGroup(
+         new SequentialCommandGroup(
           new WaitCommand(0.5),
-          new RetractIntake(m_intakeSubsystem)), */
+          new RetractIntake(m_pneumaticsSubsystem)), 
         new SequentialCommandGroup(
           new WaitCommand(1),
           new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength))));
@@ -322,9 +324,9 @@ public Command getArmCommand(){
     extendArmToggleDown.onTrue(
       new ParallelCommandGroup(
           new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
-/*         new SequentialCommandGroup(
+          new SequentialCommandGroup(
           new WaitCommand(0.5),
-          new RetractIntake(m_intakeSubsystem)), */
+          new RetractIntake(m_pneumaticsSubsystem)),
         new SequentialCommandGroup(
           new WaitCommand(1),
           new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))));

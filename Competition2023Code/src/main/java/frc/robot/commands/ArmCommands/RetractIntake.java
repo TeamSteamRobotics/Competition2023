@@ -4,16 +4,18 @@
 
 package frc.robot.commands.ArmCommands;
 
+import edu.wpi.first.wpilibj.PneumaticsBase;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.PneumaticsSubsystem;
 
 public class RetractIntake extends CommandBase {
   // Creates a new RetractIntake. 
-  IntakeSubsystem m_IntakeSubsystem;
-  public RetractIntake(IntakeSubsystem m_ArmSubsystem) {
-    this.m_IntakeSubsystem = m_ArmSubsystem;
-    addRequirements(m_IntakeSubsystem); 
+  PneumaticsSubsystem pneumatics;
+  public RetractIntake(PneumaticsSubsystem pneumatics) {
+    this.pneumatics = pneumatics;
+    addRequirements(pneumatics); 
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -26,7 +28,7 @@ public class RetractIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_IntakeSubsystem.retractIntake();
+    pneumatics.retractIntake();
   }
 
   // Called once the command ends or is interrupted.
@@ -36,7 +38,7 @@ public class RetractIntake extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return !pneumatics.getIsIntake();
   }
 }
 
