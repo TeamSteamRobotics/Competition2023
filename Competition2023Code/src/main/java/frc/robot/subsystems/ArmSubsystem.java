@@ -81,19 +81,19 @@ public class ArmSubsystem extends SubsystemBase {
   }
   
   public void setArmSpeed(double speed){
-    if(armEncoder.getDistance() > 2 && armEncoder.getDistance() < 2.2){
+    if(getArmAngleDegrees() > 2 && getArmAngleDegrees() < 2.2){
       armMotorLeft.set(0);
       armMotorRight.set(0);
     }
-    else if(armEncoder.getDistance() > .3 && armEncoder.getDistance() < .44){
+    else if(getArmAngleDegrees() > .3 && getArmAngleDegrees() < .44){
       armMotorLeft.set(0);
       armMotorRight.set(0);
     }
-    else if(armEncoder.getDistance() > 4){
+    else if(getArmAngleDegrees() > 4){
       //System.out.println("First if");
       armEncoder.reset();
       armEncoder.setPositionOffset(dutyCycleOffset);
-    } else if(armEncoder.getDistance() < 0){
+    } else if(getArmAngleDegrees() < 0){
       //System.out.println("Second if");
       armEncoder.reset();
       armEncoder.setPositionOffset(dutyCycleOffset);

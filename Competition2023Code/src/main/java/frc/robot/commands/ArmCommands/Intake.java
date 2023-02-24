@@ -15,10 +15,10 @@ public class Intake extends CommandBase {
   IntakeSubsystem m_IntakeSubsystem;
   double speed;
 
-  public Intake(IntakeSubsystem m_ArmSubsystem, double speed) {
+  public Intake(IntakeSubsystem intakeSubsystem, double speed) {
     this.speed = speed;
-    this.m_IntakeSubsystem = m_ArmSubsystem;
-    addRequirements(m_ArmSubsystem);
+    this.m_IntakeSubsystem = intakeSubsystem;
+    addRequirements(intakeSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

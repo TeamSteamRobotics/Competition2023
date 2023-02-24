@@ -264,7 +264,9 @@ public Command getArmCommand(){
     rotateArmToggleUp.onTrue(
     new ParallelCommandGroup(
       new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength),
-      
+      /* new SequentialCommandGroup(
+        new WaitCommand(0.5),
+        new RetractIntake(m_intakeSubsystem)), */
       //new ParallelRaceGroup(
       //    new ExtendArm(m_armExtensionSubsystem, -.5), 
       //    new WaitCommand(1)),
@@ -295,33 +297,38 @@ public Command getArmCommand(){
     new ParallelCommandGroup(
       new SequentialCommandGroup(
         new WaitCommand(1),
-        new DeployIntake(m_intakeSubsystem)),
-      new SequentialCommandGroup(
-        new WaitCommand(1),
         new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition)),
       new SequentialCommandGroup(
         new ParallelRaceGroup(
           new ExtendArm(m_armExtensionSubsystem, -0.2), 
           new WaitCommand(1)),
         new WaitCommand(1),
+        //new DeployIntake(m_intakeSubsystem),
         new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength))));
     
 
     //3
-    rotateArmToggleDown.onTrue(new ParallelCommandGroup(
+    rotateArmToggleDown.onTrue(
+      new ParallelCommandGroup(
         new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition),
-      new SequentialCommandGroup(
-        new WaitCommand(1),
-        new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength))));
+       /*  new SequentialCommandGroup(
+          new WaitCommand(0.5),
+          new RetractIntake(m_intakeSubsystem)), */
+        new SequentialCommandGroup(
+          new WaitCommand(1),
+          new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength))));
 
     //4
-    extendArmToggleDown.onTrue(new ParallelCommandGroup(
-        new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
-      new SequentialCommandGroup(
-        new WaitCommand(1),
-        new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))));
+    extendArmToggleDown.onTrue(
+      new ParallelCommandGroup(
+          new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
+/*         new SequentialCommandGroup(
+          new WaitCommand(0.5),
+          new RetractIntake(m_intakeSubsystem)), */
+        new SequentialCommandGroup(
+          new WaitCommand(1),
+          new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))));
 
-    
     //extendArmToggleUp.onTrue(new InstantCommand(m_armExtensionSubsystem::increaseExtensionIndex, m_armExtensionSubsystem)); //6
     //extendArmToggleDown.onTrue(new InstantCommand(m_armExtensionSubsystem::decreaseExtensionIndex, m_armExtensionSubsystem)); //4
 

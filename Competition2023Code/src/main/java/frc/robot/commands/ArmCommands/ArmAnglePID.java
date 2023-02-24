@@ -46,6 +46,6 @@ public class ArmAnglePID extends PIDCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return this.getController().atSetpoint();
+    return false; //this.getController().atSetpoint();
   }
 }
