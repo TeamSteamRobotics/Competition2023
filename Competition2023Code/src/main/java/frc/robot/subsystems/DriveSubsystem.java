@@ -37,6 +37,7 @@ public class DriveSubsystem extends SubsystemBase {
   //Inverts right MotorControllerGroup
   public DriveSubsystem() {
     right.setInverted(true);
+    resetEncoders();
   }
 
   //Assigns arcadeDrive speed and rotation
@@ -46,11 +47,6 @@ public class DriveSubsystem extends SubsystemBase {
     //System.out.println("rightfront" + rightfront.get());
     //System.out.println("rightback" + rightback.get());
     diffDrive.arcadeDrive(speed, -rotation);
-  }
-
-  public double encoderDifference() {
-    //System.out.println(leftfront.getSelectedSensorPosition() - rightfront.getSelectedSensorPosition());
-    return leftfront.getSelectedSensorPosition() - rightfront.getSelectedSensorPosition();
   }
 
   //sets arcadeDrive to 0 rotation and 0 speed
@@ -64,7 +60,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   // returns the difference between the leftfront and rightfront motor positions
-  public double getEncoderDiffernce() {
+  public double getEncoderDifference() {
     return leftfront.getSelectedSensorPosition() - rightfront.getSelectedSensorPosition();
   }
 
@@ -106,9 +102,13 @@ public class DriveSubsystem extends SubsystemBase {
     return 0;
   }
 
+  //0 degrees = 0 encoder difference
+  //90 degrees = -5864
+
   // Overrides code
   @Override
   public void periodic() {
+    //System.out.println(getEncoderDifference());
     // This method will be called once per scheduler run
   }
 }

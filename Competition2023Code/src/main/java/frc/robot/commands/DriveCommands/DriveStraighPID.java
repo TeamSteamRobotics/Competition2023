@@ -19,7 +19,7 @@ public class DriveStraighPID extends PIDCommand {
         // The controller that the command will use
         new PIDController(DriveStraightPIDConstants.kP, DriveStraightPIDConstants.kI, DriveStraightPIDConstants.kD),
         // This should return the measurement
-        () -> drive.getEncoderDiffernce(),
+        () -> drive.getEncoderDifference(),
         // This should return the setpoint (can also be a constant)
         0,
         // This uses the output

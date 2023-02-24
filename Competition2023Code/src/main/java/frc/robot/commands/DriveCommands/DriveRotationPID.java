@@ -20,7 +20,7 @@ public class DriveRotationPID extends PIDCommand {
         // The controller that the command will use
         new PIDController(DriveRotationConstants.drive_kP, DriveRotationConstants.drive_kI, DriveRotationConstants.drive_kD),
         // This should return the measurement
-        () -> drive.encoderDifference(),
+        () -> drive.getEncoderDifference(),
         // This should return the setpoint (can also be a constant)
          0,
         // This uses the output
