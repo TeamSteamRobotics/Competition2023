@@ -95,6 +95,7 @@ public class RobotContainer {
 
     configureBindings();
     m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
+    //m_intakeSubsystem.setDefaultCommand(intakeCommand);
 
     //m_armSubsystem.setDefaultCommand(positionCommand);
     //m_armExtensionSubsystem.setDefaultCommand(extentionCommand);
@@ -224,7 +225,7 @@ public Command getArmCommand(){
         Map.entry(0, new Intake(m_intakeSubsystem, 0)),
         Map.entry(1, new Intake(m_intakeSubsystem, ArmConstants.intakeSpeed)),
         Map.entry(2, new Intake(m_intakeSubsystem, .1))),
-        this::getIntakeIndex);
+        m_intakeSubsystem::getIntakeIndex);
 
 
   private final Command rotationCommand = 

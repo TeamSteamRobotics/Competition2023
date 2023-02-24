@@ -33,6 +33,14 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public int getIntakeIndex(){
+    if(index >= 3){
+      index = 0;
+      return index;
+    }
+    else if(index <= -1){
+      index = 2;
+      return index;
+    }
     return index;
   }
 
