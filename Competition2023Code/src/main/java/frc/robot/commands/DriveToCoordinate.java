@@ -42,14 +42,14 @@ public class DriveToCoordinate extends CommandBase {
   }
   @Override
   public void initialize(){
-    robotCoordinateInitial = av.getCoordinates(0, 3);
+    robotCoordinateInitial = av.getCoordinates(0, 2);
     initialAngle = robotCoordinateInitial.rx;
     initialDistance = robotCoordinateInitial.z;
     targetAngle = initialAngle - Math.atan2(robotCoordinateInitial.x, robotCoordinateInitial.z);
   }
   @Override
   public void execute(){
-      robotCoordinateCurrent = av.getCoordinates(0, 3);
+      robotCoordinateCurrent = av.getCoordinates(0, 2);
       aprilTagVisible = robotCoordinateCurrent.aprilTagVisible;
       if(aprilTagVisible){
         currentRotation = robotCoordinateCurrent.rx;
@@ -60,9 +60,10 @@ public class DriveToCoordinate extends CommandBase {
         switch(currentStep){
           case ONE:
             turn();
-          break;
+            break;
           case TWO:
             forward();
+            break; 
         }
       }
   }
