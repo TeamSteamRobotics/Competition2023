@@ -115,7 +115,6 @@ public class DriveSubsystem extends SubsystemBase {
     return new DifferentialDriveWheelSpeeds(leftVelocity, rightVelocity);
   }
 
-
   // resets position
   public void resetEncoders() {
     leftfront.setSelectedSensorPosition(0);
