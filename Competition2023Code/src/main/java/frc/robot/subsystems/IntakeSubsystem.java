@@ -18,9 +18,10 @@ public class IntakeSubsystem extends SubsystemBase {
   private CANSparkMax intakeMotor = new CANSparkMax(MotorIDConstants.intakeMotor, MotorType.kBrushless);
   //private Solenoid intake = new Solenoid(10, PneumaticsModuleType.CTREPCM, 0);
 
+  private static int index;
 
   public IntakeSubsystem() {
-    
+    index = 0;
   }
 
   public void intake(double speed){
@@ -31,6 +32,17 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.set(0);
   }
 
+  public int getIntakeIndex(){
+    return index;
+  }
+
+  public void increaseIndex(){
+    index++;
+  }
+
+  public void decreaseIndex(){
+    index--;
+  }
 
 
   @Override

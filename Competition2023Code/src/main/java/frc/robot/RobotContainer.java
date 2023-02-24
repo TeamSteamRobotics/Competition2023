@@ -102,11 +102,11 @@ public class RobotContainer {
   }
   
 
-  public int GetArmIndex(){
+  public int getArmIndex(){
     return armIndex;
   }
 
-  public int GetIntakeIndex(){
+  public int getIntakeIndex(){
     return intakeIndex;
   }
 
@@ -216,15 +216,15 @@ public Command getArmCommand(){
           new SequentialCommandGroup(
             new WaitCommand(1),
             new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))))),
-    this::GetArmIndex);
+    this::getArmIndex);
 
   private final Command intakeCommand = 
   new SelectCommand(
     Map.ofEntries(
-        Map.entry(0, new Intake(m_intakeSubsystem, ArmConstants.intakeSpeed)),
-        Map.entry(1, new Intake(m_intakeSubsystem, .1)),
-        Map.entry(2, new Intake(m_intakeSubsystem, 0))),
-        this::GetIntakeIndex);
+        Map.entry(0, new Intake(m_intakeSubsystem, 0)),
+        Map.entry(1, new Intake(m_intakeSubsystem, ArmConstants.intakeSpeed)),
+        Map.entry(2, new Intake(m_intakeSubsystem, .1))),
+        this::getIntakeIndex);
 
 
   private final Command rotationCommand = 
