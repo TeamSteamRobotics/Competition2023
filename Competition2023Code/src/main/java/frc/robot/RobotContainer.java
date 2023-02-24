@@ -81,10 +81,11 @@ public class RobotContainer {
   private final Trigger retractIntake = new JoystickButton(joystick, 8);
   private final Trigger extendArmToggleUp = new JoystickButton(joystick, 6);
   private final Trigger extendArmToggleDown = new JoystickButton(joystick, 4);
+  private final Trigger intakeToggleTest = new JoystickButton(joystick, 9);
+  private final Trigger reverseIntakeToggleTest = new JoystickButton(joystick, 10);
 
 
   int armIndex = 0;
-  int intakeIndex = 0;
   boolean isIncreasing = false; 
 
 
@@ -106,11 +107,6 @@ public class RobotContainer {
   public int getArmIndex(){
     return armIndex;
   }
-
-  public int getIntakeIndex(){
-    return intakeIndex;
-  }
-
 
 /* 
 public Command getArmCommand(){
@@ -223,8 +219,11 @@ public Command getArmCommand(){
   new SelectCommand(
     Map.ofEntries(
         Map.entry(0, new Intake(m_intakeSubsystem, 0)),
-        Map.entry(1, new Intake(m_intakeSubsystem, ArmConstants.intakeSpeed)),
-        Map.entry(2, new Intake(m_intakeSubsystem, .1))),
+        Map.entry(1, new Intake(m_intakeSubsystem)),
+        Map.entry(2, new Intake(m_intakeSubsystem, .1)),
+        Map.entry(3, new ReverseIntake(m_intakeSubsystem, 0)),
+        Map.entry(4, new ReverseIntake(m_intakeSubsystem)),
+        Map.entry(5, new ReverseIntake(m_intakeSubsystem, 0.1))),
         m_intakeSubsystem::getIntakeIndex);
 
 
@@ -264,6 +263,10 @@ public Command getArmCommand(){
 
     retractIntake.onTrue(new RetractIntake(m_pneumaticsSubsystem)); //8
 
+    intakeToggleTest.onTrue(new InstantCommand(m_intakeSubsystem::increaseConeIndex, m_intakeSubsystem));
+    reverseIntakeToggleTest.onTrue(new InstantCommand(m_intakeSubsystem::increaseCubeIndex, m_intakeSubsystem));
+
+
     //5
     rotateArmToggleUp.onTrue(
     new ParallelCommandGroup(
@@ -279,21 +282,6 @@ public Command getArmCommand(){
         new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition))
       )
     );
-    
-    //6
- /*    extendArmToggleUp.onTrue(
-    new ParallelCommandGroup(
-      new ParallelRaceGroup(
-        new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength),
-        new WaitCommand(.8)),
-      new SequentialCommandGroup(
-        new WaitCommand(1), 
-        new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition)),
-      new SequentialCommandGroup(
-        new WaitCommand(2),
-        new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength))
-      )
-    ); */
     
     extendArmToggleUp.onTrue(
     new ParallelCommandGroup(

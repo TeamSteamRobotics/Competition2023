@@ -18,10 +18,12 @@ public class IntakeSubsystem extends SubsystemBase {
   private CANSparkMax intakeMotor = new CANSparkMax(MotorIDConstants.intakeMotor, MotorType.kBrushless);
   //private Solenoid intake = new Solenoid(10, PneumaticsModuleType.CTREPCM, 0);
 
-  private static int index;
+  private static int coneIndex;
+  private static int cubeIndex;
 
   public IntakeSubsystem() {
-    index = 0;
+    coneIndex = 0;
+    cubeIndex = 3;
   }
 
   public void intake(double speed){
@@ -33,25 +35,52 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public int getIntakeIndex(){
-    if(index >= 3){
-      index = 0;
-      return index;
+    if(true){
+      return getConeIntakeIndex();
+    } else {
+      return getCubeIntakeIndex();
     }
-    else if(index <= -1){
-      index = 2;
-      return index;
+  }
+
+  public int getConeIntakeIndex(){
+    if(coneIndex >= 3){
+      coneIndex = 0;
+      return coneIndex;
     }
-    return index;
+    else if(coneIndex <= -1){
+      coneIndex = 2;
+      return coneIndex;
+    }
+    return coneIndex;
   }
 
-  public void increaseIndex(){
-    index++;
+  public void increaseConeIndex(){
+    coneIndex++;
   }
 
-  public void decreaseIndex(){
-    index--;
+  public void decreaseConeIndex(){
+    coneIndex--;
   }
 
+  public int getCubeIntakeIndex(){
+    if(cubeIndex >= 6){
+      cubeIndex = 3;
+      return cubeIndex;
+    }
+    else if(cubeIndex <= 2){
+      cubeIndex = 5;
+      return cubeIndex;
+    }
+    return cubeIndex;
+  }
+
+  public void increaseCubeIndex(){
+    cubeIndex++;
+  }
+
+  public void decreaseCubeIndex(){
+    cubeIndex++;
+  }
 
   @Override
   public void periodic() {

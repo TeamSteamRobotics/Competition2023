@@ -11,7 +11,16 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class ReverseIntake extends CommandBase {
   // Creates a new ReverseIntake. 
   IntakeSubsystem m_intakeSubsystem;
+  double speed;
+  public ReverseIntake(IntakeSubsystem m_intakeSubsystem, double speed) {
+    this.speed = speed;
+    this.m_intakeSubsystem = m_intakeSubsystem;
+    addRequirements(m_intakeSubsystem);
+    // Use addRequirements() here to declare subsystem dependencies.
+  }
+
   public ReverseIntake(IntakeSubsystem m_intakeSubsystem) {
+    speed = ArmConstants.intakeSpeed;
     this.m_intakeSubsystem = m_intakeSubsystem;
     addRequirements(m_intakeSubsystem);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -24,7 +33,7 @@ public class ReverseIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intakeSubsystem.intake(ArmConstants.intakeSpeed * -1);
+    m_intakeSubsystem.intake(speed * -1);
   }
 
   // Called once the command ends or is interrupted.
