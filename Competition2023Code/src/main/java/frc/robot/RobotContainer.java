@@ -36,6 +36,10 @@ import frc.robot.subsystems.ArmExtensionSubsystem;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Map;
 
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -80,6 +84,7 @@ public class RobotContainer {
   private final Trigger extendArmToggleUp = new JoystickButton(joystick, 6);
   private final Trigger extendArmToggleDown = new JoystickButton(joystick, 4);
 
+  PathPlannerTrajectory examplePath = PathPlanner.loadPath("Example Path", new PathConstraints(4, 3));
 
   int armIndex = 0;
   int intakeIndex = 0;
@@ -246,9 +251,9 @@ public Command getArmCommand(){
   public Command ChooseAuto(AutoType type) {
     switch(type){
         case do_nothing:
-          return new Auto1(m_driveSubsystem, m_armSubsystem);
+          return new Auto1(m_driveSubsystem, m_armSubsystem, examplePath);
         case drive_backwards_dock:
-          return new Auto2();
+          return new Auto2(m_driveSubsystem, m_armSubsystem, examplePath, true);
         case drive_forwards_score_drive_back_dock:
           return new Auto3(m_driveSubsystem, m_armSubsystem);
         case drive_forwards_score:

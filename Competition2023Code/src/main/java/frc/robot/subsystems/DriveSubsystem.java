@@ -6,13 +6,24 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.commands.PPRamseteCommand;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.MotorIDConstants;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
 
 //Creates DriveSubsystem class
 public class DriveSubsystem extends SubsystemBase {
@@ -29,9 +40,9 @@ public class DriveSubsystem extends SubsystemBase {
   
   //Creates diffDrive from DifferentialDrive for left and right MotorControllerGroups
   private DifferentialDrive diffDrive = new DifferentialDrive(left, right);
+  private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(27));
 
   //private AHRS gyro = new AHRS();
-
   //private AHRS navX = new AHRS(SerialPort.Port.kMXP);
   
   //Inverts right MotorControllerGroup
@@ -98,12 +109,37 @@ public class DriveSubsystem extends SubsystemBase {
 
   
   public double gyroAngleDegrees() {
-    //eturn navX.getAngle();
+    //return navX.getAngle();
     return 0;
   }
 
   public double gyroPitchDegrees() {
     return 0;
+  }
+
+  // Assuming this method is part of a drivetrain subsystem that provides the necessary methods
+  public Command followTrajectoryCommand(PathPlannerTrajectory traj, boolean isFirstPath) {
+    return new SequentialCommandGroup(
+        new InstantCommand(() -> {
+          // Reset odometry for the first path you run during auto
+          if(isFirstPath){
+              this.resetOdometry(traj.getInitialPose());
+          }
+        }),
+        new PPRamseteCommand(
+            traj, 
+            this::getPose, // Pose supplier
+            new RamseteController(),
+            new SimpleMotorFeedforward(Constants.DriveStraightPIDConstants.kP, Constants.DriveStraightPIDConstants.kD, Constants.DriveStraightPIDConstants.kI),
+            this.kinematics, // DifferentialDriveKinematics
+            this::getWheelSpeeds, // DifferentialDriveWheelSpeeds supplier
+            new PIDController(0, 0, 0), // Left controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
+            new PIDController(0, 0, 0), // Right controller (usually the same values as left controller)
+            this::outputVolts, // Voltage biconsumer
+            true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
+            this // Requires this drive subsystem
+        )
+    );
   }
 
   // Overrides code

@@ -4,6 +4,8 @@
 
 package frc.robot.commands.Autos;
 
+import com.pathplanner.lib.PathPlannerTrajectory;
+
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -16,7 +18,7 @@ public class Auto1 extends CommandBase {
   DriveSubsystem m_driveSubsystem;
   ArmSubsystem armSubsystem;
   
-  public Auto1(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem) {
+  public Auto1(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem, PathPlannerTrajectory path) {
 
     this.m_driveSubsystem = driveSubsystem;
     this.armSubsystem = armSubsystem;
