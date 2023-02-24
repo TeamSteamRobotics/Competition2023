@@ -117,11 +117,9 @@ public int GetIntakeIndex(){
 public Command getArmCommand(){
   System.out.println("Reached GetArmCommand");
   if(isIncreasing){
-
     if(armIndex >= 3){
       armIndex = 3;
     }
-
     System.out.println("INDEX: " + armIndex);
     return new SelectCommand(
       Map.ofEntries(
@@ -151,14 +149,10 @@ public Command getArmCommand(){
               new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))))),
       this::GetArmIndex);
       } 
-    
   else {
-
     if(armIndex <= 0){
-
       armIndex = 0;
     }
-
     System.out.println("INDEX: " + armIndex);
     return new SelectCommand(
       Map.ofEntries(
@@ -188,7 +182,6 @@ public Command getArmCommand(){
               new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition))))),
       this::GetArmIndex);
   }
-    
 } 
 
   private void configureBindings() {
@@ -284,11 +277,6 @@ public Command getArmCommand(){
   public Command getAutonomousCommand() {
     //return new ParallelRaceGroup(new Drive(m_driveSubsystem, () -> 0.5, () -> 0), new WaitCommand(5) );
     // An example command will be run in autonomous
-    return ChooseAuto(AutoType.drive_forwards_score);//new AutoDriveBackwardsDockAndEngage(m_driveSubsystem, m_armSubsystem);
-    
-    //new SequentialCommandGroup(
-
-      //new InstantCommand(m_driveSubsystem::resetEncoders),
-      //new EncoderDriveDistance(5, m_driveSubsystem));
+    return ChooseAuto(AutoType.drive_forwards_score);
   }
 }
