@@ -16,7 +16,6 @@ import frc.robot.commands.ArmCommands.ReverseIntake;
 import frc.robot.commands.ArmCommands.RotateArm;
 import frc.robot.commands.Autos.Auto1;
 import frc.robot.commands.Autos.Auto10;
-import frc.robot.commands.Autos.Auto2;
 import frc.robot.commands.Autos.Auto3;
 import frc.robot.commands.Autos.Auto4;
 import frc.robot.commands.Autos.Auto6;
@@ -275,7 +274,6 @@ public Command getArmCommand(){
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //return new ParallelRaceGroup(new Drive(m_driveSubsystem, () -> 0.5, () -> 0), new WaitCommand(5) );
     // An example command will be run in autonomous
     return ChooseAuto(AutoType.path_planner);
   }

@@ -64,7 +64,7 @@ public class DriveSubsystem extends SubsystemBase {
     diffDrive.arcadeDrive(0, 0);
   }
 
-  public void tankDriveVolts(double leftVolts, double rightVolts) {
+  public void diffDriveVolts(double leftVolts, double rightVolts) {
     left.setVoltage(leftVolts);
     right.setVoltage(rightVolts);
     diffDrive.feed();

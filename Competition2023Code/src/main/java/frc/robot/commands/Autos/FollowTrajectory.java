@@ -20,7 +20,7 @@ import frc.robot.subsystems.DriveSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Auto2 extends SequentialCommandGroup {
+public class FollowTrajectory extends SequentialCommandGroup {
   /** Creates a new Auto2. */
   
   //test values
@@ -28,7 +28,7 @@ public class Auto2 extends SequentialCommandGroup {
   double KV = .5;
   double KA = .5; 
 
-  public Auto2(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem, PathPlannerTrajectory traj, Boolean isFirstPath) {
+  public FollowTrajectory(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem, PathPlannerTrajectory traj, Boolean isFirstPath) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -48,7 +48,7 @@ public class Auto2 extends SequentialCommandGroup {
               driveSubsystem::getWheelSpeeds, // DifferentialDriveWheelSpeeds supplier
               new PIDController(0, 0, 0), // Left controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
               new PIDController(0, 0, 0), // Right controller (usually the same values as left controller)
-              driveSubsystem::tankDriveVolts, // Voltage biconsumer
+              driveSubsystem::diffDriveVolts, // Voltage biconsumer
               true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
               driveSubsystem // Requires this drive subsystem
           )
