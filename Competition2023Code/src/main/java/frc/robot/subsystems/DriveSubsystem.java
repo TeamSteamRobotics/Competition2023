@@ -20,10 +20,12 @@ import frc.robot.Constants.MotorIDConstants;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
@@ -44,16 +46,17 @@ public class DriveSubsystem extends SubsystemBase {
   //Creates diffDrive from DifferentialDrive for left and right MotorControllerGroups
   private DifferentialDrive diffDrive = new DifferentialDrive(left, right);
   private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(27));
-  private DifferentialDriveOdometry m_odometry;
+  private DifferentialDriveOdometry m_odometry;//
 
   //private AHRS m_gyro = new AHRS();
   //private AHRS navX = new AHRS();
-  AHRS navX;
+  AHRS navX = new AHRS(SPI.Port.kMXP);
   //= new AHRS();
   //SerialPort.Port.kMXP
 
   //Inverts right MotorControllerGroup
   public DriveSubsystem() { 
+    m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(gyroAngleDegrees()), getLeftEncoderDistance(), getRightEncoderDistance());
     right.setInverted(true);
     resetGyro();
   }
