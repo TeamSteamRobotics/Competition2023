@@ -8,6 +8,7 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArmCommands.DeployIntake;
 import frc.robot.commands.ArmCommands.RetractIntake;
+import frc.robot.commands.ResetArmPosition;
 import frc.robot.commands.ArmCommands.ArmAnglePID;
 import frc.robot.commands.ArmCommands.ExtendArm;
 import frc.robot.commands.ArmCommands.ExtendArmPID;
@@ -191,20 +192,7 @@ public class RobotContainer {
 
 
     //5
-    rotateArmToggleUp.onTrue(
-    new ParallelCommandGroup(
-      new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength),
-        new SequentialCommandGroup(
-        new WaitCommand(0.5),
-        new RetractIntake(m_pneumaticsSubsystem)), 
-      //new ParallelRaceGroup(
-      //new ExtendArm(m_armExtensionSubsystem, -.5), 
-      //new WaitCommand(1)),
-      new SequentialCommandGroup(
-        new WaitCommand(1), 
-        new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition))
-      )
-    );
+    rotateArmToggleUp.onTrue(new ResetArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
     
     extendArmToggleUp.onTrue(
     new ParallelCommandGroup(
