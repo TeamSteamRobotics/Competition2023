@@ -26,6 +26,9 @@ import frc.robot.commands.DriveCommands.Drive;
 import frc.robot.commands.DriveCommands.DriveRotationPID;
 import frc.robot.commands.DriveCommands.DriveToApril;
 import frc.robot.commands.DriveCommands.EncoderDriveDistance;
+import frc.robot.commands.PositionCommands.HighArmPosition;
+import frc.robot.commands.PositionCommands.LowArmPosition;
+import frc.robot.commands.PositionCommands.MiddleArmPosition;
 import frc.robot.commands.PositionCommands.ResetArmPosition;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -194,42 +197,16 @@ public class RobotContainer {
     //5
     resetArmButton.onTrue(new ResetArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
     
-    lowArmButton.onTrue(
-    new ParallelCommandGroup(
-      new SequentialCommandGroup(
-        new WaitCommand(1),
-        new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition)),
-      new SequentialCommandGroup(
-        new ParallelRaceGroup(
-          new ExtendArm(m_armExtensionSubsystem, -0.2), 
-          new WaitCommand(1)),
-        new WaitCommand(1),
-        new DeployIntake(m_pneumaticsSubsystem),
-        new WaitCommand(0.5),
-        new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength))));
+    lowArmButton.onTrue(new LowArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
+
     
 
     //3
-    middleArmButton.onTrue(
-      new ParallelCommandGroup(
-        new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition),
-         new SequentialCommandGroup(
-          new WaitCommand(0.5),
-          new RetractIntake(m_pneumaticsSubsystem)), 
-        new SequentialCommandGroup(
-          new WaitCommand(1),
-          new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength))));
+    middleArmButton.onTrue(new MiddleArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
+  
 
     //4
-    highArmButton.onTrue(
-      new ParallelCommandGroup(
-          new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
-          new SequentialCommandGroup(
-          new WaitCommand(0.5),
-          new RetractIntake(m_pneumaticsSubsystem)),
-        new SequentialCommandGroup(
-          new WaitCommand(1),
-          new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))));
+    highArmButton.onTrue(new HighArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
 
   }
 
