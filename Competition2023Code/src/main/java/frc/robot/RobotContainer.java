@@ -76,12 +76,12 @@ public class RobotContainer {
   private final XboxController xbox = new XboxController(1);
   private final Trigger unIntake = new JoystickButton(joystick, 1);
   private final Trigger intake = new JoystickButton(joystick, 2);
-  private final Trigger rotateArmToggleUp = new JoystickButton(joystick, 5);
-  private final Trigger rotateArmToggleDown = new JoystickButton(joystick, 3);
+  private final Trigger resetArmButton = new JoystickButton(joystick, 5);
+  private final Trigger middleArmButton = new JoystickButton(joystick, 3);
   private final Trigger deployIntake = new JoystickButton(joystick, 7);
   private final Trigger retractIntake = new JoystickButton(joystick, 8);
-  private final Trigger extendArmToggleUp = new JoystickButton(joystick, 6);
-  private final Trigger extendArmToggleDown = new JoystickButton(joystick, 4);
+  private final Trigger lowArmButton = new JoystickButton(joystick, 6);
+  private final Trigger highArmButton = new JoystickButton(joystick, 4);
   private final Trigger intakeToggleTest = new JoystickButton(joystick, 9);
   private final Trigger reverseIntakeToggleTest = new JoystickButton(joystick, 10);
 
@@ -192,9 +192,9 @@ public class RobotContainer {
 
 
     //5
-    rotateArmToggleUp.onTrue(new ResetArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
+    resetArmButton.onTrue(new ResetArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
     
-    extendArmToggleUp.onTrue(
+    lowArmButton.onTrue(
     new ParallelCommandGroup(
       new SequentialCommandGroup(
         new WaitCommand(1),
@@ -210,7 +210,7 @@ public class RobotContainer {
     
 
     //3
-    rotateArmToggleDown.onTrue(
+    middleArmButton.onTrue(
       new ParallelCommandGroup(
         new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition),
          new SequentialCommandGroup(
@@ -221,7 +221,7 @@ public class RobotContainer {
           new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength))));
 
     //4
-    extendArmToggleDown.onTrue(
+    highArmButton.onTrue(
       new ParallelCommandGroup(
           new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
           new SequentialCommandGroup(
