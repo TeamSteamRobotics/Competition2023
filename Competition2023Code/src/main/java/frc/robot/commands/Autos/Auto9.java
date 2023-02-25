@@ -6,6 +6,7 @@ package frc.robot.commands.Autos;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ArmCommands.ArmAnglePID;
+import frc.robot.commands.DriveCommands.DriveRotationPID;
 import frc.robot.commands.DriveCommands.EncoderDriveDistance;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -20,22 +21,10 @@ public class Auto9 extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
 
-    new EncoderDriveDistance(5, drive),
-    new ArmAnglePID(arm, 90),
-
-    //reverse intake
-
-    new EncoderDriveDistance(5, drive),
-    new ArmAnglePID(arm, 90),
-
-    //Intake
-
-    new EncoderDriveDistance(5, drive),
-    new ArmAnglePID(arm, 90)
-
-    //reverse intake
-    //Drive commands 
-    //Arm Commands
+    new EncoderDriveDistance(.3, drive),
+    new EncoderDriveDistance(-5.65, drive),
+    new DriveRotationPID(drive)
+    
 
 
 

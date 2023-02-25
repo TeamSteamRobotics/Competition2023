@@ -217,16 +217,16 @@ public class RobotContainer {
         case drive_backwards_dock:
           return new Auto2();
         case drive_forwards_score_drive_back_dock:
-          return new Auto3(m_driveSubsystem, m_armSubsystem);
+          return new Auto3(m_driveSubsystem, m_armSubsystem, m_pneumaticsSubsystem, m_armExtensionSubsystem, m_intakeSubsystem);
         case drive_forwards_score:
-          return new Auto4(m_driveSubsystem, m_armSubsystem);
+          return new Auto4(m_driveSubsystem, m_armSubsystem, m_pneumaticsSubsystem, m_armExtensionSubsystem, m_intakeSubsystem);
         case drive_backwards_drive_forwards_dock:
           //return Auto5
           break;
         case drive_backwards_dock_engage:
-          return new Auto6(m_driveSubsystem, m_armSubsystem);
+          return new Auto6(m_driveSubsystem, m_armSubsystem, m_driveSubsystem);
         case drive_forwards_score_drive_back_pick_up_piece:
-          return new Auto7(m_driveSubsystem, m_armSubsystem);
+          return new Auto7(m_driveSubsystem, m_armSubsystem, m_pneumaticsSubsystem, m_armExtensionSubsystem, m_intakeSubsystem);
         case drive_forwards_score_leave_community_pickup_piece_score:
           return new Auto9(m_driveSubsystem, m_armSubsystem);
         case drive_forwards_score_leave_community_dock_engage:

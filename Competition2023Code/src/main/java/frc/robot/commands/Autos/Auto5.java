@@ -5,6 +5,7 @@
 package frc.robot.commands.Autos;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.DriveCommands.BalancePID;
 import frc.robot.commands.DriveCommands.EncoderDriveDistance;
 import frc.robot.subsystems.DriveSubsystem;
 
@@ -18,9 +19,9 @@ public class Auto5 extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
 
-    new EncoderDriveDistance(-5, drive),
-    new EncoderDriveDistance(5, drive)
-
+    new EncoderDriveDistance(-3.5, drive),
+    new EncoderDriveDistance(1.3, drive)
+    
     );
   }
 }

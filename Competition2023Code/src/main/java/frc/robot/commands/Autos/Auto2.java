@@ -17,7 +17,7 @@ public class Auto2 extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
 
-    new EncoderDriveDistance(-5, null)
+    new EncoderDriveDistance(-2.13, null)
     
     );
   }
