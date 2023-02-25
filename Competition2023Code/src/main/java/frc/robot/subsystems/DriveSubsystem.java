@@ -52,7 +52,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public double getEncoderDistanceMeters() {
     double dist = leftfront.getSelectedSensorPosition() / 4096 * 2 * Math.PI * DriveConstants.wheelRadiusMeters; //* 2*Math.PI*DriveConstants.wheelRadiusMeters);
-    System.out.println(dist);
+    //System.out.println(dist);
     return dist;
   }
 
@@ -82,7 +82,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    System.out.println(getEncoderDifference());
+    //System.out.println(getEncoderDifference());
     // This method will be called once per scheduler run
   }
 }

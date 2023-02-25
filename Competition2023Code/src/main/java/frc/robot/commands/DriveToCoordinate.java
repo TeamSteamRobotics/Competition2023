@@ -42,17 +42,20 @@ public class DriveToCoordinate extends CommandBase {
   }
   @Override
   public void initialize(){
+    System.out.println(targetCoordinate);
+    currentStep = Step.ONE;
     robotCoordinateInitial = av.getCoordinates(0, 2);
-    initialAngle = robotCoordinateInitial.rx;
+    initialAngle = robotCoordinateInitial.rz;
     initialDistance = robotCoordinateInitial.z;
-    targetAngle = initialAngle - Math.atan2(robotCoordinateInitial.x, robotCoordinateInitial.z);
+    targetAngle = initialAngle - Math.atan2(targetCoordinate.x - robotCoordinateInitial.x, targetCoordinate.z - robotCoordinateInitial.z);
   }
   @Override
   public void execute(){
+    System.out.println(targetCoordinate.x);
       robotCoordinateCurrent = av.getCoordinates(0, 2);
       aprilTagVisible = robotCoordinateCurrent.aprilTagVisible;
-      if(aprilTagVisible){
-        currentRotation = robotCoordinateCurrent.rx;
+      if(av.getCoordinates(0, 2).aprilTagVisible){
+        currentRotation = robotCoordinateCurrent.rz;
         currentDistance = robotCoordinateCurrent.z;
 
         System.out.println("CURRENT DISTANCE: " + distance(robotCoordinateCurrent, targetCoordinate));
@@ -74,15 +77,26 @@ public class DriveToCoordinate extends CommandBase {
     return distance;
   }
   private void turn(){
-    ds.drive(0, 0.35 * (currentRotation - targetAngle));
-  }
-  private void forward(){
-    if(distance(robotCoordinateCurrent, targetCoordinate) > 0.5){
-    ds.drive(-robotSpeed, 0.25 * (currentRotation - targetAngle));
+    System.out.println("CURRENT ROTATION: " + currentRotation);
+    System.out.println("TARGET ANGLE: " + targetAngle);
+
+    System.out.println(targetAngle - currentRotation);
+    System.out.println(currentRotation - targetAngle);
+    if(Math.abs(targetAngle - currentRotation) > 2){
+      ds.drive(0, -0.4);
+      commandFinished = false;
     }else{
       commandFinished = true;
     }
   }
+  private void forward(){
+    if(distance(robotCoordinateCurrent, targetCoordinate) > 2){
+    ds.drive(-robotSpeed, 0.25 * -Math.abs(currentRotation - targetAngle));
+    }else{
+      commandFinished = true;
+    }
+  }
+
   @Override
   public void end(boolean interrupted) {
     ds.stop();

@@ -5,14 +5,17 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-
+import frc.robot.commands.AprilDriveTest;
 import frc.robot.commands.Drive;
 
 
-import frc.robot.commands.DriveToApril; 
+import frc.robot.commands.DriveToApril;
+import frc.robot.commands.DriveToCoordinate;
 import frc.robot.subsystems.DriveSubsystem;
 
 import frc.robot.subsystems.AprilVisionSubsystem; 
+
+import frc.robot.subsystems.AprilVisionSubsystem.Coordinate;
 
 import java.nio.file.attribute.PosixFilePermissions;
 
@@ -51,6 +54,8 @@ public class RobotContainer {
   private final Trigger driveToApril = new JoystickButton(joystick, 9);
   private final Trigger driveToAprilInverted = new JoystickButton(joystick, 10); 
   
+  Coordinate targetCoordinate = m_aprilVisionSubsystem.new Coordinate();
+ 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -58,6 +63,8 @@ public class RobotContainer {
 
     configureBindings();
     m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, m_aprilVisionSubsystem, () -> joystick.getY(), () -> joystick.getX()));
+    targetCoordinate.x = 1;
+    targetCoordinate.z = 1;
 
   }
 
@@ -73,7 +80,7 @@ public class RobotContainer {
   private void configureBindings() {
     driveToApril.onTrue(
       //new ParallelDeadlineGroup(
-        new DriveToApril(m_aprilVisionSubsystem, m_driveSubsystem, 0.5f, 1.5f, 2f, false)
+        new AprilDriveTest(m_aprilVisionSubsystem, m_driveSubsystem, 0.5)
     );
    // driveToAprilInverted.onTrue(
       //new ParallelDeadlineGroup(
