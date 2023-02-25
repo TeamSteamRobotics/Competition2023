@@ -20,6 +20,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   private static int coneIndex;
   private static int cubeIndex;
+  private static boolean isCone;
 
   public IntakeSubsystem() {
     coneIndex = 0;
@@ -35,7 +36,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public int getIntakeIndex(){
-    if(true){
+    if(isCone){
       return getConeIntakeIndex();
     } else {
       return getCubeIntakeIndex();
@@ -55,10 +56,12 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void increaseConeIndex(){
+    isCone = true;
     coneIndex++;
   }
 
   public void decreaseConeIndex(){
+    isCone = true;
     coneIndex--;
   }
 
@@ -75,10 +78,12 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void increaseCubeIndex(){
+    isCone = false;
     cubeIndex++;
   }
 
   public void decreaseCubeIndex(){
+    isCone = false;
     cubeIndex++;
   }
 
