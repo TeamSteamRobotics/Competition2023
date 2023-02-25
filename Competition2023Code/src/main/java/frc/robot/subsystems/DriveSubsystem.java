@@ -47,11 +47,13 @@ public class DriveSubsystem extends SubsystemBase {
   private DifferentialDriveOdometry m_odometry;
 
   //private AHRS m_gyro = new AHRS();
-  private AHRS navX = new AHRS(SerialPort.Port.kMXP);
-  
+  private AHRS navX = new AHRS();
+  //SerialPort.Port.kMXP
+
   //Inverts right MotorControllerGroup
   public DriveSubsystem() {
     right.setInverted(true);
+    resetGyro();
   }
 
   //Assigns arcadeDrive speed and rotation
