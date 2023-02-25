@@ -96,7 +96,7 @@ public class RobotContainer {
 
     configureBindings();
     m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
-    //m_intakeSubsystem.setDefaultCommand(intakeCommand);
+    m_intakeSubsystem.setDefaultCommand(intakeCommand);
 
     //m_armSubsystem.setDefaultCommand(positionCommand);
     //m_armExtensionSubsystem.setDefaultCommand(extentionCommand);
@@ -186,8 +186,8 @@ public class RobotContainer {
 
     retractIntake.onTrue(new RetractIntake(m_pneumaticsSubsystem)); //8
 
-    intakeToggleTest.onTrue(new InstantCommand(m_intakeSubsystem::increaseConeIndex, m_intakeSubsystem));
-    reverseIntakeToggleTest.onTrue(new InstantCommand(m_intakeSubsystem::increaseCubeIndex, m_intakeSubsystem));
+    intakeToggleTest.onTrue(new InstantCommand(m_intakeSubsystem::increaseConeIndex, m_intakeSubsystem)); //9
+    reverseIntakeToggleTest.onTrue(new InstantCommand(m_intakeSubsystem::increaseCubeIndex, m_intakeSubsystem)); //10
 
 
     //5
