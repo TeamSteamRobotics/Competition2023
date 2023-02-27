@@ -18,6 +18,7 @@ import frc.robot.subsystems.DriveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Auto6 extends SequentialCommandGroup {
   /** Creates a new AutoDriveBackwardsDockAndEngage. */
+  //Drives backwards, and dock & engages
   public Auto6(DriveSubsystem drive, ArmSubsystem arm, DriveSubsystem balance) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());

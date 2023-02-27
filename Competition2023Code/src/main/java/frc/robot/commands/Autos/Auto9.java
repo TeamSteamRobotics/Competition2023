@@ -16,6 +16,7 @@ import frc.robot.subsystems.DriveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Auto9 extends SequentialCommandGroup {
   /** Creates a new Auto9. */
+  //Drive forwards scores, drives out of community, picks up piece, drives forwards and scores
   public Auto9(DriveSubsystem drive, ArmSubsystem arm) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());

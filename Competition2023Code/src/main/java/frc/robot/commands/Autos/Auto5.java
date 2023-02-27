@@ -14,6 +14,7 @@ import frc.robot.subsystems.DriveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Auto5 extends SequentialCommandGroup {
   /** Creates a new Auto5. */
+  //Drives backwards outside of community, then drives forwards and docks.
   public Auto5(DriveSubsystem drive) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());

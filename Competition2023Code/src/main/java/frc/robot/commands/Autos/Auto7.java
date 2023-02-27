@@ -22,6 +22,7 @@ import frc.robot.subsystems.PneumaticsSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Auto7 extends SequentialCommandGroup {
   /** Creates a new Auto7. */
+  //Drives forwards, scores, drives back (leaves community), picks up piece
   public Auto7(DriveSubsystem drive, ArmSubsystem arm, PneumaticsSubsystem deployIntake, ArmExtensionSubsystem armExtension, IntakeSubsystem intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());

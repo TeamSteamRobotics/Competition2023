@@ -21,6 +21,7 @@ import frc.robot.subsystems.PneumaticsSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Auto4 extends SequentialCommandGroup {
   /** Creates a new AutoDriveForwardsScoreDriveBackwardsDock. */
+  //Drives forwards and scores
   public Auto4(DriveSubsystem drive, ArmSubsystem arm, PneumaticsSubsystem deployIntake, ArmExtensionSubsystem armExtension, IntakeSubsystem intake) {
 
 

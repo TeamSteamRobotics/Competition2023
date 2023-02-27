@@ -12,6 +12,7 @@ import frc.robot.commands.DriveCommands.EncoderDriveDistance;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Auto2 extends SequentialCommandGroup {
   /** Creates a new Auto2. */
+  //Drives backwards and docks
   public Auto2() {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
