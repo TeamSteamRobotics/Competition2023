@@ -23,7 +23,6 @@ import frc.robot.commands.Autos.Auto6;
 import frc.robot.commands.Autos.Auto7;
 import frc.robot.commands.Autos.Auto9;
 import frc.robot.commands.DriveCommands.Drive;
-import frc.robot.commands.DriveCommands.DriveRotationPID;
 import frc.robot.commands.DriveCommands.DriveToApril;
 import frc.robot.commands.DriveCommands.EncoderDriveDistance;
 import frc.robot.subsystems.ArmSubsystem;
@@ -197,9 +196,6 @@ public class RobotContainer {
         new SequentialCommandGroup(
         new WaitCommand(0.5),
         new RetractIntake(m_pneumaticsSubsystem)), 
-      //new ParallelRaceGroup(
-      //new ExtendArm(m_armExtensionSubsystem, -.5), 
-      //new WaitCommand(1)),
       new SequentialCommandGroup(
         new WaitCommand(1), 
         new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition))
