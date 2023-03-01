@@ -34,7 +34,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   private DutyCycleEncoder armEncoder = new DutyCycleEncoder(0);
 
-  private double dutyCycleOffset = 0.3046; //0.0805; //0.2017; //0.618333;
+  private double dutyCycleOffset =  0.54738; //0.3046; //0.0805; //0.2017; //0.618333;
   // 0 - 1 to 0 - 6.283: 1.2673
   private static int rotationIndex = 0; 
   //need to somehow do 2pi - the encoder thingy
