@@ -77,7 +77,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public double getArmAngleDegrees(){
     //System.out.println(armEncoder.getDistance());
-    return (Math.PI * 2) - armEncoder.getDistance() - 1.9139;
+    return armEncoder.getDistance();
   }
   
   public void setArmSpeed(double speed){
