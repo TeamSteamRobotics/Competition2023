@@ -80,7 +80,7 @@ public class RobotContainer {
   private void configureBindings() {
     driveToApril.onTrue(
       //new ParallelDeadlineGroup(
-        new AprilDriveTest(m_aprilVisionSubsystem, m_driveSubsystem, 0.5)
+        new AprilDriveTest(m_aprilVisionSubsystem, m_driveSubsystem, 0.5, 2, 1)
     );
    // driveToAprilInverted.onTrue(
       //new ParallelDeadlineGroup(
