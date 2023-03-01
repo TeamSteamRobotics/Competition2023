@@ -34,12 +34,16 @@ public class ArmSubsystem extends SubsystemBase {
 
   private DutyCycleEncoder armEncoder = new DutyCycleEncoder(0);
 
-  private double dutyCycleOffset = 0.3046; //0.0805; //0.2017; //0.618333;
+  private double dutyCycleOffset = 0.54738; //0.3046; //0.0805; //0.2017; //0.618333;
   // 0 - 1 to 0 - 6.283: 1.2673
   private static int rotationIndex = 0; 
   //need to somehow do 2pi - the encoder thingy
   //Another encoder will be placed, it is not on the motor controllers and it is on the rotate arm part
   
+  //5.01 pi/2
+  //5.01 - 1.5707 = 3.4393 
+  //3.4393 / 2pi
+
   //2.42 - 0.5061
   
   //29
@@ -49,7 +53,7 @@ public class ArmSubsystem extends SubsystemBase {
   
   public ArmSubsystem() {
     armEncoder.setDistancePerRotation(2 * Math.PI);
-    //armEncoder.setPositionOffset(dutyCycleOffset);
+    armEncoder.setPositionOffset(dutyCycleOffset);
     
     //armMotorRight.setInverted(false);
     //armMotorLeft.setInverted(false);
@@ -77,7 +81,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public double getArmAngleDegrees(){
     //System.out.println(armEncoder.getDistance());
-    return (Math.PI * 2) - armEncoder.getDistance() - 1.9139;
+    return armEncoder.getDistance(); //(Math.PI * 2) - armEncoder.getDistance() - 1.9139;
   }
   
   public void setArmSpeed(double speed){
