@@ -39,6 +39,14 @@ public class AprilCenterOnTarget extends SequentialCommandGroup {
     theta = targetCoordinate.rx - theta1;
     driveDistance = Math.sqrt((Math.pow(distanceWithOffset, 2)) + (Math.pow(targetCoordinate.x, 2)));
     theta2 = 90 - theta1;
+/* 
+    targetCoordinate = m_aprilVisionSubsystem.getCoordinates(targetID, 0);
+    distanceWithOffset = targetCoordinate.z - distanceFromTarget;
+    theta1 = Math.atan2(distanceWithOffset, targetCoordinate.x);
+    theta = targetCoordinate.rx - theta1;
+    driveDistance = Math.sqrt((Math.pow(distanceWithOffset, 2)) + (Math.pow(targetCoordinate.x, 2)));
+    theta2 = 90 - theta1;
+*/
 
     addCommands(
       //PID Commands may not end 
@@ -47,7 +55,7 @@ public class AprilCenterOnTarget extends SequentialCommandGroup {
       new WaitCommand(.5),
       new EncoderDriveDistance(driveDistance, m_driveSubsystem),
       new WaitCommand(.5),
-      new DriveAnglePID(m_driveSubsystem, theta2)
+      new DriveAnglePID(m_driveSubsystem, -theta2)
     );
   }
 }
