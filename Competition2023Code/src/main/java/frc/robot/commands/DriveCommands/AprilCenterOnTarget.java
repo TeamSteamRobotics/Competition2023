@@ -4,8 +4,6 @@
 
 package frc.robot.commands.DriveCommands;
 
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.AprilVisionSubsystem;

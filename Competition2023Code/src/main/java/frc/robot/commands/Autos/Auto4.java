@@ -4,9 +4,7 @@
 
 package frc.robot.commands.Autos;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.ArmCommands.ArmAnglePID;
 import frc.robot.commands.ArmCommands.ReverseIntake;
 import frc.robot.commands.DriveCommands.EncoderDriveDistance;
 import frc.robot.commands.PositionCommands.HighArmPosition;

@@ -5,15 +5,10 @@
 package frc.robot;
 
 import frc.robot.Constants.ArmConstants;
-import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArmCommands.DeployIntake;
 import frc.robot.commands.ArmCommands.RetractIntake;
-import frc.robot.commands.ArmCommands.ArmAnglePID;
-import frc.robot.commands.ArmCommands.ExtendArm;
-import frc.robot.commands.ArmCommands.ExtendArmPID;
 import frc.robot.commands.ArmCommands.Intake;
 import frc.robot.commands.ArmCommands.ReverseIntake;
-import frc.robot.commands.ArmCommands.RotateArm;
 import frc.robot.commands.Autos.Auto1;
 import frc.robot.commands.Autos.Auto10;
 import frc.robot.commands.Autos.Auto3;
