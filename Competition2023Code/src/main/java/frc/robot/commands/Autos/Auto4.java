@@ -7,16 +7,22 @@ package frc.robot.commands.Autos;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ArmCommands.ArmAnglePID;
+import frc.robot.commands.ArmCommands.ReverseIntake;
 import frc.robot.commands.DriveCommands.EncoderDriveDistance;
+import frc.robot.commands.PositionCommands.HighArmPosition;
+import frc.robot.subsystems.ArmExtensionSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.PneumaticsSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Auto4 extends SequentialCommandGroup {
   /** Creates a new AutoDriveForwardsScoreDriveBackwardsDock. */
-  public Auto4(DriveSubsystem drive, ArmSubsystem arm) {
+  //Drives forwards and scores
+  public Auto4(DriveSubsystem drive, ArmSubsystem arm, PneumaticsSubsystem deployIntake, ArmExtensionSubsystem armExtension, IntakeSubsystem intake) {
 
 
     // Add your commands in the addCommands() call, e.g.
@@ -25,10 +31,9 @@ public class Auto4 extends SequentialCommandGroup {
 
     addCommands(
 
-      new EncoderDriveDistance(5, drive),
-      new ArmAnglePID(arm, 130),
-      //Reverse Intake
-      new EncoderDriveDistance(-10, drive)
+      new EncoderDriveDistance(.3, drive),
+      new HighArmPosition(armExtension, deployIntake, arm),
+      new ReverseIntake(intake)
 
     );
   }

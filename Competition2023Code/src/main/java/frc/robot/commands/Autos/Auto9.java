@@ -6,6 +6,7 @@ package frc.robot.commands.Autos;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ArmCommands.ArmAnglePID;
+import frc.robot.commands.DriveCommands.DriveRotationPID;
 import frc.robot.commands.DriveCommands.EncoderDriveDistance;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -15,27 +16,16 @@ import frc.robot.subsystems.DriveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Auto9 extends SequentialCommandGroup {
   /** Creates a new Auto9. */
+  //Drive forwards scores, drives out of community, picks up piece, drives forwards and scores
   public Auto9(DriveSubsystem drive, ArmSubsystem arm) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
 
-    new EncoderDriveDistance(5, drive),
-    new ArmAnglePID(arm, 90),
-
-    //reverse intake
-
-    new EncoderDriveDistance(5, drive),
-    new ArmAnglePID(arm, 90),
-
-    //Intake
-
-    new EncoderDriveDistance(5, drive),
-    new ArmAnglePID(arm, 90)
-
-    //reverse intake
-    //Drive commands 
-    //Arm Commands
+    new EncoderDriveDistance(.3, drive),
+    new EncoderDriveDistance(-5.65, drive),
+    new DriveRotationPID(drive)
+    
 
 
 

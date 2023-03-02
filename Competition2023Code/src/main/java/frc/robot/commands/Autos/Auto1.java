@@ -12,6 +12,7 @@ import frc.robot.subsystems.DriveSubsystem;
 
 public class Auto1 extends CommandBase {
   /** Creates a new AutoDoNothing. */
+  //Does nothing during autonomous
 
   DriveSubsystem m_driveSubsystem;
   ArmSubsystem armSubsystem;

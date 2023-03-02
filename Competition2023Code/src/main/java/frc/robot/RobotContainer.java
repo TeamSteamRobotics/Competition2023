@@ -26,6 +26,10 @@ import frc.robot.commands.DriveCommands.Drive;
 import frc.robot.commands.DriveCommands.DriveRotationPID;
 import frc.robot.commands.DriveCommands.DriveToApril;
 import frc.robot.commands.DriveCommands.EncoderDriveDistance;
+import frc.robot.commands.PositionCommands.HighArmPosition;
+import frc.robot.commands.PositionCommands.LowArmPosition;
+import frc.robot.commands.PositionCommands.MiddleArmPosition;
+import frc.robot.commands.PositionCommands.ResetArmPosition;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -75,12 +79,12 @@ public class RobotContainer {
   private final XboxController xbox = new XboxController(1);
   private final Trigger unIntake = new JoystickButton(joystick, 1);
   private final Trigger intake = new JoystickButton(joystick, 2);
-  private final Trigger rotateArmToggleUp = new JoystickButton(joystick, 5);
-  private final Trigger rotateArmToggleDown = new JoystickButton(joystick, 3);
+  private final Trigger resetArmButton = new JoystickButton(joystick, 5);
+  private final Trigger middleArmButton = new JoystickButton(joystick, 3);
   private final Trigger deployIntake = new JoystickButton(joystick, 7);
   private final Trigger retractIntake = new JoystickButton(joystick, 8);
-  private final Trigger extendArmToggleUp = new JoystickButton(joystick, 6);
-  private final Trigger extendArmToggleDown = new JoystickButton(joystick, 4);
+  private final Trigger lowArmButton = new JoystickButton(joystick, 6);
+  private final Trigger highArmButton = new JoystickButton(joystick, 4);
   private final Trigger intakeToggleTest = new JoystickButton(joystick, 9);
   private final Trigger reverseIntakeToggleTest = new JoystickButton(joystick, 10);
 
@@ -191,57 +195,18 @@ public class RobotContainer {
 
 
     //5
-    rotateArmToggleUp.onTrue(
-    new ParallelCommandGroup(
-      new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength),
-        new SequentialCommandGroup(
-        new WaitCommand(0.5),
-        new RetractIntake(m_pneumaticsSubsystem)), 
-      //new ParallelRaceGroup(
-      //new ExtendArm(m_armExtensionSubsystem, -.5), 
-      //new WaitCommand(1)),
-      new SequentialCommandGroup(
-        new WaitCommand(1), 
-        new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition))
-      )
-    );
+    resetArmButton.onTrue(new ResetArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
     
-    extendArmToggleUp.onTrue(
-    new ParallelCommandGroup(
-      new SequentialCommandGroup(
-        new WaitCommand(1),
-        new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition)),
-      new SequentialCommandGroup(
-        new ParallelRaceGroup(
-          new ExtendArm(m_armExtensionSubsystem, -0.2), 
-          new WaitCommand(1)),
-        new WaitCommand(1),
-        new DeployIntake(m_pneumaticsSubsystem),
-        new WaitCommand(0.5),
-        new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength))));
+    lowArmButton.onTrue(new LowArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
+
     
 
     //3
-    rotateArmToggleDown.onTrue(
-      new ParallelCommandGroup(
-        new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition),
-         new SequentialCommandGroup(
-          new WaitCommand(0.5),
-          new RetractIntake(m_pneumaticsSubsystem)), 
-        new SequentialCommandGroup(
-          new WaitCommand(1),
-          new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength))));
+    middleArmButton.onTrue(new MiddleArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
+  
 
     //4
-    extendArmToggleDown.onTrue(
-      new ParallelCommandGroup(
-          new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
-          new SequentialCommandGroup(
-          new WaitCommand(0.5),
-          new RetractIntake(m_pneumaticsSubsystem)),
-        new SequentialCommandGroup(
-          new WaitCommand(1),
-          new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))));
+    highArmButton.onTrue(new HighArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
 
   }
 
@@ -252,16 +217,16 @@ public class RobotContainer {
         case drive_backwards_dock:
           return new Auto2();
         case drive_forwards_score_drive_back_dock:
-          return new Auto3(m_driveSubsystem, m_armSubsystem);
+          return new Auto3(m_driveSubsystem, m_armSubsystem, m_pneumaticsSubsystem, m_armExtensionSubsystem, m_intakeSubsystem);
         case drive_forwards_score:
-          return new Auto4(m_driveSubsystem, m_armSubsystem);
+          return new Auto4(m_driveSubsystem, m_armSubsystem, m_pneumaticsSubsystem, m_armExtensionSubsystem, m_intakeSubsystem);
         case drive_backwards_drive_forwards_dock:
           //return Auto5
           break;
         case drive_backwards_dock_engage:
-          return new Auto6(m_driveSubsystem, m_armSubsystem);
+          return new Auto6(m_driveSubsystem, m_armSubsystem, m_driveSubsystem);
         case drive_forwards_score_drive_back_pick_up_piece:
-          return new Auto7(m_driveSubsystem, m_armSubsystem);
+          return new Auto7(m_driveSubsystem, m_armSubsystem, m_pneumaticsSubsystem, m_armExtensionSubsystem, m_intakeSubsystem);
         case drive_forwards_score_leave_community_pickup_piece_score:
           return new Auto9(m_driveSubsystem, m_armSubsystem);
         case drive_forwards_score_leave_community_dock_engage:

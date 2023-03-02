@@ -15,6 +15,7 @@ import frc.robot.subsystems.DriveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Auto10 extends SequentialCommandGroup {
   /** Creates a new Auto10. */
+  //Drive forwards score, leave community, go to human player station
   public Auto10(DriveSubsystem drive, ArmSubsystem arm) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
