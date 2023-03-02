@@ -20,8 +20,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private static boolean isCone;
 
   public IntakeSubsystem() {
-    coneIndex = 0;
-    cubeIndex = 3;
+    resetIndexes();
   }
 
   public void intake(double speed){
@@ -82,6 +81,11 @@ public class IntakeSubsystem extends SubsystemBase {
   public void decreaseCubeIndex(){
     isCone = false;
     cubeIndex++;
+  }
+
+  public void resetIndexes(){
+    coneIndex = 0;
+    cubeIndex = 3;
   }
 
   @Override
