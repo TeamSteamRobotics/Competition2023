@@ -4,11 +4,22 @@
 
 package frc.robot.commands.DriveCommands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class CurveDrive extends CommandBase {
   /** Creates a new CurveDrive. */
-  public CurveDrive() {
+  DoubleSupplier speed;
+  DoubleSupplier rotation;
+  DriveSubsystem drive;
+
+  public CurveDrive(DriveSubsystem drive, DoubleSupplier speed, DoubleSupplier rotation) {
+    this.drive = drive;
+    this.rotation = rotation;
+    this.speed = speed;
+    addRequirements(drive);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -18,11 +29,15 @@ public class CurveDrive extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    drive.curveDrive(speed.getAsDouble(), rotation.getAsDouble());
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    drive.stop();
+  }
 
   // Returns true when the command should end.
   @Override

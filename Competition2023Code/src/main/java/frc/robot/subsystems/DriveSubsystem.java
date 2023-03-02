@@ -58,6 +58,10 @@ public class DriveSubsystem extends SubsystemBase {
     diffDrive.arcadeDrive(speed, -rotation);
   }
 
+  public void curveDrive(double speed, double rotation) {
+    diffDrive.curvatureDrive(speed, -rotation, false);
+  }
+
   //sets arcadeDrive to 0 rotation and 0 speed
   public void stop(){
     diffDrive.arcadeDrive(0, 0);
