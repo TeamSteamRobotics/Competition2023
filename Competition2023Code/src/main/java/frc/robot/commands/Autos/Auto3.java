@@ -4,7 +4,9 @@
 
 package frc.robot.commands.Autos;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ArmCommands.ReverseIntake;
 import frc.robot.commands.DriveCommands.EncoderDriveDistance;
 import frc.robot.commands.PositionCommands.HighArmPosition;
@@ -30,9 +32,15 @@ public class Auto3 extends SequentialCommandGroup {
     addCommands(
 
       new EncoderDriveDistance(5, drive),
-      new HighArmPosition(armExtension, deployIntake, arm),
-      new ReverseIntake(intake), 
-      new EncoderDriveDistance(-2.33, drive)
+      new ParallelCommandGroup(
+        new HighArmPosition(armExtension, deployIntake, arm),
+        new SequentialCommandGroup(
+          new WaitCommand(.5),
+          new ReverseIntake(intake)), 
+        new SequentialCommandGroup(
+          new WaitCommand(1),
+          new EncoderDriveDistance(-2.33, drive))
+        )
 
     );
   }

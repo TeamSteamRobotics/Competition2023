@@ -5,6 +5,8 @@
 package frc.robot.commands.Autos;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.commands.DriveCommands.EncoderDriveDistance;
 import frc.robot.commands.DriveCommands.GyroTurn;
 import frc.robot.subsystems.ArmSubsystem;
@@ -22,14 +24,10 @@ public class Auto9 extends SequentialCommandGroup {
     addCommands(
 
     new EncoderDriveDistance(.3, drive),
+    new WaitCommand(.5),
     new EncoderDriveDistance(-5.65, drive),
+    new WaitCommand(.5),
     new GyroTurn(0,drive)
-    
-
-
-
-
-
 
     );
   }
