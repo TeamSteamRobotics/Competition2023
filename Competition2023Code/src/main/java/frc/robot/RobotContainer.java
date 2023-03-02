@@ -16,12 +16,12 @@ import frc.robot.commands.ArmCommands.ReverseIntake;
 import frc.robot.commands.ArmCommands.RotateArm;
 import frc.robot.commands.Autos.Auto1;
 import frc.robot.commands.Autos.Auto10;
-import frc.robot.commands.Autos.Auto2;
 import frc.robot.commands.Autos.Auto3;
 import frc.robot.commands.Autos.Auto4;
 import frc.robot.commands.Autos.Auto6;
 import frc.robot.commands.Autos.Auto7;
 import frc.robot.commands.Autos.Auto9;
+import frc.robot.commands.Autos.FollowTrajectory;
 import frc.robot.commands.DriveCommands.Drive;
 import frc.robot.commands.DriveCommands.DriveRotationPID;
 import frc.robot.commands.DriveCommands.DriveToApril;
@@ -41,6 +41,11 @@ import frc.robot.subsystems.ArmExtensionSubsystem;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Map;
 
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.XboxController;
@@ -88,6 +93,7 @@ public class RobotContainer {
   private final Trigger intakeToggleTest = new JoystickButton(joystick, 9);
   private final Trigger reverseIntakeToggleTest = new JoystickButton(joystick, 10);
 
+  PathPlannerTrajectory examplePath = PathPlanner.loadPath("TestPath", new PathConstraints(4, 3));
 
   int armIndex = 0;
   boolean isIncreasing = false; 
@@ -213,9 +219,7 @@ public class RobotContainer {
   public Command ChooseAuto(AutoType type) {
     switch(type){
         case do_nothing:
-          return new Auto1(m_driveSubsystem, m_armSubsystem);
-        case drive_backwards_dock:
-          return new Auto2();
+          return new Auto1(m_driveSubsystem, m_armSubsystem, examplePath);
         case drive_forwards_score_drive_back_dock:
           return new Auto3(m_driveSubsystem, m_armSubsystem, m_pneumaticsSubsystem, m_armExtensionSubsystem, m_intakeSubsystem);
         case drive_forwards_score:
@@ -231,7 +235,8 @@ public class RobotContainer {
           return new Auto9(m_driveSubsystem, m_armSubsystem);
         case drive_forwards_score_leave_community_dock_engage:
           return new Auto10(m_driveSubsystem, m_armSubsystem);
-
+        case path_planner:
+          return new FollowTrajectory(m_driveSubsystem, m_armSubsystem, examplePath, true);
         default:
             return null;
     }
@@ -244,13 +249,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //return new ParallelRaceGroup(new Drive(m_driveSubsystem, () -> 0.5, () -> 0), new WaitCommand(5) );
     // An example command will be run in autonomous
-    return ChooseAuto(AutoType.drive_forwards_score);//new AutoDriveBackwardsDockAndEngage(m_driveSubsystem, m_armSubsystem);
-    
-    //new SequentialCommandGroup(
-
-      //new InstantCommand(m_driveSubsystem::resetEncoders),
-      //new EncoderDriveDistance(5, m_driveSubsystem));
+    return ChooseAuto(AutoType.path_planner);
   }
 }
