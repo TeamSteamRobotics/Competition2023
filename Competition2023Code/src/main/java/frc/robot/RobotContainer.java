@@ -94,11 +94,6 @@ public class RobotContainer {
 
   PathPlannerTrajectory examplePath = PathPlanner.loadPath("TestPath", new PathConstraints(4, 3));
 
-  int armIndex = 0;
-  boolean isIncreasing = false; 
-
-
-
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -106,46 +101,7 @@ public class RobotContainer {
     configureBindings();
     m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
     m_intakeSubsystem.setDefaultCommand(intakeCommand);
-
-    //m_armSubsystem.setDefaultCommand(positionCommand);
-    //m_armExtensionSubsystem.setDefaultCommand(extentionCommand);
-    
   }
-  
-
-  public int getArmIndex(){
-    return armIndex;
-  }
-
-
-  private final Command positionCommand = 
-  new SelectCommand(
-    Map.ofEntries(
-      Map.entry(0,
-        new ParallelCommandGroup(
-          new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition),
-          new SequentialCommandGroup(
-            new WaitCommand(1),
-            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength)))),
-      Map.entry(1, 
-        new ParallelCommandGroup(
-          new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition),
-          new SequentialCommandGroup(
-            new WaitCommand(1),
-            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength)))),
-      Map.entry(2, 
-        new ParallelCommandGroup(
-          new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition),
-          new SequentialCommandGroup(
-            new WaitCommand(1),
-            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength)))),
-      Map.entry(3, 
-        new ParallelCommandGroup(
-          new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
-          new SequentialCommandGroup(
-            new WaitCommand(1),
-            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))))),
-    this::getArmIndex);
 
   private final Command intakeCommand = 
   new SelectCommand(
@@ -157,25 +113,6 @@ public class RobotContainer {
         Map.entry(4, new ReverseIntake(m_intakeSubsystem)),
         Map.entry(5, new ReverseIntake(m_intakeSubsystem, 0.1))),
         m_intakeSubsystem::getIntakeIndex);
-
-
-  private final Command rotationCommand = 
-    new SelectCommand(
-      Map.ofEntries(
-          Map.entry(0, new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition)),
-          Map.entry(1, new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition)),
-          Map.entry(2, new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition)),
-          Map.entry(3, new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition))),
-          m_armSubsystem::getRotationIndex);
-
-  private final Command extentionCommand = 
-    new SelectCommand(
-      Map.ofEntries(
-          Map.entry(0, new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength)),
-          Map.entry(1, new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength)),
-          Map.entry(2, new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength)),
-          Map.entry(3, new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))),
-          m_armExtensionSubsystem::getExtensionIndex);
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -198,18 +135,14 @@ public class RobotContainer {
     intakeToggleTest.onTrue(new InstantCommand(m_intakeSubsystem::increaseConeIndex, m_intakeSubsystem)); //9
     reverseIntakeToggleTest.onTrue(new InstantCommand(m_intakeSubsystem::increaseCubeIndex, m_intakeSubsystem)); //10
 
-
     //5
     resetArmButton.onTrue(new ResetArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
     
     lowArmButton.onTrue(new LowArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
 
-    
-
     //3
     middleArmButton.onTrue(new MiddleArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
   
-
     //4
     highArmButton.onTrue(new HighArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
 
