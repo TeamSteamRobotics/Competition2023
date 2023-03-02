@@ -54,10 +54,6 @@ public class ArmSubsystem extends SubsystemBase {
   public ArmSubsystem() {
     armEncoder.setDistancePerRotation(2 * Math.PI);
     armEncoder.setPositionOffset(dutyCycleOffset);
-    
-    //armMotorRight.setInverted(false);
-    //armMotorLeft.setInverted(false);
-    //armMotorRight.follow(armMotorLeft);
   }
 
   public void increaseRotationIndex(){
