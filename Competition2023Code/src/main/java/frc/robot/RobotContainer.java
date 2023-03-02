@@ -97,14 +97,14 @@ public class RobotContainer {
   private final Trigger reverseIntakeToggleTest = new JoystickButton(joystick, 10);
 
   //Operator's controls
-  private final XboxController xbox = new XboxController(1);
-  private final Trigger resetPosition = new JoystickButton(xbox, 0);
-  private final Trigger lowPosition = new JoystickButton(xbox, 1);
-  private final Trigger middlePosition = new JoystickButton(xbox, 2);
-  private final Trigger highPosition = new JoystickButton(xbox, 3);
-  private final Trigger intakeToggle = new JoystickButton(xbox, 4);
-  private final Trigger reverseIntakeToggle = new JoystickButton(xbox, 5);
-  private final Trigger resetIntakeToggles = new JoystickButton(xbox, 6);
+  private final CommandXboxController xbox = new CommandXboxController(1);
+  private final Trigger resetPosition = xbox.a();
+  private final Trigger lowPosition = xbox.x();
+  private final Trigger middlePosition = xbox.y();
+  private final Trigger highPosition = xbox.b();
+  private final Trigger intakeToggle = xbox.rightBumper();
+  private final Trigger reverseIntakeToggle = xbox.leftBumper();
+  private final Trigger resetIntakeToggles = xbox.povUp();
 
 
   PathPlannerTrajectory examplePath = PathPlanner.loadPath("TestPath", new PathConstraints(4, 3));
