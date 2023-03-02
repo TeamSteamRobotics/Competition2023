@@ -51,6 +51,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.simulation.JoystickSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.AprilDriveTest;
+
+import frc.robot.commands.DriveToCoordinate;
+import frc.robot.subsystems.AprilVisionSubsystem.Coordinate;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
@@ -174,7 +178,7 @@ public class RobotContainer {
     }
     return null;
   }
-
+ 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
