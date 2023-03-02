@@ -2,9 +2,10 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.DriveCommands;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.AprilVisionSubsystem;
@@ -51,11 +52,11 @@ public class AprilCenterOnTarget extends SequentialCommandGroup {
     addCommands(
       //PID Commands may not end 
       //Check tolerance or make parallel
-      new DriveAnglePID(m_driveSubsystem, theta),
+      new GyroTurn(theta, m_driveSubsystem),
       new WaitCommand(.5),
       new EncoderDriveDistance(driveDistance, m_driveSubsystem),
       new WaitCommand(.5),
-      new DriveAnglePID(m_driveSubsystem, -theta2)
+      new GyroTurn(-theta2, m_driveSubsystem)
     );
   }
 }
