@@ -49,7 +49,7 @@ public class ArmAnglePID extends PIDCommand {
   /* 
   @Override
   public void execute() {
-    if(ArmConstants.goingLow != true){
+    if(ArmSubsystem.goingLow != true){
       this.getController().setP(ArmConstants.angle_kP);
       this.getController().setI(ArmConstants.angle_kI);
       this.getController().setD(ArmConstants.angle_kD);

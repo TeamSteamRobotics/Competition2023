@@ -97,8 +97,6 @@ public final class Constants {
     public static final double middlePositionLength = 0.172;
     public static final double highPositionLength = 0.43;
 
-    public static boolean goingLow = false;
-
   }
 
   public final class MotorIDConstants {

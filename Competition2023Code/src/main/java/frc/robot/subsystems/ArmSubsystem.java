@@ -25,22 +25,22 @@ public class ArmSubsystem extends SubsystemBase {
   private final int filterSize = 100;
   private double[] filter = new double[filterSize];
 
+  private static boolean goingLow = false;
+
   private double dutyCycleOffset = 0.54738; //0.3046; //0.0805; //0.2017; //0.618333;
   // 0 - 1 to 0 - 6.283: 1.2673
   private static int rotationIndex = 0; 
   //need to somehow do 2pi - the encoder thingy
   //Another encoder will be placed, it is not on the motor controllers and it is on the rotate arm part
-  
-  //5.01 pi/2
-  //5.01 - 1.5707 = 3.4393 
-  //3.4393 / 2pi
 
-  //2.42 - 0.5061
-  
-  //29
-  //0.5061 radians
-  //.71 = 90 degrees
-  //2.85 = PI/2
+
+  public static void setGoingLow(boolean input){
+    goingLow = input;
+  }
+
+  public static boolean isGoingLow(){
+    return goingLow;
+  }
   
   public ArmSubsystem() {
     armEncoder.setDistancePerRotation(2 * Math.PI);

@@ -26,7 +26,7 @@ public class LowArmPosition extends ParallelCommandGroup {
   public LowArmPosition(ArmExtensionSubsystem m_armExtensionSubsystem, PneumaticsSubsystem m_pneumaticsSubsystem, ArmSubsystem m_armSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    ArmConstants.goingLow = true;
+    ArmSubsystem.setGoingLow(true);
     addCommands(
       new SequentialCommandGroup(
         new WaitCommand(2),
