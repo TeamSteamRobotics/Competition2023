@@ -37,6 +37,12 @@ public final class Constants {
     public static final double encoderTicksToMeters = 0; // Will be filled out when more info arrives
     public static final double wheelRadiusMeters = 0.0762;
 
+    //test constants, need to determine for real
+    public static final double ksVolts = .2;
+    public static final double ksVoltSecondsPerMeter = 3.3;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.67;
+    public static final double kPDriveVel = 4.6; 
+
   }
   public static class DriveRotationConstants {
     public static final double drive_kP = 0;
