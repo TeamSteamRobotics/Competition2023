@@ -45,7 +45,7 @@ public final class Constants {
     public static final double drive_kD = 0;
     public static final double drive_tolerance = 3; 
 
-    public static int rightFrontMotorID ;
+    public static int rightFrontMotorID;
     public static int rightBackMotorID;
     public static int leftFrontMotorID;
     public static int leftBackMotorID;
@@ -72,7 +72,7 @@ public final class Constants {
 
     public final static double[] positions = {Math.PI / 4, Math.PI / 3, Math.PI /2 }; 
 
-    public static final double length_kP = 2;
+    public static final double length_kP = 3;
     public static final double length_kI = 0.3;
     public static final double length_kD = 0.2;
 
@@ -85,17 +85,20 @@ public final class Constants {
     public static final double armConversionFactor = 0.0652149; //Meters per rotation
     public static final double maxArmLengthMeters = 0.5519;
 
-    public static final double intakeSpeed = 0.5;
+    public static final double intakeSpeed = 0.65;
 
-    public static final double resetPosition = 0.53677233;
+    public static final double resetPosition = 0.67;//0.53677233;
     public static final double lowPosition = .8; //0.7119198;
     public static final double middlePosition = 1.52; //1.62316;
     public static final double highPosition = 1.65; //1.8; //constants not finished
 
     public static final double resetPositionLength = 0;
-    public static final double lowPositionLength = 0.278;
+    public static final double lowPositionLength = 0.20; //0.228;
     public static final double middlePositionLength = 0.172;
     public static final double highPositionLength = 0.43;
+
+    public static boolean goingLow = false;
+
   }
 
   public final class MotorIDConstants {

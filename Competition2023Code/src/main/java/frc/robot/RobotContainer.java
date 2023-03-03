@@ -18,6 +18,7 @@ import frc.robot.commands.Autos.Auto6;
 import frc.robot.commands.Autos.Auto7;
 import frc.robot.commands.Autos.Auto9;
 import frc.robot.commands.Autos.FollowTrajectory;
+import frc.robot.commands.DriveCommands.CurveDrive;
 import frc.robot.commands.DriveCommands.Drive;
 import frc.robot.commands.PositionCommands.HighArmPosition;
 import frc.robot.commands.PositionCommands.LowArmPosition;
@@ -63,7 +64,7 @@ public class RobotContainer {
 
 
   //Driver's controls
-  private final Joystick joystick = new Joystick(0);
+  private final Joystick joystick = new Joystick(1);
   private final Trigger unIntake = new JoystickButton(joystick, 1);
   private final Trigger intake = new JoystickButton(joystick, 2);
   private final Trigger resetArmButton = new JoystickButton(joystick, 5);
@@ -76,7 +77,7 @@ public class RobotContainer {
   private final Trigger reverseIntakeToggleTest = new JoystickButton(joystick, 10);
 
   //Operator's controls
-  private final CommandXboxController xbox = new CommandXboxController(1);
+  private final CommandXboxController xbox = new CommandXboxController(0);
   private final Trigger resetPosition = xbox.a();
   private final Trigger lowPosition = xbox.x();
   private final Trigger middlePosition = xbox.y();
@@ -94,6 +95,7 @@ public class RobotContainer {
 
     configureBindings();
     m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
+    //m_driveSubsystem.setDefaultCommand(new CurveDrive(m_driveSubsystem, driverXbox::getRightY, driverXbox::getLeftX));
     m_intakeSubsystem.setDefaultCommand(intakeCommand);
   }
 

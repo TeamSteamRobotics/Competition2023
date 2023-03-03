@@ -23,14 +23,16 @@ public class ResetArmPosition extends ParallelCommandGroup {
   public ResetArmPosition(ArmExtensionSubsystem m_armExtensionSubsystem, PneumaticsSubsystem m_pneumaticsSubsystem, ArmSubsystem m_armSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    ArmConstants.goingLow = true;
     addCommands(
       new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength),
         new SequentialCommandGroup(
         new WaitCommand(0.5),
         new RetractIntake(m_pneumaticsSubsystem)), 
       new SequentialCommandGroup(
-        new WaitCommand(1), 
+        new WaitCommand(2), 
         new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition))
     );
+    
   }
 }

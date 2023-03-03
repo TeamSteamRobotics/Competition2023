@@ -23,6 +23,7 @@ public class MiddleArmPosition extends ParallelCommandGroup {
   public MiddleArmPosition(ArmExtensionSubsystem m_armExtensionSubsystem, PneumaticsSubsystem m_pneumaticsSubsystem, ArmSubsystem m_armSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    ArmConstants.goingLow = false;
     addCommands(
       
       new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition),
@@ -33,5 +34,6 @@ public class MiddleArmPosition extends ParallelCommandGroup {
         new WaitCommand(1),
         new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength))
         );
+    
   }
 }
