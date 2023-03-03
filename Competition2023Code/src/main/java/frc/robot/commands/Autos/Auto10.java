@@ -34,9 +34,6 @@ public class Auto10 extends SequentialCommandGroup {
     new EncoderDriveDistance(5, drive)
 
     //balance PID
-    
-  
-
 
     );
   }

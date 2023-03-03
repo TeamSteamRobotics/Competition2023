@@ -158,7 +158,7 @@ public class DriveSubsystem extends SubsystemBase {
   // Overrides code
   @Override
   public void periodic() {
-    System.out.println(gyroAngleDegrees());
+    //System.out.println(gyroAngleDegrees());
     //System.out.println(getEncoderDifference());
     // This method will be called once per scheduler run
     m_odometry.update(
