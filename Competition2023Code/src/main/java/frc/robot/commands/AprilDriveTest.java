@@ -3,6 +3,8 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.AprilVisionSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SPI;
 
 public class AprilDriveTest extends CommandBase{
 
@@ -14,6 +16,7 @@ public class AprilDriveTest extends CommandBase{
     public double speed;
     public int id;
     public double offset;
+    private double error = 5;
     //public double targetDistance;
 
     //Visibility and command finished booleans
@@ -25,19 +28,23 @@ public class AprilDriveTest extends CommandBase{
     private double z;
     private double hyp;
     private double angle;
+    private double gyroAngle;
 
     //VALUES CAPTURED DURING STEP ONE
     private double zInitial;
     private double xInitial;
 
+    private double targetAngle;
     private double capturedAngle;
     private double capturedHyp;
+    AHRS ahrs;
 
     //Basically a fancier version of an integer(as in the enum can only have three possible values).
     enum Step{
         ONE,
         TWO,
-        THREE
+        THREE,
+        FOUR
     }
    Step stepCurrent;
     public AprilDriveTest(AprilVisionSubsystem aprilVisionSubsystem, DriveSubsystem driveSubsystem, double robotSpeed, int targetId, double targetOffset){
@@ -49,12 +56,15 @@ public class AprilDriveTest extends CommandBase{
         offset = targetOffset;
 
     }
+    
+    
     //Runs when the command is first run
     @Override
     public void initialize(){
         //Makes sure the command is ready to be run.
         stepCurrent = Step.ONE;
         commandFinished = false;
+        ahrs = new AHRS(SPI.Port.kMXP);
     }
 
 
@@ -66,7 +76,7 @@ public class AprilDriveTest extends CommandBase{
     public void execute(){
         //Detects whether or not the targeted april tag is visible, WILL NOT RUN CODE IF THE APRILTAG IS NOT VISIBLE
         aprilTagVisible = av.getCoordinates(id, 0).aprilTagVisible;
-
+        gyroAngle = ahrs.getYaw();
         if(aprilTagVisible){
         //Updates x and z values constantly(as long as apriltag is visible)
         x = av.getCoordinates(id, 0).x;
@@ -84,10 +94,20 @@ public class AprilDriveTest extends CommandBase{
                 capturedAngle = Math.atan2(x, zInitial);
                 //capturedHyp is basically useless :/
                 capturedHyp = Math.sqrt(Math.pow(xInitial, 2) + Math.pow(zInitial, 2));
-                //Turn using gyro thing(by capturedAngle) 
+                targetAngle = gyroAngle + (capturedAngle * Math.signum(xInitial));
                 stepCurrent = Step.TWO;
             break;
             case TWO:
+            if (Math.abs(ahrs.getYaw() - targetAngle) > error) {
+                //Rotate the robot at speed until within error
+                ds.drive(0, 0.5);
+              } else {
+                //Stop rotating
+                stepCurrent = Step.FOUR;
+              }
+            break;
+            case THREE:
+                
                 //Gets current value for hypotenuse, NOTE: INCLUDES THE OFFSET FOR TARGET(1 meter).
                 hyp = Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2));
 
@@ -96,7 +116,7 @@ public class AprilDriveTest extends CommandBase{
                 if(hyp > 0.5){
                     ds.drive(-speed, 0);
                 }else{
-                    stepCurrent = Step.THREE;
+                    stepCurrent = Step.FOUR;
                 }
                 //alternative code:
                 /*
@@ -107,10 +127,8 @@ public class AprilDriveTest extends CommandBase{
                  * }
                  */
             break;
-            case THREE:
-            //TODO: FINAL CENTER AND GO FORWARD
-            commandFinished = true;
-            break;
+            case FOUR:
+                    commandFinished = true;
             }
         }else{
             //PRINTS WHEN APRILTAG IS NOT VISIBLE
