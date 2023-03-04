@@ -38,6 +38,8 @@ public class DriveSubsystem extends SubsystemBase {
   private DifferentialDrive diffDrive = new DifferentialDrive(left, right);
   private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(27));
   private DifferentialDriveOdometry m_odometry;//
+  private boolean isSlow = false;
+
 
   //private AHRS m_gyro = new AHRS();
   //private AHRS navX = new AHRS();
@@ -53,9 +55,22 @@ public class DriveSubsystem extends SubsystemBase {
     resetGyro();
   }
 
+  public void setSlowTrue(){
+    isSlow = true;
+  }
+
+  public void setSlowFalse(){
+    isSlow = false;
+  }
+
   //Assigns arcadeDrive speed and rotation
   public void drive(double speed, double rotation){
-    diffDrive.arcadeDrive(speed, -rotation);
+    if(!isSlow){
+      diffDrive.arcadeDrive(speed, -rotation);
+    } else {
+      diffDrive.arcadeDrive(speed / 2, -rotation / 2);
+    }
+    
   }
 
   public void curveDrive(double speed, double rotation) {

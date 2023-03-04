@@ -26,7 +26,7 @@ public class ResetArmPosition extends ParallelCommandGroup {
     ArmSubsystem.setGoingLow(true);
     addCommands(
       new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength),
-        new SequentialCommandGroup(
+      new SequentialCommandGroup(
         new WaitCommand(0.5),
         new RetractIntake(m_pneumaticsSubsystem)), 
       new SequentialCommandGroup(

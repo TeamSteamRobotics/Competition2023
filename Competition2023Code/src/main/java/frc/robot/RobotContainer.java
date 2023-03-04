@@ -65,8 +65,8 @@ public class RobotContainer {
 
   //Driver's controls
   private final Joystick joystick = new Joystick(1);
-  private final Trigger unIntake = new JoystickButton(joystick, 1);
-  private final Trigger intake = new JoystickButton(joystick, 2);
+  //private final Trigger unIntake = new JoystickButton(joystick, 1);
+  //private final Trigger intake = new JoystickButton(joystick, 2);
   private final Trigger resetArmButton = new JoystickButton(joystick, 5);
   private final Trigger middleArmButton = new JoystickButton(joystick, 3);
   private final Trigger deployIntake = new JoystickButton(joystick, 7);
@@ -75,6 +75,8 @@ public class RobotContainer {
   private final Trigger highArmButton = new JoystickButton(joystick, 4);
   private final Trigger intakeToggleTest = new JoystickButton(joystick, 9);
   private final Trigger reverseIntakeToggleTest = new JoystickButton(joystick, 10);
+  private final Trigger setSlow = new JoystickButton(joystick, 1);
+  private final Trigger setFast = new JoystickButton(joystick, 2);
 
   //Operator's controls
   private final CommandXboxController xbox = new CommandXboxController(0);
@@ -121,8 +123,11 @@ public class RobotContainer {
    */
   private void configureBindings() {
     //Driver's Commands
-    intake.whileTrue(new Intake(m_intakeSubsystem, ArmConstants.intakeSpeed)); //2
-    unIntake.whileTrue(new ReverseIntake(m_intakeSubsystem)); //1
+    //intake.whileTrue(new Intake(m_intakeSubsystem, ArmConstants.intakeSpeed)); //2
+    //unIntake.whileTrue(new ReverseIntake(m_intakeSubsystem)); //1
+
+    setSlow.onTrue(new InstantCommand(m_driveSubsystem::setSlowTrue, m_driveSubsystem));
+    setFast.onTrue(new InstantCommand(m_driveSubsystem::setSlowFalse, m_driveSubsystem));
 
     deployIntake.onTrue(new DeployIntake(m_pneumaticsSubsystem)); //7
     retractIntake.onTrue(new RetractIntake(m_pneumaticsSubsystem)); //8
@@ -138,8 +143,11 @@ public class RobotContainer {
     //Operator's Commands
     resetPosition.onTrue(new ResetArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
     lowPosition.onTrue(new LowArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
-    middlePosition.onTrue(new MiddleArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
-    highPosition.onTrue(new HighArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
+    //middlePosition.onTrue(new MiddleArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
+    //highPosition.onTrue(new HighArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
+
+    highPosition.onTrue(new MiddleArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
+    middlePosition.onTrue(new HighArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
 
     intakeToggle.onTrue(new InstantCommand(m_intakeSubsystem::increaseConeIndex, m_intakeSubsystem));
     reverseIntakeToggle.onTrue(new InstantCommand(m_intakeSubsystem::increaseCubeIndex, m_intakeSubsystem));
