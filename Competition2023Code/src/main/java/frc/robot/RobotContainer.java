@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AprilDriveTest;
+import frc.robot.commands.AprilDriveTestGPT;
 import frc.robot.commands.Drive;
 
 
@@ -80,7 +81,7 @@ public class RobotContainer {
   private void configureBindings() {
     driveToApril.onTrue(
       //new ParallelDeadlineGroup(
-        new AprilDriveTest(m_aprilVisionSubsystem, m_driveSubsystem, 0.5, 2, 1)
+        new AprilDriveTestGPT(m_aprilVisionSubsystem, m_driveSubsystem, 2, 0, 1, 0.5, 1, 1)
     );
    // driveToAprilInverted.onTrue(
       //new ParallelDeadlineGroup(
