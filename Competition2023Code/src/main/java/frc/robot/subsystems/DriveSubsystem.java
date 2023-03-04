@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.MotorIDConstants;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.SerialPort;
 
 //Creates DriveSubsystem class
@@ -30,6 +31,7 @@ public class DriveSubsystem extends SubsystemBase {
   //Creates diffDrive from DifferentialDrive for left and right MotorControllerGroups
   private DifferentialDrive diffDrive = new DifferentialDrive(left, right);
 
+  private SlewRateLimiter rateLimitVelocity = new SlewRateLimiter(2);
   //private AHRS gyro = new AHRS();
 
   //private AHRS navX = new AHRS(SerialPort.Port.kMXP);
@@ -50,7 +52,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void curveDrive(double speed, double roatation) {
-    diffDrive.curvatureDrive(speed, -roatation, false);
+    diffDrive.curvatureDrive(rateLimitVelocity.calculate(speed), -roatation, true);
   }
 
   //sets arcadeDrive to 0 rotation and 0 speed
