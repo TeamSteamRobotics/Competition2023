@@ -78,9 +78,6 @@ public class DriveSubsystem extends SubsystemBase {
     }
   }
 
-  public void curveDrive(double speed, double rotation) {
-    diffDrive.curvatureDrive(speed, -rotation, false);
-  }
 
   public void curveDrive(double speed, double roatation) {
     diffDrive.curvatureDrive(rateLimitVelocity.calculate(speed), -roatation, true);

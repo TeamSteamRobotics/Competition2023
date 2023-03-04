@@ -71,7 +71,7 @@ public class RobotContainer {
 
 
   //Driver's controls
-  private final Joystick joystick = new Joystick(1);
+  /*private final Joystick joystick = new Joystick(1);
   private final Trigger halveSpeed = new JoystickButton(joystick, 1);
   private final Trigger normalSpeed = new JoystickButton(joystick, 2);
   private final Trigger resetArmButton = new JoystickButton(joystick, 5);
@@ -81,30 +81,19 @@ public class RobotContainer {
   private final Trigger lowArmButton = new JoystickButton(joystick, 6);
   private final Trigger highArmButton = new JoystickButton(joystick, 4);
   private final Trigger intakeToggleTest = new JoystickButton(joystick, 9);
-  private final Trigger reverseIntakeToggleTest = new JoystickButton(joystick, 10);
+  private final Trigger reverseIntakeToggleTest = new JoystickButton(joystick, 10);*/
 
   //Operator's controls
-  private final CommandXboxController xbox = new CommandXboxController(0);
-  private final Trigger resetPosition = xbox.a();
-  private final Trigger lowPosition = xbox.x();
-  private final Trigger middlePosition = xbox.y();
-  private final Trigger highPosition = xbox.b();
-  private final Trigger intakeToggle = xbox.rightBumper();
-  private final Trigger reverseIntakeToggle = xbox.leftBumper();
-  private final Trigger resetIntakeToggles = xbox.povUp();
-  private final CommandXboxController driverController = new CommandXboxController(0);
-  private final CommandXboxController operatorController = new CommandXboxController(1);
+  private final CommandXboxController operatorController = new CommandXboxController(0);
+  private final Trigger resetPosition = operatorController.a();
+  private final Trigger lowPosition = operatorController.x();
+  private final Trigger middlePosition = operatorController.y();
+  private final Trigger highPosition = operatorController.b();
+  private final Trigger intakeToggle = operatorController.rightBumper();
+  private final Trigger reverseIntakeToggle = operatorController.leftBumper();
+  private final Trigger resetIntakeToggles = operatorController.povUp();
+  private final CommandXboxController driverController = new CommandXboxController(1);
 
-  private final Trigger unIntake = operatorController.leftBumper();
-  private final Trigger intake = operatorController.rightBumper();
-  private final Trigger rotateArmToggleUp = operatorController.a();
-  private final Trigger rotateArmToggleDown = operatorController.y();
-  private final Trigger deployIntake = operatorController.povUp();
-  private final Trigger retractIntake = operatorController.povDown();
-  private final Trigger extendArmToggleUp = operatorController.x();
-  private final Trigger extendArmToggleDown = operatorController.b();
-  private final Trigger intakeToggleTest = operatorController.rightTrigger();
-  private final Trigger reverseIntakeToggleTest = operatorController.leftTrigger();
 
   int armIndex = 0;
   boolean isIncreasing = false; 
@@ -117,7 +106,7 @@ public class RobotContainer {
     // Configure the trigger bindings
 
     configureBindings();
-    m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
+    //m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
     //m_driveSubsystem.setDefaultCommand(new CurveDrive(m_driveSubsystem, driverXbox::getRightY, driverXbox::getLeftX));
     m_intakeSubsystem.setDefaultCommand(intakeCommand);
     m_driveSubsystem.setDefaultCommand(new CurvatureDrive(driverController::getLeftY, driverController::getRightX, m_driveSubsystem));
@@ -153,19 +142,19 @@ public class RobotContainer {
     //intake.whileTrue(new Intake(m_intakeSubsystem, ArmConstants.intakeSpeed)); //2
     //unIntake.whileTrue(new ReverseIntake(m_intakeSubsystem)); //1
 
-    halveSpeed.onTrue(new InstantCommand(m_driveSubsystem::setHalfSpeedTrue, m_driveSubsystem));
-    normalSpeed.onTrue(new InstantCommand(m_driveSubsystem::setHalfSpeedFalse, m_driveSubsystem));
+    //halveSpeed.onTrue(new InstantCommand(m_driveSubsystem::setHalfSpeedTrue, m_driveSubsystem));
+    //normalSpeed.onTrue(new InstantCommand(m_driveSubsystem::setHalfSpeedFalse, m_driveSubsystem));
 
-    deployIntake.onTrue(new DeployIntake(m_pneumaticsSubsystem)); //7
-    retractIntake.onTrue(new RetractIntake(m_pneumaticsSubsystem)); //8
+    //deployIntake.onTrue(new DeployIntake(m_pneumaticsSubsystem)); //7
+   // retractIntake.onTrue(new RetractIntake(m_pneumaticsSubsystem)); //8
 
-    intakeToggleTest.onTrue(new InstantCommand(m_intakeSubsystem::increaseConeIndex, m_intakeSubsystem)); //9
-    reverseIntakeToggleTest.onTrue(new InstantCommand(m_intakeSubsystem::increaseCubeIndex, m_intakeSubsystem)); //10
+    //intakeToggleTest.onTrue(new InstantCommand(m_intakeSubsystem::increaseConeIndex, m_intakeSubsystem)); //9
+    //reverseIntakeToggleTest.onTrue(new InstantCommand(m_intakeSubsystem::increaseCubeIndex, m_intakeSubsystem)); //10
 
-    resetArmButton.onTrue(new ResetArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem)); //5
+    /*resetArmButton.onTrue(new ResetArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem)); //5
     lowArmButton.onTrue(new LowArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem)); //6
     middleArmButton.onTrue(new MiddleArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem)); //3
-    highArmButton.onTrue(new HighArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem)); //4
+    highArmButton.onTrue(new HighArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem)); //4*/
 
     //Operator's Commands
     resetPosition.onTrue(new ResetArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
