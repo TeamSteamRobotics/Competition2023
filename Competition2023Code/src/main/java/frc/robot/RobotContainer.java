@@ -25,6 +25,8 @@ import frc.robot.commands.PositionCommands.LowArmPosition;
 import frc.robot.commands.PositionCommands.MiddleArmPosition;
 import frc.robot.commands.PositionCommands.ResetArmPosition;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.commands.AprilDriveTest;
+import frc.robot.commands.AprilDriveTestGPT;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PneumaticsSubsystem;
