@@ -24,6 +24,8 @@ import frc.robot.commands.PositionCommands.HighArmPosition;
 import frc.robot.commands.PositionCommands.LowArmPosition;
 import frc.robot.commands.PositionCommands.MiddleArmPosition;
 import frc.robot.commands.PositionCommands.ResetArmPosition;
+import frc.robot.commands.DriveCommands.CurvatureDrive;
+import frc.robot.commands.DriveCommands.Drive;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.commands.AprilDriveTest;
 import frc.robot.commands.AprilDriveTestGPT;
@@ -43,9 +45,12 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SelectCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -87,6 +92,22 @@ public class RobotContainer {
   private final Trigger intakeToggle = xbox.rightBumper();
   private final Trigger reverseIntakeToggle = xbox.leftBumper();
   private final Trigger resetIntakeToggles = xbox.povUp();
+  private final CommandXboxController driverController = new CommandXboxController(0);
+  private final CommandXboxController operatorController = new CommandXboxController(1);
+
+  private final Trigger unIntake = operatorController.leftBumper();
+  private final Trigger intake = operatorController.rightBumper();
+  private final Trigger rotateArmToggleUp = operatorController.a();
+  private final Trigger rotateArmToggleDown = operatorController.y();
+  private final Trigger deployIntake = operatorController.povUp();
+  private final Trigger retractIntake = operatorController.povDown();
+  private final Trigger extendArmToggleUp = operatorController.x();
+  private final Trigger extendArmToggleDown = operatorController.b();
+  private final Trigger intakeToggleTest = operatorController.rightTrigger();
+  private final Trigger reverseIntakeToggleTest = operatorController.leftTrigger();
+
+  int armIndex = 0;
+  boolean isIncreasing = false; 
 
 
   PathPlannerTrajectory examplePath = PathPlanner.loadPath("TestPath", new PathConstraints(4, 3));
@@ -99,6 +120,12 @@ public class RobotContainer {
     m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
     //m_driveSubsystem.setDefaultCommand(new CurveDrive(m_driveSubsystem, driverXbox::getRightY, driverXbox::getLeftX));
     m_intakeSubsystem.setDefaultCommand(intakeCommand);
+    m_driveSubsystem.setDefaultCommand(new CurvatureDrive(driverController::getLeftY, driverController::getRightX, m_driveSubsystem));
+    //m_intakeSubsystem.setDefaultCommand(intakeCommand);
+
+    //m_armSubsystem.setDefaultCommand(positionCommand);
+    //m_armExtensionSubsystem.setDefaultCommand(extentionCommand);
+    
   }
 
   private final Command intakeCommand = 

@@ -20,6 +20,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SPI;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.wpilibj.SerialPort;
 
 //Creates DriveSubsystem class
 public class DriveSubsystem extends SubsystemBase {
@@ -46,6 +48,8 @@ public class DriveSubsystem extends SubsystemBase {
   //SerialPort.Port.kMXP
 
   private boolean halfSpeed = false;
+  private SlewRateLimiter rateLimitVelocity = new SlewRateLimiter(2);
+  //private AHRS gyro = new AHRS();
 
   //Inverts right MotorControllerGroup
   public DriveSubsystem() { 
@@ -76,6 +80,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void curveDrive(double speed, double rotation) {
     diffDrive.curvatureDrive(speed, -rotation, false);
+  }
+
+  public void curveDrive(double speed, double roatation) {
+    diffDrive.curvatureDrive(rateLimitVelocity.calculate(speed), -roatation, true);
   }
 
   //sets arcadeDrive to 0 rotation and 0 speed

@@ -13,9 +13,6 @@ import frc.robot.Constants.MotorIDConstants;
 
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
-
-
-
   private CANSparkMax armMotorLeft = new CANSparkMax(MotorIDConstants.leftShoulderMotor, MotorType.kBrushless);
   private CANSparkMax armMotorRight = new CANSparkMax(MotorIDConstants.rightShoulerMotor, MotorType.kBrushless);
   private MotorControllerGroup armMotors = new MotorControllerGroup(armMotorLeft, armMotorRight);
