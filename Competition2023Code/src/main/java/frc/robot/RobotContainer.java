@@ -25,6 +25,8 @@ import frc.robot.commands.PositionCommands.LowArmPosition;
 import frc.robot.commands.PositionCommands.MiddleArmPosition;
 import frc.robot.commands.PositionCommands.ResetArmPosition;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.commands.AprilDriveTest;
+import frc.robot.commands.AprilDriveTestGPT;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PneumaticsSubsystem;
@@ -123,6 +125,25 @@ public class RobotContainer {
     //Driver's Commands
     intake.whileTrue(new Intake(m_intakeSubsystem, ArmConstants.intakeSpeed)); //2
     unIntake.whileTrue(new ReverseIntake(m_intakeSubsystem)); //1
+    driveToApril.onTrue(
+      //new ParallelDeadlineGroup(
+        new AprilDriveTestGPT(m_aprilVisionSubsystem, m_driveSubsystem, 2, 0, 1, 0.5, 1, 1)
+    );
+   // driveToAprilInverted.onTrue(
+      //new ParallelDeadlineGroup(
+        //new DriveToApril(m_aprilVisionSubsystem, m_driveSubsystem, 0.5f, 3.5f, true)
+   // );
+      
+  
+    
+    /*testButtonAlternate.onTrue( new ParallelDeadlineGroup (
+      new WaitCommand(2),
+      new RotateArm(m_armSubsystem, -0.1)
+      ) 
+    );
+    */
+ 
+  
 
     deployIntake.onTrue(new DeployIntake(m_pneumaticsSubsystem)); //7
     retractIntake.onTrue(new RetractIntake(m_pneumaticsSubsystem)); //8
