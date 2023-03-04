@@ -98,12 +98,16 @@ public class AprilDriveTest extends CommandBase{
                 stepCurrent = Step.TWO;
             break;
             case TWO:
+            System.out.println(ahrs.getYaw());
+            System.out.println(targetAngle);
             if (Math.abs(ahrs.getYaw() - targetAngle) > error) {
+                System.out.println("GET YAW");
                 //Rotate the robot at speed until within error
                 ds.drive(0, 0.5);
               } else {
+                System.out.println("TO STEP THREE");
                 //Stop rotating
-                stepCurrent = Step.FOUR;
+                stepCurrent = Step.THREE;
               }
             break;
             case THREE:
@@ -113,7 +117,7 @@ public class AprilDriveTest extends CommandBase{
 
                 //If the current hypotenuse is greater than 0.5(the robot's distance from the target offset) then drive forward. Could also possibly use the current z value instead.
                 //TODO: Make 0.5 value a variable(called tolerance?).
-                if(hyp > 0.5){
+                if(hyp > offset){
                     ds.drive(-speed, 0);
                 }else{
                     stepCurrent = Step.FOUR;
