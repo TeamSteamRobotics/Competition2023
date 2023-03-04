@@ -78,7 +78,7 @@ public final class Constants {
 
     public static final double anglePIDTolerance = .05
     ;
-    public static final double lengthPIDTolerance = 0.0000001;
+    public static final double lengthPIDTolerance = 0.000001;
 
     public static final double extendArmPIDoffset= 0.1739;
 
@@ -95,7 +95,7 @@ public final class Constants {
     public static final double resetPositionLength = 0;
     public static final double lowPositionLength = 0.31; //0.228;
     public static final double middlePositionLength = 0.172;
-    public static final double highPositionLength = 0.43;
+    public static final double highPositionLength = .45;//0.43;
 
   }
 

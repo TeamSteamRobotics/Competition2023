@@ -20,6 +20,8 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SPI;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.wpilibj.SerialPort;
 
 //Creates DriveSubsystem class
 public class DriveSubsystem extends SubsystemBase {
@@ -47,6 +49,10 @@ public class DriveSubsystem extends SubsystemBase {
   //= new AHRS();
   //SerialPort.Port.kMXP
 
+  private boolean halfSpeed = false;
+  private SlewRateLimiter rateLimitVelocity = new SlewRateLimiter(2);
+  //private AHRS gyro = new AHRS();
+
   //Inverts right MotorControllerGroup
   public DriveSubsystem() { 
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(gyroAngleDegrees()), getLeftEncoderDistance(), getRightEncoderDistance());
@@ -55,26 +61,28 @@ public class DriveSubsystem extends SubsystemBase {
     resetGyro();
   }
 
-  public void setSlowTrue(){
-    isSlow = true;
+  public void setHalfSpeedTrue() {
+    halfSpeed = true;
   }
 
-  public void setSlowFalse(){
-    isSlow = false;
+  public void setHalfSpeedFalse() {
+    halfSpeed = false;
   }
+
+
 
   //Assigns arcadeDrive speed and rotation
   public void drive(double speed, double rotation){
-    if(!isSlow){
-      diffDrive.arcadeDrive(speed, -rotation);
-    } else {
+    if(halfSpeed) {
       diffDrive.arcadeDrive(speed / 2, -rotation / 2);
+    } else {
+      diffDrive.arcadeDrive(speed, -rotation);
     }
-    
   }
 
-  public void curveDrive(double speed, double rotation) {
-    diffDrive.curvatureDrive(speed, -rotation, false);
+
+  public void curveDrive(double speed, double roatation) {
+    diffDrive.curvatureDrive(rateLimitVelocity.calculate(speed), -roatation, true);
   }
 
   //sets arcadeDrive to 0 rotation and 0 speed

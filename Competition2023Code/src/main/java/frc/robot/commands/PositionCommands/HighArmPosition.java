@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.commands.ArmCommands.ArmAnglePID;
+import frc.robot.commands.ArmCommands.DeployIntake;
 import frc.robot.commands.ArmCommands.ExtendArmPID;
 import frc.robot.commands.ArmCommands.RetractIntake;
 import frc.robot.subsystems.ArmExtensionSubsystem;
@@ -29,7 +30,7 @@ public class HighArmPosition extends ParallelCommandGroup {
         new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
         new SequentialCommandGroup(
         new WaitCommand(0.5),
-        new RetractIntake(m_pneumaticsSubsystem)),
+        new DeployIntake(m_pneumaticsSubsystem)),
       new SequentialCommandGroup(
         new WaitCommand(1),
         new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength)))

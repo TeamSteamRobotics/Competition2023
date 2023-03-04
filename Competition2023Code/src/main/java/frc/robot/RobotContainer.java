@@ -24,7 +24,11 @@ import frc.robot.commands.PositionCommands.HighArmPosition;
 import frc.robot.commands.PositionCommands.LowArmPosition;
 import frc.robot.commands.PositionCommands.MiddleArmPosition;
 import frc.robot.commands.PositionCommands.ResetArmPosition;
+import frc.robot.commands.DriveCommands.CurvatureDrive;
+import frc.robot.commands.DriveCommands.Drive;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.commands.AprilDriveTest;
+import frc.robot.commands.AprilDriveTestGPT;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PneumaticsSubsystem;
@@ -41,9 +45,12 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SelectCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -64,9 +71,9 @@ public class RobotContainer {
 
 
   //Driver's controls
-  private final Joystick joystick = new Joystick(1);
-  //private final Trigger unIntake = new JoystickButton(joystick, 1);
-  //private final Trigger intake = new JoystickButton(joystick, 2);
+  /*private final Joystick joystick = new Joystick(1);
+  private final Trigger halveSpeed = new JoystickButton(joystick, 1);
+  private final Trigger normalSpeed = new JoystickButton(joystick, 2);
   private final Trigger resetArmButton = new JoystickButton(joystick, 5);
   private final Trigger middleArmButton = new JoystickButton(joystick, 3);
   private final Trigger deployIntake = new JoystickButton(joystick, 7);
@@ -75,18 +82,26 @@ public class RobotContainer {
   private final Trigger highArmButton = new JoystickButton(joystick, 4);
   private final Trigger intakeToggleTest = new JoystickButton(joystick, 9);
   private final Trigger reverseIntakeToggleTest = new JoystickButton(joystick, 10);
-  private final Trigger setSlow = new JoystickButton(joystick, 1);
-  private final Trigger setFast = new JoystickButton(joystick, 2);
+  private final Trigger reverseIntakeToggleTest = new JoystickButton(joystick, 10);
+  */
+  //private final Trigger setSlow = new JoystickButton(joystick, 1);
+  //private final Trigger setFast = new JoystickButton(joystick, 2);
+  
 
   //Operator's controls
-  private final CommandXboxController xbox = new CommandXboxController(0);
-  private final Trigger resetPosition = xbox.a();
-  private final Trigger lowPosition = xbox.x();
-  private final Trigger middlePosition = xbox.y();
-  private final Trigger highPosition = xbox.b();
-  private final Trigger intakeToggle = xbox.rightBumper();
-  private final Trigger reverseIntakeToggle = xbox.leftBumper();
-  private final Trigger resetIntakeToggles = xbox.povUp();
+  private final CommandXboxController operatorController = new CommandXboxController(0);
+  private final Trigger resetPosition = operatorController.a();
+  private final Trigger lowPosition = operatorController.x();
+  private final Trigger middlePosition = operatorController.y();
+  private final Trigger highPosition = operatorController.b();
+  private final Trigger intakeToggle = operatorController.rightBumper();
+  private final Trigger reverseIntakeToggle = operatorController.leftBumper();
+  private final Trigger resetIntakeToggles = operatorController.povUp();
+  private final CommandXboxController driverController = new CommandXboxController(1);
+
+
+  int armIndex = 0;
+  boolean isIncreasing = false; 
 
 
   PathPlannerTrajectory examplePath = PathPlanner.loadPath("TestPath", new PathConstraints(4, 3));
@@ -96,9 +111,15 @@ public class RobotContainer {
     // Configure the trigger bindings
 
     configureBindings();
-    m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
+    //m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
     //m_driveSubsystem.setDefaultCommand(new CurveDrive(m_driveSubsystem, driverXbox::getRightY, driverXbox::getLeftX));
     m_intakeSubsystem.setDefaultCommand(intakeCommand);
+    m_driveSubsystem.setDefaultCommand(new CurvatureDrive(driverController::getLeftY, driverController::getRightX, m_driveSubsystem));
+    //m_intakeSubsystem.setDefaultCommand(intakeCommand);
+
+    //m_armSubsystem.setDefaultCommand(positionCommand);
+    //m_armExtensionSubsystem.setDefaultCommand(extentionCommand);
+    
   }
 
   private final Command intakeCommand = 
@@ -126,19 +147,22 @@ public class RobotContainer {
     //intake.whileTrue(new Intake(m_intakeSubsystem, ArmConstants.intakeSpeed)); //2
     //unIntake.whileTrue(new ReverseIntake(m_intakeSubsystem)); //1
 
-    setSlow.onTrue(new InstantCommand(m_driveSubsystem::setSlowTrue, m_driveSubsystem));
-    setFast.onTrue(new InstantCommand(m_driveSubsystem::setSlowFalse, m_driveSubsystem));
+    //setSlow.onTrue(new InstantCommand(m_driveSubsystem::setSlowTrue, m_driveSubsystem));
+    //setFast.onTrue(new InstantCommand(m_driveSubsystem::setSlowFalse, m_driveSubsystem));
 
-    deployIntake.onTrue(new DeployIntake(m_pneumaticsSubsystem)); //7
-    retractIntake.onTrue(new RetractIntake(m_pneumaticsSubsystem)); //8
+    //halveSpeed.onTrue(new InstantCommand(m_driveSubsystem::setHalfSpeedTrue, m_driveSubsystem));
+    //normalSpeed.onTrue(new InstantCommand(m_driveSubsystem::setHalfSpeedFalse, m_driveSubsystem));
 
-    intakeToggleTest.onTrue(new InstantCommand(m_intakeSubsystem::increaseConeIndex, m_intakeSubsystem)); //9
-    reverseIntakeToggleTest.onTrue(new InstantCommand(m_intakeSubsystem::increaseCubeIndex, m_intakeSubsystem)); //10
+    //deployIntake.onTrue(new DeployIntake(m_pneumaticsSubsystem)); //7
+   // retractIntake.onTrue(new RetractIntake(m_pneumaticsSubsystem)); //8
 
-    resetArmButton.onTrue(new ResetArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem)); //5
+    //intakeToggleTest.onTrue(new InstantCommand(m_intakeSubsystem::increaseConeIndex, m_intakeSubsystem)); //9
+    //reverseIntakeToggleTest.onTrue(new InstantCommand(m_intakeSubsystem::increaseCubeIndex, m_intakeSubsystem)); //10
+
+    /*resetArmButton.onTrue(new ResetArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem)); //5
     lowArmButton.onTrue(new LowArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem)); //6
     middleArmButton.onTrue(new MiddleArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem)); //3
-    highArmButton.onTrue(new HighArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem)); //4
+    highArmButton.onTrue(new HighArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem)); //4*/
 
     //Operator's Commands
     resetPosition.onTrue(new ResetArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));

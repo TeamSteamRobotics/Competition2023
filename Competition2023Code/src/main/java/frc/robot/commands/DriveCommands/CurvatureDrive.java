@@ -9,21 +9,16 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
-
-public class Drive extends CommandBase {
-  /** Creates a new Drive. */
-
-  DriveSubsystem m_driveSubsystem;
-  DoubleSupplier driveSpeed;
-  DoubleSupplier rotationSpeed;
-
-  public Drive(DriveSubsystem driveSubsystem, DoubleSupplier driveSpeed, DoubleSupplier rotationSpeed) {
-
-    m_driveSubsystem = driveSubsystem;
-    this.driveSpeed = driveSpeed;
-    this.rotationSpeed = rotationSpeed;
-
-    addRequirements(driveSubsystem);
+public class CurvatureDrive extends CommandBase {
+  /** Creates a new CurvatureDrive. */
+  DoubleSupplier speed;
+  DoubleSupplier rotation;
+  DriveSubsystem drive;
+  public CurvatureDrive(DoubleSupplier speed, DoubleSupplier rotation, DriveSubsystem drive) {
+    this.speed = speed;
+    this.rotation = rotation;
+    this.drive = drive;
+    addRequirements(drive);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -34,13 +29,13 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_driveSubsystem.drive(driveSpeed.getAsDouble(), rotationSpeed.getAsDouble());
+    drive.curveDrive(speed.getAsDouble(), rotation.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_driveSubsystem.stop();
+    drive.stop();
   }
 
   // Returns true when the command should end.
