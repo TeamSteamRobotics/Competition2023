@@ -65,8 +65,8 @@ public class RobotContainer {
 
   //Driver's controls
   private final Joystick joystick = new Joystick(1);
-  private final Trigger unIntake = new JoystickButton(joystick, 1);
-  private final Trigger intake = new JoystickButton(joystick, 2);
+  private final Trigger halveSpeed = new JoystickButton(joystick, 1);
+  private final Trigger normalSpeed = new JoystickButton(joystick, 2);
   private final Trigger resetArmButton = new JoystickButton(joystick, 5);
   private final Trigger middleArmButton = new JoystickButton(joystick, 3);
   private final Trigger deployIntake = new JoystickButton(joystick, 7);
@@ -121,8 +121,11 @@ public class RobotContainer {
    */
   private void configureBindings() {
     //Driver's Commands
-    intake.whileTrue(new Intake(m_intakeSubsystem, ArmConstants.intakeSpeed)); //2
-    unIntake.whileTrue(new ReverseIntake(m_intakeSubsystem)); //1
+    //intake.whileTrue(new Intake(m_intakeSubsystem, ArmConstants.intakeSpeed)); //2
+    //unIntake.whileTrue(new ReverseIntake(m_intakeSubsystem)); //1
+
+    halveSpeed.onTrue(new InstantCommand(m_driveSubsystem::setHalfSpeedTrue, m_driveSubsystem));
+    normalSpeed.onTrue(new InstantCommand(m_driveSubsystem::setHalfSpeedFalse, m_driveSubsystem));
 
     deployIntake.onTrue(new DeployIntake(m_pneumaticsSubsystem)); //7
     retractIntake.onTrue(new RetractIntake(m_pneumaticsSubsystem)); //8
