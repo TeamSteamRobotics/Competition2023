@@ -38,6 +38,7 @@ public class DriveSubsystem extends SubsystemBase {
   
   //Creates diffDrive from DifferentialDrive for left and right MotorControllerGroups
   private DifferentialDrive diffDrive = new DifferentialDrive(left, right);
+  
   private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(27));
   private DifferentialDriveOdometry m_odometry;//
   private boolean isSlow = false;
@@ -82,7 +83,11 @@ public class DriveSubsystem extends SubsystemBase {
 
 
   public void curveDrive(double speed, double roatation) {
-    diffDrive.curvatureDrive(rateLimitVelocity.calculate(speed), -roatation, true);
+    if(halfSpeed == false) {
+      diffDrive.curvatureDrive(rateLimitVelocity.calculate(speed), -roatation, true);
+    } else {
+      diffDrive.curvatureDrive(speed / 2, -roatation / 2, true);
+    }
   }
 
   //sets arcadeDrive to 0 rotation and 0 speed

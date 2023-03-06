@@ -58,6 +58,8 @@ public class RobotContainer {
 
   //Driver Controller
   private final CommandXboxController driverController = new CommandXboxController(1);
+  private final Trigger halfSpeed = driverController.povLeft();
+  private final Trigger fullSpeed = driverController.povRight();
 
   //Operator Controller
   private final CommandXboxController operatorController = new CommandXboxController(0);
@@ -116,10 +118,13 @@ public class RobotContainer {
     lowPosition.onTrue(new LowArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
     middlePosition.onTrue(new MiddleArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
     highPosition.onTrue(new HighArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
-
     intakeToggle.onTrue(new InstantCommand(m_intakeSubsystem::increaseConeIndex, m_intakeSubsystem));
     reverseIntakeToggle.onTrue(new InstantCommand(m_intakeSubsystem::increaseCubeIndex, m_intakeSubsystem));
     resetIntakeToggles.onTrue(new InstantCommand(m_intakeSubsystem::resetIndexes, m_intakeSubsystem));
+
+    //Driver Buttons
+    halfSpeed.onTrue(new InstantCommand(m_driveSubsystem::setHalfSpeedTrue, m_driveSubsystem));
+    fullSpeed.onTrue(new InstantCommand(m_driveSubsystem::setHalfSpeedFalse, m_driveSubsystem));
 
   }
 
