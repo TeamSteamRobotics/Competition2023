@@ -40,7 +40,7 @@ public final class Constants {
     //test constants, need to determine for real
     public static final double ksVolts = .2;
     public static final double ksVoltSecondsPerMeter = 3.3;
-    public static final double kaVoltSecondsSquaredPerMeter = 0.67;
+    public static final double kvVoltSecondsSquaredPerMeter = 0.67;
     public static final double kPDriveVel = 4.6; 
 
   }

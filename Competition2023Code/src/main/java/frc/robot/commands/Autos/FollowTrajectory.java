@@ -23,11 +23,6 @@ import frc.robot.subsystems.DriveSubsystem;
 public class FollowTrajectory extends SequentialCommandGroup {
   /** Creates a new Auto2. */
   
-  //test values
-  double KS = .5;
-  double KV = .5;
-  double KA = .5; 
-
   public FollowTrajectory(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem, PathPlannerTrajectory traj, Boolean isFirstPath) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
@@ -43,11 +38,11 @@ public class FollowTrajectory extends SequentialCommandGroup {
               traj, 
               driveSubsystem::getPose, // Pose supplier
               new RamseteController(),
-              new SimpleMotorFeedforward(KS,KV,KA),
+              new SimpleMotorFeedforward(Constants.DriveConstants.ksVolts,Constants.DriveConstants.ksVoltSecondsPerMeter,Constants.DriveConstants.kvVoltSecondsSquaredPerMeter),
               driveSubsystem.getKinematics(), // DifferentialDriveKinematics
               driveSubsystem::getWheelSpeeds, // DifferentialDriveWheelSpeeds supplier
-              new PIDController(0, 0, 0), // Left controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
-              new PIDController(0, 0, 0), // Right controller (usually the same values as left controller)
+              new PIDController(Constants.DriveConstants.kPDriveVel, 0, 0), // Left controller. Tune these values for your robot. Leaving them 0 will only use feedforwards.
+              new PIDController(Constants.DriveConstants.kPDriveVel, 0, 0), // Right controller (usually the same values as left controller)
               driveSubsystem::diffDriveVolts, // Voltage biconsumer
               true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
               driveSubsystem // Requires this drive subsystem
