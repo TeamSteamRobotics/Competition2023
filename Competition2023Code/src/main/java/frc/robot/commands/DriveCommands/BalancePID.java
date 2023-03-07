@@ -18,7 +18,7 @@ public class BalancePID extends PIDCommand {
         // The controller that the command will use
         new PIDController(0, 0, 0),
         // This should return the measurement
-        () -> drive.gyroPitchDegrees(),
+        () -> drive.gyroPitchDegrees() / 360,
         // This should return the setpoint (can also be a constant)
         0,
         // This uses the output
@@ -28,6 +28,8 @@ public class BalancePID extends PIDCommand {
           // Use the output here
         });
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(drive);
+    getController().setSetpoint(5); 
     // Configure additional PID options by calling `getController` here.
   }
 

@@ -162,7 +162,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double gyroPitchDegrees() {
-    return 0;
+    return navX.getPitch();
   }
 
   public Pose2d getPose() {
