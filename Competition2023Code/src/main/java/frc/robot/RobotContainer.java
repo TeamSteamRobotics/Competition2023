@@ -17,6 +17,7 @@ import frc.robot.commands.ArmCommands.PositionCommands.MiddleArmPosition;
 import frc.robot.commands.ArmCommands.PositionCommands.ResetArmPosition;
 import frc.robot.commands.Autos.Auto1;
 import frc.robot.commands.Autos.Auto10;
+import frc.robot.commands.Autos.Auto11;
 import frc.robot.commands.Autos.Auto3;
 import frc.robot.commands.Autos.Auto4;
 import frc.robot.commands.Autos.Auto5;
@@ -184,6 +185,8 @@ public class RobotContainer {
           return new Auto9(m_driveSubsystem, m_armSubsystem);
         case drive_forwards_score_leave_community_dock_engage:
           return new Auto10(m_driveSubsystem, m_armSubsystem);
+        case drive_forwards_score_cube_community:
+          return new Auto11(m_driveSubsystem, m_armExtensionSubsystem, m_armSubsystem, m_pneumaticsSubsystem, m_intakeSubsystem);
         case path_planner:
           return new FollowTrajectory(m_driveSubsystem, m_armSubsystem, examplePath, true);
         default:
@@ -198,6 +201,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return ChooseAuto(AutoType.path_planner);
+    return ChooseAuto(AutoType.drive_forwards_score_cube_community);
   }
 }
