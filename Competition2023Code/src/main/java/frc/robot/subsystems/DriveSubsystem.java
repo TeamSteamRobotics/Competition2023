@@ -58,11 +58,8 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() { 
     m_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(gyroAngleDegrees()), getLeftEncoderDistance(), getRightEncoderDistance());
     right.setInverted(true);
-<<<<<<< HEAD
     resetEncoders();
-=======
     resetGyro();
->>>>>>> path-planner
   }
 
   //Assigns arcadeDrive speed and rotation
@@ -145,10 +142,8 @@ public class DriveSubsystem extends SubsystemBase {
     return 0;
   }
 
-<<<<<<< HEAD
   //0 degrees = 0 encoder difference
   //90 degrees = -5864
-=======
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
   }
@@ -166,17 +161,15 @@ public class DriveSubsystem extends SubsystemBase {
   public DifferentialDriveKinematics getKinematics() {
     return kinematics; 
   }
->>>>>>> path-planner
 
   // Overrides code
   @Override
   public void periodic() {
-<<<<<<< HEAD
     //System.out.println(getEncoderDifference());
     // This method will be called once per scheduler run
-=======
     m_odometry.update(
       navX.getRotation2d(), getLeftEncoderDistance(), getRightEncoderDistance());
->>>>>>> path-planner
+    System.out.println(navX.getAngle())
   }
+
 }
