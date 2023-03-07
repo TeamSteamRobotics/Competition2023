@@ -27,7 +27,7 @@ public class Auto9 extends SequentialCommandGroup {
     new WaitCommand(.5),
     new EncoderDriveDistance(-5.65, drive),
     new WaitCommand(.5),
-    new GyroTurn(0,drive)
+    new GyroTurn(drive, 0)
 
     );
   }

@@ -14,7 +14,7 @@ import frc.robot.subsystems.DriveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class GyroTurn extends PIDCommand {
   /** Creates a new GyroTurn. */
-  public GyroTurn(double turnAngleDegrees, DriveSubsystem drive) {
+  public GyroTurn(DriveSubsystem drive, double turnAngleDegrees) {
     super(
         // The controller that the command will use
         new PIDController(GyroTurnConstants.kP, GyroTurnConstants.kI, GyroTurnConstants.kD),

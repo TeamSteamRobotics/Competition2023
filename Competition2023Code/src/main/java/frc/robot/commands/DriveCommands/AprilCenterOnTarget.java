@@ -50,11 +50,11 @@ public class AprilCenterOnTarget extends SequentialCommandGroup {
     addCommands(
       //PID Commands may not end 
       //Check tolerance or make parallel
-      new GyroTurn(theta, m_driveSubsystem),
+      new GyroTurn(m_driveSubsystem, theta),
       new WaitCommand(.5),
       new EncoderDriveDistance(driveDistance, m_driveSubsystem),
       new WaitCommand(.5),
-      new GyroTurn(-theta2, m_driveSubsystem)
+      new GyroTurn(m_driveSubsystem, -theta2)
     );
   }
 }
