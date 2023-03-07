@@ -126,7 +126,7 @@ public class ArmSubsystem extends SubsystemBase {
 //Overrides code
   @Override
   public void periodic() {
-    System.out.println(this.getArmAngleDegrees());
+    //System.out.println(this.getArmAngleDegrees());
     // This method will be called once per scheduler run
   }
   

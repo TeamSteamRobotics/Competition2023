@@ -105,7 +105,7 @@ public class DriveSubsystem extends SubsystemBase {
   // prints and returns distance driven
   public double getEncoderDistanceMeters() {
     double dist = leftfront.getSelectedSensorPosition() / 4096 * 2 * Math.PI * DriveConstants.wheelRadiusMeters; //* 2*Math.PI*DriveConstants.wheelRadiusMeters);
-    System.out.println(dist);
+    //System.out.println(dist);
     return dist;
   }
 
@@ -137,7 +137,12 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double gyroAngleDegrees() {
-    return navX.getAngle();
+    double angle = navX.getAngle() % 360;
+    if (angle < 0) {
+      return 360 + angle; 
+    } else {
+      return navX.getAngle() % 360;
+    }
   }
 
   public double gyroPitchDegrees() {
@@ -171,7 +176,7 @@ public class DriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     m_odometry.update(
       navX.getRotation2d(), getLeftEncoderDistance(), getRightEncoderDistance());
-    System.out.println(navX.getAngle());
+    System.out.println("Gyro angle: " + gyroAngleDegrees());
   }
 
 }

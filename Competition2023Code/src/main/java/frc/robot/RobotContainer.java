@@ -26,6 +26,7 @@ import frc.robot.commands.DriveCommands.Drive;
 import frc.robot.commands.DriveCommands.DriveRotationPID;
 import frc.robot.commands.DriveCommands.DriveToApril;
 import frc.robot.commands.DriveCommands.EncoderDriveDistance;
+import frc.robot.commands.DriveCommands.GyroTurn;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -80,7 +81,7 @@ public class RobotContainer {
   private final XboxController xbox = new XboxController(1);
   private final Trigger unIntake = new JoystickButton(joystick, 1);
   private final Trigger intake = new JoystickButton(joystick, 2);
-  private final Trigger rotateArmToggleUp = new JoystickButton(joystick, 5);
+  //private final Trigger rotateArmToggleUp = new JoystickButton(joystick, 5);
   private final Trigger rotateArmToggleDown = new JoystickButton(joystick, 3);
   private final Trigger deployIntake = new JoystickButton(joystick, 7);
   private final Trigger retractIntake = new JoystickButton(joystick, 8);
@@ -88,6 +89,7 @@ public class RobotContainer {
   private final Trigger extendArmToggleDown = new JoystickButton(joystick, 4);
   private final Trigger intakeToggleTest = new JoystickButton(joystick, 9);
   private final Trigger reverseIntakeToggleTest = new JoystickButton(joystick, 10);
+  private final Trigger turnRight = new JoystickButton(joystick, 5);
 
   PathPlannerTrajectory examplePath = PathPlanner.loadPath("TestPath", new PathConstraints(4, 3));
 
@@ -191,13 +193,14 @@ public class RobotContainer {
     deployIntake.onTrue(new DeployIntake(m_pneumaticsSubsystem)); //7
 
     retractIntake.onTrue(new RetractIntake(m_pneumaticsSubsystem)); //8
-
     intakeToggleTest.onTrue(new InstantCommand(m_intakeSubsystem::increaseConeIndex, m_intakeSubsystem)); //9
     reverseIntakeToggleTest.onTrue(new InstantCommand(m_intakeSubsystem::increaseCubeIndex, m_intakeSubsystem)); //10
 
+    turnRight.onTrue(new GyroTurn(90, m_driveSubsystem));
+
 
     //5
-    rotateArmToggleUp.onTrue(
+    /*rotateArmToggleUp.onTrue(
     new ParallelCommandGroup(
       new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength),
         new SequentialCommandGroup(
@@ -210,7 +213,7 @@ public class RobotContainer {
         new WaitCommand(1), 
         new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition))
       )
-    );
+    );*/
     
     extendArmToggleUp.onTrue(
     new ParallelCommandGroup(

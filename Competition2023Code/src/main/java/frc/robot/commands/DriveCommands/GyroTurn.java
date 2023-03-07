@@ -25,6 +25,7 @@ public class GyroTurn extends PIDCommand {
         turnAngleDegrees,
         // This uses the output
         output -> {
+          //System.out.println(drive.gyroAngleDegrees());
           drive.drive(0, output);
         });
       addRequirements(drive);
@@ -36,6 +37,7 @@ public class GyroTurn extends PIDCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    System.out.println("finished"); 
     return getController().atSetpoint();
   }
 }
