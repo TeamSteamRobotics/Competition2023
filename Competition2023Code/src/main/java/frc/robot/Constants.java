@@ -104,10 +104,10 @@ public final class Constants {
   }
 
   public final class MotorIDConstants {
-    public static final short leftBackDrive = 1;
-    public static final short leftFrontDrive = 3;
-    public static final short rightBackDrive = 2;
-    public static final short rightFrontDrive = 4;
+    public static final short leftBackDrive = 3;
+    public static final short leftFrontDrive = 2;
+    public static final short rightBackDrive = 9;
+    public static final short rightFrontDrive = 8;
 
     public static final short intakeMotor = 5;
     public static final short leftShoulderMotor = 4;
