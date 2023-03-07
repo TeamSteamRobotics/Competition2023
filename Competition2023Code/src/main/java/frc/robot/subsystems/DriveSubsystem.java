@@ -174,7 +174,12 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double gyroAngleDegrees() {
-    return navX.getAngle();
+    double angle = navX.getAngle() % 360; 
+    if (angle < 0) {
+      return 360 + angle; 
+    } else {
+      return angle; 
+    }
   }
 
   public double gyroPitchDegrees() {
