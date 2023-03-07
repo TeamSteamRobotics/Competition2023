@@ -176,7 +176,7 @@ public class DriveSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     m_odometry.update(
       navX.getRotation2d(), getLeftEncoderDistance(), getRightEncoderDistance());
-    System.out.println("Gyro angle: " + gyroAngleDegrees());
+    //System.out.println("Gyro angle: " + gyroAngleDegrees());
   }
 
 }

@@ -33,6 +33,7 @@ public class FollowTrajectory extends SequentialCommandGroup {
             if(isFirstPath){
                 driveSubsystem.resetOdometry(traj.getInitialPose());
             }
+            System.out.println("started"); 
           }),
           new PPRamseteCommand(
               traj, 
