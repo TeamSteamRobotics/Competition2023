@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -70,6 +72,20 @@ public class DriveSubsystem extends SubsystemBase {
     halfSpeed = false;
   }
 
+  public void setBrakeMode(boolean brakeMode) {
+    if(brakeMode) {
+      leftback.setNeutralMode(NeutralMode.Brake);
+      leftfront.setNeutralMode(NeutralMode.Brake);
+      rightback.setNeutralMode(NeutralMode.Brake);
+      rightfront.setNeutralMode(NeutralMode.Brake);
+    } else {
+      leftback.setNeutralMode(NeutralMode.Coast);
+      leftfront.setNeutralMode(NeutralMode.Coast);
+      rightback.setNeutralMode(NeutralMode.Coast);
+      rightfront.setNeutralMode(NeutralMode.Coast);
+    }
+  }
+
 
 
   //Assigns arcadeDrive speed and rotation
@@ -83,10 +99,10 @@ public class DriveSubsystem extends SubsystemBase {
 
 
   public void curveDrive(double speed, double roatation) {
-    if(halfSpeed == false) {
+    if(!halfSpeed) {
       diffDrive.curvatureDrive(rateLimitVelocity.calculate(speed), -roatation, true);
     } else {
-      diffDrive.curvatureDrive(speed / 2, -roatation / 2, true);
+      diffDrive.curvatureDrive(speed / 4, -roatation / 4, true);
     }
   }
 

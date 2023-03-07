@@ -20,6 +20,7 @@ import frc.robot.commands.PositionCommands.LowArmPosition;
 import frc.robot.commands.PositionCommands.MiddleArmPosition;
 import frc.robot.commands.PositionCommands.ResetArmPosition;
 import frc.robot.commands.DriveCommands.CurvatureDrive;
+import frc.robot.commands.DriveCommands.Drive;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -34,10 +35,12 @@ import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SelectCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -57,9 +60,14 @@ public class RobotContainer {
   private final PneumaticsSubsystem m_pneumaticsSubsystem = new PneumaticsSubsystem();
 
   //Driver Controller
+  //private final Joystick joystick = new Joystick(1);
+  //private final Trigger halfSpeed = new JoystickButton(joystick, 1);
+  //private final Trigger fullSpeed = new JoystickButton(joystick, 2);
   private final CommandXboxController driverController = new CommandXboxController(1);
-  private final Trigger halfSpeed = driverController.povLeft();
-  private final Trigger fullSpeed = driverController.povRight();
+  private final Trigger halfSpeed = driverController.rightTrigger();
+  private final Trigger fullSpeed = driverController.leftTrigger();
+  private final Trigger brakeModeOn = driverController.rightBumper();
+  private final Trigger brakeModeOff = driverController.leftBumper();
 
   //Operator Controller
   private final CommandXboxController operatorController = new CommandXboxController(0);
@@ -84,6 +92,7 @@ public class RobotContainer {
     //m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
     //m_driveSubsystem.setDefaultCommand(new CurveDrive(m_driveSubsystem, driverXbox::getRightY, driverXbox::getLeftX));
     m_intakeSubsystem.setDefaultCommand(intakeCommand);
+    //m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, joystick::getY, joystick::getX));
     m_driveSubsystem.setDefaultCommand(new CurvatureDrive(driverController::getLeftY, driverController::getRightX, m_driveSubsystem));
     //m_intakeSubsystem.setDefaultCommand(intakeCommand);
 
@@ -125,7 +134,11 @@ public class RobotContainer {
     //Driver Buttons
     halfSpeed.onTrue(new InstantCommand(m_driveSubsystem::setHalfSpeedTrue, m_driveSubsystem));
     fullSpeed.onTrue(new InstantCommand(m_driveSubsystem::setHalfSpeedFalse, m_driveSubsystem));
-
+    brakeModeOn.whileTrue(
+      new InstantCommand(() -> m_driveSubsystem.setBrakeMode(true), m_driveSubsystem))
+      .onFalse(
+        new InstantCommand(() -> m_driveSubsystem.setBrakeMode(false), m_driveSubsystem));
+   
   }
 
   public Command ChooseAuto(AutoType type) {
