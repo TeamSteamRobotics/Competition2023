@@ -110,7 +110,6 @@ public class RobotContainer {
   }
   
 
-<<<<<<< HEAD
   public int getArmIndex(){
     return armIndex;
   }
@@ -184,87 +183,6 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-=======
-public int GetArmIndex(){
-  return armIndex;
-}
-
-public int GetIntakeIndex(){
-  return intakeIndex;
-}
-
- 
-public Command getArmCommand(){
-  System.out.println("Reached GetArmCommand");
-  if(isIncreasing){
-    if(armIndex >= 3){
-      armIndex = 3;
-    }
-    System.out.println("INDEX: " + armIndex);
-    return new SelectCommand(
-      Map.ofEntries(
-        Map.entry(0,
-          new ParallelCommandGroup(
-            new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition),
-            new SequentialCommandGroup(
-              new WaitCommand(1),
-              new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength)))),
-        Map.entry(1, 
-          new ParallelCommandGroup(
-            new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition),
-            new SequentialCommandGroup(
-              new WaitCommand(1),
-              new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength)))),
-        Map.entry(2, 
-          new ParallelCommandGroup(
-            new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition),
-            new SequentialCommandGroup(
-              new WaitCommand(1),
-              new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength)))),
-        Map.entry(3, 
-          new ParallelCommandGroup(
-            new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
-            new SequentialCommandGroup(
-              new WaitCommand(1),
-              new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))))),
-      this::GetArmIndex);
-      } 
-  else {
-    if(armIndex <= 0){
-      armIndex = 0;
-    }
-    System.out.println("INDEX: " + armIndex);
-    return new SelectCommand(
-      Map.ofEntries(
-        Map.entry(0,
-          new ParallelCommandGroup(
-            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength),
-            new SequentialCommandGroup(
-              new WaitCommand(1),
-              new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition)))),
-        Map.entry(1, 
-          new ParallelCommandGroup(
-            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength),  
-            new SequentialCommandGroup(
-              new WaitCommand(1),
-              new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition)))),
-        Map.entry(2, 
-          new ParallelCommandGroup(
-            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength),
-            new SequentialCommandGroup(
-              new WaitCommand(1),
-              new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition)))),
-        Map.entry(3, 
-          new ParallelCommandGroup(
-            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength),
-            new SequentialCommandGroup(
-              new WaitCommand(1),
-              new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition))))),
-      this::GetArmIndex);
-  }
-} 
-
->>>>>>> path-planner
   private void configureBindings() {
     intake.whileTrue(new Intake(m_intakeSubsystem, ArmConstants.intakeSpeed)); //2
 
@@ -294,11 +212,6 @@ public Command getArmCommand(){
       )
     );
     
-<<<<<<< HEAD
-=======
-  
-    
->>>>>>> path-planner
     extendArmToggleUp.onTrue(
     new ParallelCommandGroup(
       new SequentialCommandGroup(
@@ -326,7 +239,6 @@ public Command getArmCommand(){
           new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength))));
 
     //4
-<<<<<<< HEAD
     extendArmToggleDown.onTrue(
       new ParallelCommandGroup(
           new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
@@ -337,15 +249,6 @@ public Command getArmCommand(){
           new WaitCommand(1),
           new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))));
 
-=======
-    extendArmToggleDown.onTrue(new ParallelCommandGroup(
-        new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
-      new SequentialCommandGroup(
-        new WaitCommand(1),
-        new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))));
-
-  
->>>>>>> path-planner
   }
 
   public Command ChooseAuto(AutoType type) {
