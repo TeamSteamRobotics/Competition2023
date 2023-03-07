@@ -251,6 +251,7 @@ public class RobotContainer {
           return new Auto1(m_driveSubsystem, m_armSubsystem);
         case drive_backwards_dock:
           return new Auto2();
+          return new Auto1(m_driveSubsystem, m_armSubsystem, examplePath);
         case drive_forwards_score_drive_back_dock:
           return new Auto3(m_driveSubsystem, m_armSubsystem);
         case drive_forwards_score:
