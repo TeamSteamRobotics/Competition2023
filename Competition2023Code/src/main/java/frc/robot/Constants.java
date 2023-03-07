@@ -76,8 +76,7 @@ public final class Constants {
     public static final double length_kI = 0.3;
     public static final double length_kD = 0.2;
 
-    public static final double anglePIDTolerance = .05
-    ;
+    public static final double anglePIDTolerance = .05;
     public static final double lengthPIDTolerance = 0.000001;
 
     public static final double extendArmPIDoffset= 0.1739;

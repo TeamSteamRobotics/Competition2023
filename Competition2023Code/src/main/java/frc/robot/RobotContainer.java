@@ -6,6 +6,10 @@ package frc.robot;
 
 import frc.robot.commands.ArmCommands.Intake;
 import frc.robot.commands.ArmCommands.ReverseIntake;
+import frc.robot.commands.ArmCommands.PositionCommands.HighArmPosition;
+import frc.robot.commands.ArmCommands.PositionCommands.LowArmPosition;
+import frc.robot.commands.ArmCommands.PositionCommands.MiddleArmPosition;
+import frc.robot.commands.ArmCommands.PositionCommands.ResetArmPosition;
 import frc.robot.commands.Autos.Auto1;
 import frc.robot.commands.Autos.Auto10;
 import frc.robot.commands.Autos.Auto3;
@@ -15,10 +19,6 @@ import frc.robot.commands.Autos.Auto6;
 import frc.robot.commands.Autos.Auto7;
 import frc.robot.commands.Autos.Auto9;
 import frc.robot.commands.Autos.FollowTrajectory;
-import frc.robot.commands.PositionCommands.HighArmPosition;
-import frc.robot.commands.PositionCommands.LowArmPosition;
-import frc.robot.commands.PositionCommands.MiddleArmPosition;
-import frc.robot.commands.PositionCommands.ResetArmPosition;
 import frc.robot.commands.DriveCommands.CurvatureDrive;
 import frc.robot.commands.DriveCommands.Drive;
 import frc.robot.subsystems.ArmSubsystem;
@@ -78,10 +78,8 @@ public class RobotContainer {
   private final Trigger reverseIntakeToggle = operatorController.leftBumper();
   private final Trigger resetIntakeToggles = operatorController.povUp();
 
-
   int armIndex = 0;
   boolean isIncreasing = false; 
-
 
   PathPlannerTrajectory examplePath = PathPlanner.loadPath("TestPath", new PathConstraints(4, 3));
 
