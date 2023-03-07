@@ -146,7 +146,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double gyroPitchDegrees() {
-    return 0;
+    return navX.getPitch();
   }
 
   //0 degrees = 0 encoder difference

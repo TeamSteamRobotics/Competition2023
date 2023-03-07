@@ -81,7 +81,7 @@ public class RobotContainer {
   private final XboxController xbox = new XboxController(1);
   private final Trigger unIntake = new JoystickButton(joystick, 1);
   private final Trigger intake = new JoystickButton(joystick, 2);
-  //private final Trigger rotateArmToggleUp = new JoystickButton(joystick, 5);
+  private final Trigger rotateArmToggleUp = new JoystickButton(joystick, 5);
   private final Trigger rotateArmToggleDown = new JoystickButton(joystick, 3);
   private final Trigger deployIntake = new JoystickButton(joystick, 7);
   private final Trigger retractIntake = new JoystickButton(joystick, 8);
@@ -89,7 +89,7 @@ public class RobotContainer {
   private final Trigger extendArmToggleDown = new JoystickButton(joystick, 4);
   private final Trigger intakeToggleTest = new JoystickButton(joystick, 9);
   private final Trigger reverseIntakeToggleTest = new JoystickButton(joystick, 10);
-  private final Trigger turnRight = new JoystickButton(joystick, 5);
+  private final Trigger turnRight = new JoystickButton(joystick, 11);
 
   PathPlannerTrajectory examplePath = PathPlanner.loadPath("TestPath", new PathConstraints(4, 3));
 
@@ -200,7 +200,7 @@ public class RobotContainer {
 
 
     //5
-    /*rotateArmToggleUp.onTrue(
+    rotateArmToggleUp.onTrue(
     new ParallelCommandGroup(
       new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength),
         new SequentialCommandGroup(
@@ -213,7 +213,7 @@ public class RobotContainer {
         new WaitCommand(1), 
         new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition))
       )
-    );*/
+    );
     
     extendArmToggleUp.onTrue(
     new ParallelCommandGroup(
