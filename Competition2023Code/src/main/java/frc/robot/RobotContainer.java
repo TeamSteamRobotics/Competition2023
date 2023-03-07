@@ -4,8 +4,13 @@
 
 package frc.robot;
 
+import frc.robot.commands.ArmCommands.ArmAnglePID;
+import frc.robot.commands.ArmCommands.DeployIntake;
+import frc.robot.commands.ArmCommands.ExtendArm;
 import frc.robot.commands.ArmCommands.Intake;
+import frc.robot.commands.ArmCommands.RetractIntake;
 import frc.robot.commands.ArmCommands.ReverseIntake;
+import frc.robot.commands.ArmCommands.RotateArm;
 import frc.robot.commands.ArmCommands.PositionCommands.HighArmPosition;
 import frc.robot.commands.ArmCommands.PositionCommands.LowArmPosition;
 import frc.robot.commands.ArmCommands.PositionCommands.MiddleArmPosition;
@@ -39,6 +44,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SelectCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -77,6 +83,12 @@ public class RobotContainer {
   private final Trigger intakeToggle = operatorController.rightBumper();
   private final Trigger reverseIntakeToggle = operatorController.leftBumper();
   private final Trigger resetIntakeToggles = operatorController.povUp();
+  private final Trigger manualArmUp = operatorController.povLeft();
+  private final Trigger manualArmDown = operatorController.povLeft();
+  private final Trigger manualExtendArm = operatorController.leftBumper();
+  private final Trigger manualRetractArm = operatorController.rightBumper();
+  private final Trigger manualDeployIntake = operatorController.leftTrigger();
+  private final Trigger manualRetractIntake = operatorController.rightTrigger();
 
   int armIndex = 0;
   boolean isIncreasing = false; 
@@ -127,6 +139,22 @@ public class RobotContainer {
     intakeToggle.onTrue(new InstantCommand(m_intakeSubsystem::increaseConeIndex, m_intakeSubsystem));
     reverseIntakeToggle.onTrue(new InstantCommand(m_intakeSubsystem::increaseCubeIndex, m_intakeSubsystem));
     resetIntakeToggles.onTrue(new InstantCommand(m_intakeSubsystem::resetIndexes, m_intakeSubsystem));
+
+    //Operator Manual
+    //manualArmUp.whileTrue(new RotateArm(m_armSubsystem, 0.2));
+    //manualArmDown.whileTrue(new RotateArm(m_armSubsystem, -0.2));
+    /* 
+    manualArmUp.whileTrue(new SequentialCommandGroup(
+      new InstantCommand(m_armSubsystem::manualGoingUp, m_armSubsystem), 
+      new InstantCommand(m_armSubsystem::manualArmPID, m_armSubsystem)));
+    manualArmDown.whileTrue(new SequentialCommandGroup(
+        new InstantCommand(m_armSubsystem::manualGoingDown, m_armSubsystem), 
+        new InstantCommand(m_armSubsystem::manualArmPID, m_armSubsystem)));
+    */
+    manualExtendArm.whileTrue(new ExtendArm(m_armExtensionSubsystem, 0.2));
+    manualRetractArm.whileTrue(new ExtendArm(m_armExtensionSubsystem, -0.2));
+    manualDeployIntake.onTrue(new DeployIntake(m_pneumaticsSubsystem));
+    manualRetractIntake.onTrue(new RetractIntake(m_pneumaticsSubsystem));
 
     //Driver Buttons
     halfSpeed.onTrue(new InstantCommand(m_driveSubsystem::setHalfSpeedTrue, m_driveSubsystem));

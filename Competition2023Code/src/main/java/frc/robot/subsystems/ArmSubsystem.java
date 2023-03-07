@@ -6,9 +6,12 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.MotorIDConstants;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -29,6 +32,9 @@ public class ArmSubsystem extends SubsystemBase {
   private static int rotationIndex = 0; 
   //need to somehow do 2pi - the encoder thingy
   //Another encoder will be placed, it is not on the motor controllers and it is on the rotate arm part
+  PIDController pid = new PIDController(ArmConstants.angle_kP, ArmConstants.angle_kI, ArmConstants.angle_kD);
+  private double setpoint;
+  private boolean manualUp;
 
 
   public static void setGoingLow(boolean input){
@@ -38,8 +44,38 @@ public class ArmSubsystem extends SubsystemBase {
   public static boolean isGoingLow(){
     return goingLow;
   }
+
+  public void manualArmPID(){
+    if(manualUp){
+      updatePIDUp();
+    } else {
+      updatePIDDown();
+    }
+    armMotors.set(pid.calculate(getArmAngleDegrees(), setpoint));
+  }
+
+  public void manualGoingDown(){
+    manualUp = false;
+  }
+
+  public void manualGoingUp(){
+    manualUp = true;
+  }
+
+  public void updatePIDUp(){
+    pid.setSetpoint(pid.getSetpoint() + 0.0174533);
+  }
+
+  public void updatePIDDown(){
+    pid.setSetpoint(pid.getSetpoint() - 0.0174533);
+  }
   
   public ArmSubsystem() {
+
+    pid.setTolerance(ArmConstants.anglePIDTolerance);
+    setpoint = .4;
+    pid.setIntegratorRange(-0.4/ArmConstants.angle_kI, 0.4/ArmConstants.angle_kI);
+
     armEncoder.setDistancePerRotation(2 * Math.PI);
     armEncoder.setPositionOffset(dutyCycleOffset);
     for(int i = 0; i < filterSize; i++){
