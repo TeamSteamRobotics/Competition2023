@@ -67,7 +67,6 @@ public class RobotContainer {
   private final Trigger halfSpeed = driverController.rightTrigger();
   private final Trigger fullSpeed = driverController.leftTrigger();
   private final Trigger brakeModeOn = driverController.rightBumper();
-  private final Trigger brakeModeOff = driverController.leftBumper();
 
   //Operator Controller
   private final CommandXboxController operatorController = new CommandXboxController(0);
