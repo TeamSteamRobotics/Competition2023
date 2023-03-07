@@ -36,10 +36,10 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 public class DriveSubsystem extends SubsystemBase {
   
   //Creates motor objects from WPI_TalonFX
-  private WPI_TalonSRX leftback = new WPI_TalonSRX(MotorIDConstants.leftBackDrive);
-  private WPI_VictorSPX leftfront = new WPI_VictorSPX(MotorIDConstants.leftFrontDrive);
-  private WPI_TalonSRX rightback = new WPI_TalonSRX(MotorIDConstants.rightBackDrive);
-  private WPI_VictorSPX rightfront = new WPI_VictorSPX(MotorIDConstants.rightFrontDrive);
+  private WPI_TalonFX leftback = new WPI_TalonFX(MotorIDConstants.leftBackDrive);
+  private WPI_TalonFX leftfront = new WPI_TalonFX(MotorIDConstants.leftFrontDrive);
+  private WPI_TalonFX rightback = new WPI_TalonFX(MotorIDConstants.rightBackDrive);
+  private WPI_TalonFX rightfront = new WPI_TalonFX(MotorIDConstants.rightFrontDrive);
   
   //Creates left and right MotorControllerGroups
   private MotorControllerGroup left = new MotorControllerGroup(leftback, leftfront);
