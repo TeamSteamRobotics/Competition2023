@@ -16,12 +16,12 @@ import frc.robot.commands.ArmCommands.ReverseIntake;
 import frc.robot.commands.ArmCommands.RotateArm;
 import frc.robot.commands.Autos.Auto1;
 import frc.robot.commands.Autos.Auto10;
-import frc.robot.commands.Autos.Auto2;
 import frc.robot.commands.Autos.Auto3;
 import frc.robot.commands.Autos.Auto4;
 import frc.robot.commands.Autos.Auto6;
 import frc.robot.commands.Autos.Auto7;
 import frc.robot.commands.Autos.Auto9;
+import frc.robot.commands.Autos.FollowTrajectory;
 import frc.robot.commands.DriveCommands.Drive;
 import frc.robot.commands.DriveCommands.DriveRotationPID;
 import frc.robot.commands.DriveCommands.DriveToApril;
@@ -37,6 +37,11 @@ import frc.robot.subsystems.ArmExtensionSubsystem;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Map;
 
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.XboxController;
@@ -84,6 +89,7 @@ public class RobotContainer {
   private final Trigger intakeToggleTest = new JoystickButton(joystick, 9);
   private final Trigger reverseIntakeToggleTest = new JoystickButton(joystick, 10);
 
+  PathPlannerTrajectory examplePath = PathPlanner.loadPath("TestPath", new PathConstraints(4, 3));
 
   int armIndex = 0;
   boolean isIncreasing = false; 
@@ -104,6 +110,7 @@ public class RobotContainer {
   }
   
 
+<<<<<<< HEAD
   public int getArmIndex(){
     return armIndex;
   }
@@ -177,6 +184,87 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
+=======
+public int GetArmIndex(){
+  return armIndex;
+}
+
+public int GetIntakeIndex(){
+  return intakeIndex;
+}
+
+ 
+public Command getArmCommand(){
+  System.out.println("Reached GetArmCommand");
+  if(isIncreasing){
+    if(armIndex >= 3){
+      armIndex = 3;
+    }
+    System.out.println("INDEX: " + armIndex);
+    return new SelectCommand(
+      Map.ofEntries(
+        Map.entry(0,
+          new ParallelCommandGroup(
+            new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition),
+            new SequentialCommandGroup(
+              new WaitCommand(1),
+              new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength)))),
+        Map.entry(1, 
+          new ParallelCommandGroup(
+            new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition),
+            new SequentialCommandGroup(
+              new WaitCommand(1),
+              new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength)))),
+        Map.entry(2, 
+          new ParallelCommandGroup(
+            new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition),
+            new SequentialCommandGroup(
+              new WaitCommand(1),
+              new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength)))),
+        Map.entry(3, 
+          new ParallelCommandGroup(
+            new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
+            new SequentialCommandGroup(
+              new WaitCommand(1),
+              new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))))),
+      this::GetArmIndex);
+      } 
+  else {
+    if(armIndex <= 0){
+      armIndex = 0;
+    }
+    System.out.println("INDEX: " + armIndex);
+    return new SelectCommand(
+      Map.ofEntries(
+        Map.entry(0,
+          new ParallelCommandGroup(
+            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength),
+            new SequentialCommandGroup(
+              new WaitCommand(1),
+              new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition)))),
+        Map.entry(1, 
+          new ParallelCommandGroup(
+            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength),  
+            new SequentialCommandGroup(
+              new WaitCommand(1),
+              new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition)))),
+        Map.entry(2, 
+          new ParallelCommandGroup(
+            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength),
+            new SequentialCommandGroup(
+              new WaitCommand(1),
+              new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition)))),
+        Map.entry(3, 
+          new ParallelCommandGroup(
+            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength),
+            new SequentialCommandGroup(
+              new WaitCommand(1),
+              new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition))))),
+      this::GetArmIndex);
+  }
+} 
+
+>>>>>>> path-planner
   private void configureBindings() {
     intake.whileTrue(new Intake(m_intakeSubsystem, ArmConstants.intakeSpeed)); //2
 
@@ -206,6 +294,11 @@ public class RobotContainer {
       )
     );
     
+<<<<<<< HEAD
+=======
+  
+    
+>>>>>>> path-planner
     extendArmToggleUp.onTrue(
     new ParallelCommandGroup(
       new SequentialCommandGroup(
@@ -233,6 +326,7 @@ public class RobotContainer {
           new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength))));
 
     //4
+<<<<<<< HEAD
     extendArmToggleDown.onTrue(
       new ParallelCommandGroup(
           new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
@@ -243,14 +337,20 @@ public class RobotContainer {
           new WaitCommand(1),
           new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))));
 
+=======
+    extendArmToggleDown.onTrue(new ParallelCommandGroup(
+        new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
+      new SequentialCommandGroup(
+        new WaitCommand(1),
+        new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))));
+
+  
+>>>>>>> path-planner
   }
 
   public Command ChooseAuto(AutoType type) {
     switch(type){
         case do_nothing:
-          return new Auto1(m_driveSubsystem, m_armSubsystem);
-        case drive_backwards_dock:
-          return new Auto2();
           return new Auto1(m_driveSubsystem, m_armSubsystem, examplePath);
         case drive_forwards_score_drive_back_dock:
           return new Auto3(m_driveSubsystem, m_armSubsystem);
@@ -267,7 +367,8 @@ public class RobotContainer {
           return new Auto9(m_driveSubsystem, m_armSubsystem);
         case drive_forwards_score_leave_community_dock_engage:
           return new Auto10(m_driveSubsystem, m_armSubsystem);
-
+        case path_planner:
+          return new FollowTrajectory(m_driveSubsystem, m_armSubsystem, examplePath, true);
         default:
             return null;
     }
@@ -280,13 +381,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //return new ParallelRaceGroup(new Drive(m_driveSubsystem, () -> 0.5, () -> 0), new WaitCommand(5) );
     // An example command will be run in autonomous
-    return ChooseAuto(AutoType.drive_forwards_score);//new AutoDriveBackwardsDockAndEngage(m_driveSubsystem, m_armSubsystem);
-    
-    //new SequentialCommandGroup(
-
-      //new InstantCommand(m_driveSubsystem::resetEncoders),
-      //new EncoderDriveDistance(5, m_driveSubsystem));
+    return ChooseAuto(AutoType.path_planner);
   }
 }
