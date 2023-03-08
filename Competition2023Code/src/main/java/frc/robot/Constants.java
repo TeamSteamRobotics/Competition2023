@@ -65,6 +65,14 @@ public final class Constants {
     public static final double kD = 0.00001;
   }
 
+  public static class GyroDriveConstants{
+    public static final double kP = 0.2;
+    public static final double kI = 0.05;
+    public static final double kD = 0.1;
+
+    public static final double tolerance = 0.01;
+  }
+
   public static class ArmConstants {
     public static final double angle_kP = 1.3;
     public static final double angle_kI = 0.6;
