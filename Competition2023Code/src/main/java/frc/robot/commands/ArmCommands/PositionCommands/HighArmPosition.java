@@ -24,7 +24,7 @@ public class HighArmPosition extends ParallelCommandGroup {
   public HighArmPosition(ArmExtensionSubsystem m_armExtensionSubsystem, PneumaticsSubsystem m_pneumaticsSubsystem, ArmSubsystem m_armSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    ArmSubsystem.setGoingLow(false);
+    m_armSubsystem.setGoingLow(false);
     addCommands(
       new ParallelCommandGroup(
         new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),

@@ -25,57 +25,23 @@ public class ArmSubsystem extends SubsystemBase {
   private final int filterSize = 100;
   private double[] filter = new double[filterSize];
 
-  private static boolean goingLow = false;
+  private boolean goingLow = false;
 
   private double dutyCycleOffset = 0.54738; //0.3046; //0.0805; //0.2017; //0.618333;
   // 0 - 1 to 0 - 6.283: 1.2673
   private static int rotationIndex = 0; 
   //need to somehow do 2pi - the encoder thingy
-  //Another encoder will be placed, it is not on the motor controllers and it is on the rotate arm part
-  PIDController pid = new PIDController(ArmConstants.angle_kP, ArmConstants.angle_kI, ArmConstants.angle_kD);
-  private double setpoint;
-  private boolean manualUp;
 
-
-  public static void setGoingLow(boolean input){
+  public void setGoingLow(boolean input){
     goingLow = input;
   }
 
-  public static boolean isGoingLow(){
+  public boolean isGoingLow(){
     return goingLow;
   }
 
-  public void manualArmPID(){
-    if(manualUp){
-      updatePIDUp();
-    } else {
-      updatePIDDown();
-    }
-    armMotors.set(pid.calculate(getArmAngleDegrees(), setpoint));
-  }
-
-  public void manualGoingDown(){
-    manualUp = false;
-  }
-
-  public void manualGoingUp(){
-    manualUp = true;
-  }
-
-  public void updatePIDUp(){
-    pid.setSetpoint(pid.getSetpoint() + 0.0174533);
-  }
-
-  public void updatePIDDown(){
-    pid.setSetpoint(pid.getSetpoint() - 0.0174533);
-  }
   
   public ArmSubsystem() {
-
-    pid.setTolerance(ArmConstants.anglePIDTolerance);
-    setpoint = .4;
-    pid.setIntegratorRange(-0.4/ArmConstants.angle_kI, 0.4/ArmConstants.angle_kI);
-
     armEncoder.setDistancePerRotation(2 * Math.PI);
     armEncoder.setPositionOffset(dutyCycleOffset);
     for(int i = 0; i < filterSize; i++){

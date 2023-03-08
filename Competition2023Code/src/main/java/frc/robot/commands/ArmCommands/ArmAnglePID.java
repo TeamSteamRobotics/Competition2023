@@ -17,6 +17,8 @@ import frc.robot.subsystems.ArmSubsystem;
 
 public class ArmAnglePID extends PIDCommand {
   /** Creates a new ArmAnglePID. */
+  double angle;
+  ArmSubsystem arm;
   
   public ArmAnglePID(ArmSubsystem arm, double angle) {
 
@@ -31,9 +33,17 @@ public class ArmAnglePID extends PIDCommand {
         output -> {
           //System.out.println("reached ARM ANGLE PID");
           //System.out.println("Angle Output: " + output);
-          arm.setArmSpeed(output);
+          
+          if(arm.isGoingLow()){
+            arm.setArmSpeed(0);
+          } else {
+            arm.setArmSpeed(output);
+          }
+         
           // Use the output here
         });
+    this.angle = angle;
+    this.arm = arm;
     addRequirements(arm);
     
  
@@ -45,18 +55,19 @@ public class ArmAnglePID extends PIDCommand {
   }
 
   //arm code to test out
+  
   /* 
   @Override
   public void execute() {
-    if(ArmSubsystem.goingLow != true){
+    if(arm.isGoingLow() != true){
       this.getController().setP(ArmConstants.angle_kP);
       this.getController().setI(ArmConstants.angle_kI);
       this.getController().setD(ArmConstants.angle_kD);
       super.execute();
     } else {
-      this.getController().setP(ArmConstants.angle_kP * 0.65);
-      this.getController().setI(ArmConstants.angle_kI * 0.65);
-      this.getController().setD(ArmConstants.angle_kD * 0.65);
+      this.getController().setP(0);
+      this.getController().setI(0);
+      this.getController().setD(0);
       super.execute();
     }
   }

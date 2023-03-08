@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.commands.ArmCommands.ArmAngleLowPID;
 import frc.robot.commands.ArmCommands.ArmAnglePID;
 import frc.robot.commands.ArmCommands.DeployIntake;
 import frc.robot.commands.ArmCommands.ExtendArm;
@@ -26,15 +27,16 @@ public class LowArmPosition extends ParallelCommandGroup {
   public LowArmPosition(ArmExtensionSubsystem m_armExtensionSubsystem, PneumaticsSubsystem m_pneumaticsSubsystem, ArmSubsystem m_armSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    ArmSubsystem.setGoingLow(true);
+    m_armSubsystem.setGoingLow(true);
     addCommands(
       new SequentialCommandGroup(
         new WaitCommand(1),
-        new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition)),
+        //new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition))
+        new ArmAngleLowPID(m_armSubsystem, ArmConstants.lowPosition)),
       new SequentialCommandGroup(
         new ParallelRaceGroup(
           new ExtendArm(m_armExtensionSubsystem, -0.2), 
-          new WaitCommand(1)),
+          new WaitCommand(0.5)),
         new WaitCommand(1),
         new DeployIntake(m_pneumaticsSubsystem),
         new WaitCommand(0.5),

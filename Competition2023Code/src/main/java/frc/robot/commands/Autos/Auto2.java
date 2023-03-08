@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Autos;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveCommands.EncoderDriveDistance;
 import frc.robot.subsystems.DriveSubsystem;
@@ -18,7 +19,7 @@ public class Auto2 extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-
+    new InstantCommand(drive::resetEncoders, drive),
     new EncoderDriveDistance(-2.13, drive)
     
     );

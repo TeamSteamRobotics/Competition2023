@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Autos;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -28,6 +29,7 @@ public class Auto11 extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new InstantCommand(() -> System.out.println("Auto 11")),
       new EncoderDriveDistance(1, drive),
 
       new ParallelCommandGroup(
@@ -40,6 +42,7 @@ public class Auto11 extends SequentialCommandGroup {
           new Intake(intake))), //3
       
       new WaitCommand(2),
+      new EncoderDriveDistance(-.5, drive),
       new ResetArmPosition(armExtention, pneumatics, armRotation), 
       new EncoderDriveDistance(-3, drive)
     );

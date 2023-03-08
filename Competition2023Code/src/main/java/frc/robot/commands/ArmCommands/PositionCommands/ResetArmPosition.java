@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.commands.ArmCommands.ArmAngleLowPID;
 import frc.robot.commands.ArmCommands.ArmAnglePID;
 import frc.robot.commands.ArmCommands.ExtendArmPID;
 import frc.robot.commands.ArmCommands.RetractIntake;
@@ -23,7 +24,7 @@ public class ResetArmPosition extends ParallelCommandGroup {
   public ResetArmPosition(ArmExtensionSubsystem m_armExtensionSubsystem, PneumaticsSubsystem m_pneumaticsSubsystem, ArmSubsystem m_armSubsystem) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    ArmSubsystem.setGoingLow(true);
+    m_armSubsystem.setGoingLow(true);
     addCommands(
       new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength),
       new SequentialCommandGroup(
@@ -31,7 +32,8 @@ public class ResetArmPosition extends ParallelCommandGroup {
         new RetractIntake(m_pneumaticsSubsystem)), 
       new SequentialCommandGroup(
         new WaitCommand(1), 
-        new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition))
+       // new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition))
+       new ArmAngleLowPID(m_armSubsystem, ArmConstants.resetPosition))
     );
     
   }

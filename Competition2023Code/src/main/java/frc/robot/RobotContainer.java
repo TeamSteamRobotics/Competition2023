@@ -18,6 +18,7 @@ import frc.robot.commands.ArmCommands.PositionCommands.ResetArmPosition;
 import frc.robot.commands.Autos.Auto1;
 import frc.robot.commands.Autos.Auto10;
 import frc.robot.commands.Autos.Auto11;
+import frc.robot.commands.Autos.Auto2;
 import frc.robot.commands.Autos.Auto3;
 import frc.robot.commands.Autos.Auto4;
 import frc.robot.commands.Autos.Auto5;
@@ -84,10 +85,10 @@ public class RobotContainer {
   private final Trigger intakeToggle = operatorController.rightBumper();
   private final Trigger reverseIntakeToggle = operatorController.leftBumper();
   private final Trigger resetIntakeToggles = operatorController.povUp();
-  private final Trigger manualArmUp = operatorController.povLeft();
+  private final Trigger manualArmUp = operatorController.povRight();
   private final Trigger manualArmDown = operatorController.povLeft();
-  private final Trigger manualExtendArm = operatorController.leftBumper();
-  private final Trigger manualRetractArm = operatorController.rightBumper();
+  //private final Trigger manualExtendArm = operatorController.leftBumper();
+  //private final Trigger manualRetractArm = operatorController.rightBumper();
   private final Trigger manualDeployIntake = operatorController.leftTrigger();
   private final Trigger manualRetractIntake = operatorController.rightTrigger();
 
@@ -144,16 +145,16 @@ public class RobotContainer {
     //Operator Manual
     //manualArmUp.whileTrue(new RotateArm(m_armSubsystem, 0.2));
     //manualArmDown.whileTrue(new RotateArm(m_armSubsystem, -0.2));
-    /* 
-    manualArmUp.whileTrue(new SequentialCommandGroup(
+     
+   /*manualArmUp.whileTrue(new SequentialCommandGroup(
       new InstantCommand(m_armSubsystem::manualGoingUp, m_armSubsystem), 
       new InstantCommand(m_armSubsystem::manualArmPID, m_armSubsystem)));
     manualArmDown.whileTrue(new SequentialCommandGroup(
         new InstantCommand(m_armSubsystem::manualGoingDown, m_armSubsystem), 
-        new InstantCommand(m_armSubsystem::manualArmPID, m_armSubsystem)));
-    */
-    manualExtendArm.whileTrue(new ExtendArm(m_armExtensionSubsystem, 0.2));
-    manualRetractArm.whileTrue(new ExtendArm(m_armExtensionSubsystem, -0.2));
+        new InstantCommand(m_armSubsystem::manualArmPID, m_armSubsystem)));*/
+    
+    //manualExtendArm.whileTrue(new ExtendArm(m_armExtensionSubsystem, 0.2));
+    //manualRetractArm.whileTrue(new ExtendArm(m_armExtensionSubsystem, -0.2));
     manualDeployIntake.onTrue(new DeployIntake(m_pneumaticsSubsystem));
     manualRetractIntake.onTrue(new RetractIntake(m_pneumaticsSubsystem));
 
@@ -200,7 +201,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return ChooseAuto(AutoType.drive_forwards_score_cube_community);
+    // An example command will be run in autonomousw
+    return new Auto2(m_driveSubsystem);
   }
 }

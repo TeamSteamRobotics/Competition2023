@@ -75,7 +75,7 @@ public class ArmExtensionSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    System.out.println(armLengthMeters());
+   // System.out.println(armLengthMeters());
 
     // This method will be called once per scheduler run
   }
