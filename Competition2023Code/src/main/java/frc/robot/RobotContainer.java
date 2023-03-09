@@ -12,6 +12,7 @@ import frc.robot.commands.ArmCommands.RetractIntake;
 import frc.robot.commands.ArmCommands.ReverseIntake;
 import frc.robot.commands.ArmCommands.RotateArm;
 import frc.robot.commands.ArmCommands.PositionCommands.HighArmPosition;
+import frc.robot.commands.ArmCommands.PositionCommands.HumanPlayerStationPosition;
 import frc.robot.commands.ArmCommands.PositionCommands.LowArmPosition;
 import frc.robot.commands.ArmCommands.PositionCommands.MiddleArmPosition;
 import frc.robot.commands.ArmCommands.PositionCommands.ResetArmPosition;
@@ -28,6 +29,7 @@ import frc.robot.commands.Autos.Auto9;
 import frc.robot.commands.Autos.FollowTrajectory;
 import frc.robot.commands.DriveCommands.CurvatureDrive;
 import frc.robot.commands.DriveCommands.Drive;
+import frc.robot.commands.DriveCommands.GyroDrive;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -68,7 +70,8 @@ public class RobotContainer {
   private final PneumaticsSubsystem m_pneumaticsSubsystem = new PneumaticsSubsystem();
 
   //Driver Controller
-  //private final Joystick joystick = new Joystick(1);
+  private final Joystick joystick = new Joystick(2);
+  private final Trigger gyroDrive = new JoystickButton(joystick, 12);
   //private final Trigger halfSpeed = new JoystickButton(joystick, 1);
   //private final Trigger fullSpeed = new JoystickButton(joystick, 2);
   private final CommandXboxController driverController = new CommandXboxController(1);
@@ -76,12 +79,14 @@ public class RobotContainer {
   private final Trigger fullSpeed = driverController.leftTrigger();
   private final Trigger brakeModeOn = driverController.rightBumper();
 
+  // 55.4 inches
   //Operator Controller
   private final CommandXboxController operatorController = new CommandXboxController(0);
   private final Trigger resetPosition = operatorController.a();
   private final Trigger lowPosition = operatorController.x();
   private final Trigger middlePosition = operatorController.y();
   private final Trigger highPosition = operatorController.b();
+  private final Trigger humanPlayerStation = operatorController.x().and(operatorController.b());
   private final Trigger intakeToggle = operatorController.rightBumper();
   private final Trigger reverseIntakeToggle = operatorController.leftBumper();
   private final Trigger resetIntakeToggles = operatorController.povUp();
@@ -103,8 +108,8 @@ public class RobotContainer {
     //m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
     //m_driveSubsystem.setDefaultCommand(new CurveDrive(m_driveSubsystem, driverXbox::getRightY, driverXbox::getLeftX));
     m_intakeSubsystem.setDefaultCommand(intakeCommand);
-    //m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, joystick::getY, joystick::getX));
-    m_driveSubsystem.setDefaultCommand(new CurvatureDrive(driverController::getLeftY, driverController::getRightX, m_driveSubsystem));
+    m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, joystick::getY, joystick::getX));
+    //m_driveSubsystem.setDefaultCommand(new CurvatureDrive(driverController::getLeftY, driverController::getRightX, m_driveSubsystem));
     //m_intakeSubsystem.setDefaultCommand(intakeCommand);
 
     //m_armSubsystem.setDefaultCommand(positionCommand);
@@ -138,10 +143,12 @@ public class RobotContainer {
     lowPosition.onTrue(new LowArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
     middlePosition.onTrue(new MiddleArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
     highPosition.onTrue(new HighArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
+    humanPlayerStation.onTrue(new HumanPlayerStationPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
     intakeToggle.onTrue(new InstantCommand(m_intakeSubsystem::increaseConeIndex, m_intakeSubsystem));
     reverseIntakeToggle.onTrue(new InstantCommand(m_intakeSubsystem::increaseCubeIndex, m_intakeSubsystem));
     resetIntakeToggles.onTrue(new InstantCommand(m_intakeSubsystem::resetIndexes, m_intakeSubsystem));
 
+    gyroDrive.onTrue(new GyroDrive(m_driveSubsystem, 1));
     //Operator Manual
     //manualArmUp.whileTrue(new RotateArm(m_armSubsystem, 0.2));
     //manualArmDown.whileTrue(new RotateArm(m_armSubsystem, -0.2));
@@ -202,6 +209,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomousw
-    return new Auto2(m_driveSubsystem);
+    return new Auto11(m_driveSubsystem, m_armExtensionSubsystem, m_armSubsystem, m_pneumaticsSubsystem, m_intakeSubsystem);
   }
 }

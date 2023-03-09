@@ -6,9 +6,15 @@ package frc.robot.commands.Autos;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants.ArmConstants;
+import frc.robot.commands.ArmCommands.ArmAnglePID;
 import frc.robot.commands.ArmCommands.Intake;
+import frc.robot.commands.ArmCommands.ReverseIntake;
+import frc.robot.commands.ArmCommands.PositionCommands.HighArmPosition;
+import frc.robot.commands.ArmCommands.PositionCommands.LowArmPosition;
 import frc.robot.commands.ArmCommands.PositionCommands.MiddleArmPosition;
 import frc.robot.commands.ArmCommands.PositionCommands.ResetArmPosition;
 import frc.robot.commands.DriveCommands.Drive;
@@ -28,10 +34,47 @@ public class Auto11 extends SequentialCommandGroup {
   public Auto11(DriveSubsystem drive, ArmExtensionSubsystem armExtention, ArmSubsystem armRotation, PneumaticsSubsystem pneumatics, IntakeSubsystem intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    //23 inches for middle
     addCommands(
-      new InstantCommand(() -> System.out.println("Auto 11")),
-      new EncoderDriveDistance(1, drive),
+      new ReverseIntake(intake).raceWith(new WaitCommand(1)),
+      new ParallelCommandGroup(
+        new HighArmPosition(armExtention, pneumatics, armRotation),
+        new SequentialCommandGroup(
+          new WaitCommand(1),
+          new Intake(intake).raceWith(new WaitCommand(1))
+        )
+      ).raceWith(new WaitCommand(4)),
+      new Drive(drive, () -> 0.3, () -> 0).raceWith(new WaitCommand(7))
 
+
+    /* 
+      new ParallelRaceGroup(
+        new ReverseIntake(intake),
+        new WaitCommand(.5)),
+      
+      new ParallelRaceGroup(
+        new WaitCommand(2),
+        new ReverseIntake(intake, .1),
+        new MiddleArmPosition(armExtention, pneumatics, armRotation)
+      ),
+      
+      new ParallelRaceGroup(
+        new Intake(intake), 
+        new WaitCommand(.5)),
+
+      new ResetArmPosition(armExtention, pneumatics, armRotation),
+
+      new ParallelRaceGroup(
+        new Drive(drive, () -> -0.25, () -> 0),
+        new WaitCommand(1)
+      )
+    */
+
+    /* 
+      new ParallelRaceGroup(
+        new WaitCommand(2),
+        new ReverseIntake(intake, .1)),
+      
       new ParallelCommandGroup(
         new MiddleArmPosition(armExtention, pneumatics, armRotation),
         new SequentialCommandGroup(
@@ -45,6 +88,7 @@ public class Auto11 extends SequentialCommandGroup {
       new EncoderDriveDistance(-.5, drive),
       new ResetArmPosition(armExtention, pneumatics, armRotation), 
       new EncoderDriveDistance(-3, drive)
+    */
     );
   }
 }

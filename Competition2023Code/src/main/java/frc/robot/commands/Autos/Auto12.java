@@ -26,8 +26,9 @@ public class Auto12 extends SequentialCommandGroup {
   public Auto12(DriveSubsystem drive, ArmSubsystem armRotation, ArmExtensionSubsystem armExtension, PneumaticsSubsystem pneumatics, IntakeSubsystem intake, AprilVisionSubsystem aprilVision) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    //1.40716
     addCommands(
-      new AprilCenterOnTarget(drive, aprilVision, 0, .5),
+      new AprilCenterOnTarget(drive, aprilVision, 0, 1.15716),
       new MiddleArmPosition(armExtension, pneumatics, armRotation),
       new GyroDrive(drive, .25),
       new Intake(intake),

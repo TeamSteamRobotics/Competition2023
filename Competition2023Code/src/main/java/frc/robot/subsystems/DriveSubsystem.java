@@ -145,8 +145,7 @@ public class DriveSubsystem extends SubsystemBase {
   
   // prints and returns distance driven
   public double getEncoderDistanceMeters() {
-    double dist = (leftfront.getSelectedSensorPosition() / 4096) * (2 * Math.PI * DriveConstants.wheelRadiusMeters); //* 2*Math.PI*DriveConstants.wheelRadiusMeters);
-    System.out.println(dist);
+    double dist = (leftfront.getSelectedSensorPosition() / 4096) * 10.75 * (2 * Math.PI * DriveConstants.wheelRadiusMeters); //* 2*Math.PI*DriveConstants.wheelRadiusMeters);
     return dist;
   }
 
@@ -174,6 +173,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   // resets gyro rotation 
   public void resetGyro() {
+    navX.resetDisplacement();
     navX.reset();
   }
 
@@ -213,7 +213,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     //System.out.println(gyroAngleDegrees());
     //System.out.println(getEncoderDifference());
-    System.out.println("Drive Distance: " + this.getEncoderDistanceMeters());
+    System.out.println(getEncoderDistanceMeters());
     // This method will be called once per scheduler run
     m_odometry.update(
       navX.getRotation2d(), getLeftEncoderDistance(), getRightEncoderDistance());
