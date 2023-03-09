@@ -25,7 +25,7 @@ public class AprilCenterOnTarget extends SequentialCommandGroup {
   double driveDistance;
   double theta2;
 
-  public AprilCenterOnTarget(DriveSubsystem m_driveSubsystem, AprilVisionSubsystem m_aprilVisionSubsystem, int targetID, int distanceFromTarget) {
+  public AprilCenterOnTarget(DriveSubsystem m_driveSubsystem, AprilVisionSubsystem m_aprilVisionSubsystem, int targetID, double distanceFromTarget) {
     this.m_driveSubsystem = m_driveSubsystem;
     this.m_aprilVisionSubsystem = m_aprilVisionSubsystem;
     // Add your commands in the addCommands() call, e.g.
