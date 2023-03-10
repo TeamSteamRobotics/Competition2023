@@ -195,7 +195,7 @@ public class RobotContainer {
         case drive_forwards_score_leave_community_pickup_piece_score:
           return new Auto9(m_driveSubsystem, m_armSubsystem);
         case drive_forwards_score_leave_community_dock_engage:
-          return new Auto10(m_driveSubsystem, m_armSubsystem);
+          return new Auto10(m_driveSubsystem, m_armSubsystem, m_armExtensionSubsystem, m_intakeSubsystem, m_pneumaticsSubsystem);
         case drive_forwards_score_cube_community:
           return new Auto11(m_driveSubsystem, m_armExtensionSubsystem, m_armSubsystem, m_pneumaticsSubsystem, m_intakeSubsystem);
         case path_planner:

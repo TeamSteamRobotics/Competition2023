@@ -4,11 +4,21 @@
 
 package frc.robot.commands.Autos;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ArmCommands.ArmAnglePID;
+import frc.robot.commands.ArmCommands.Intake;
+import frc.robot.commands.ArmCommands.ReverseIntake;
+import frc.robot.commands.ArmCommands.PositionCommands.MiddleArmPosition;
+import frc.robot.commands.DriveCommands.Drive;
 import frc.robot.commands.DriveCommands.EncoderDriveDistance;
+import frc.robot.commands.DriveCommands.GyroTurn;
+import frc.robot.subsystems.ArmExtensionSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.PneumaticsSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -16,11 +26,30 @@ import frc.robot.subsystems.DriveSubsystem;
 public class Auto10 extends SequentialCommandGroup {
   /** Creates a new Auto10. */
   //Drive forwards score, leave community, go to human player station
-  public Auto10(DriveSubsystem drive, ArmSubsystem arm) {
+  public Auto10(DriveSubsystem drive, ArmSubsystem armRotation, ArmExtensionSubsystem armExtension, IntakeSubsystem intake, PneumaticsSubsystem pneumatics) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
 
+    new ReverseIntake(intake).raceWith(new WaitCommand(1)),
+      new ParallelCommandGroup(
+        new MiddleArmPosition(armExtension, pneumatics, armRotation),
+        new SequentialCommandGroup(
+          new WaitCommand(1),
+          new Intake(intake).raceWith(new WaitCommand(1))
+        )
+      ).raceWith(new WaitCommand(4)),
+      new Drive(drive, () -> 0.75, () -> 0).raceWith(new WaitCommand(5)),
+
+      new GyroTurn(drive, 90),
+
+      new Drive(drive, () -> 0.5, () -> 0).raceWith(new WaitCommand(3)),
+
+      new GyroTurn(drive, 90),
+
+      new Drive(drive, () -> 0.5, () -> 0).raceWith(new WaitCommand(4))
+
+    /* 
     new EncoderDriveDistance(5, drive),
     new ArmAnglePID(arm, 90),
 
@@ -34,7 +63,7 @@ public class Auto10 extends SequentialCommandGroup {
     new EncoderDriveDistance(5, drive)
 
     //balance PID
-
+*/
     );
   }
 }

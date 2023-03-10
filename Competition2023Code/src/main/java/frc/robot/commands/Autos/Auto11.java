@@ -31,14 +31,14 @@ import frc.robot.subsystems.PneumaticsSubsystem;
 public class Auto11 extends SequentialCommandGroup {
   /** Creates a new Auto11. */
   //Drives forwards, scores cube, drives back
-  public Auto11(DriveSubsystem drive, ArmExtensionSubsystem armExtention, ArmSubsystem armRotation, PneumaticsSubsystem pneumatics, IntakeSubsystem intake) {
+  public Auto11(DriveSubsystem drive, ArmExtensionSubsystem armExtension, ArmSubsystem armRotation, PneumaticsSubsystem pneumatics, IntakeSubsystem intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     //23 inches for middle
     addCommands(
       new ReverseIntake(intake).raceWith(new WaitCommand(1)),
       new ParallelCommandGroup(
-        new MiddleArmPosition(armExtention, pneumatics, armRotation),
+        new MiddleArmPosition(armExtension, pneumatics, armRotation),
         new SequentialCommandGroup(
           new WaitCommand(1),
           new Intake(intake).raceWith(new WaitCommand(1))
