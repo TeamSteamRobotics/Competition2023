@@ -27,6 +27,7 @@ import frc.robot.commands.Autos.Auto6;
 import frc.robot.commands.Autos.Auto7;
 import frc.robot.commands.Autos.Auto9;
 import frc.robot.commands.Autos.FollowTrajectory;
+import frc.robot.commands.DriveCommands.BalancePID;
 import frc.robot.commands.DriveCommands.CurvatureDrive;
 import frc.robot.commands.DriveCommands.Drive;
 import frc.robot.commands.DriveCommands.GyroDrive;
@@ -78,6 +79,7 @@ public class RobotContainer {
   private final Trigger halfSpeed = driverController.rightTrigger();
   private final Trigger fullSpeed = driverController.leftTrigger();
   private final Trigger brakeModeOn = driverController.rightBumper();
+  private final Trigger balanceBeam = driverController.a(); 
 
   // 55.4 inches
   //Operator Controller
@@ -172,6 +174,7 @@ public class RobotContainer {
       new InstantCommand(() -> m_driveSubsystem.setBrakeMode(true), m_driveSubsystem))
       .onFalse(
         new InstantCommand(() -> m_driveSubsystem.setBrakeMode(false), m_driveSubsystem));
+    balanceBeam.onTrue(new BalancePID(m_driveSubsystem)); 
    
   }
 

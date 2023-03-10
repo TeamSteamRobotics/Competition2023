@@ -56,7 +56,15 @@ public final class Constants {
     public static final double kI = 0;
     public static final double kD = 0.1;
 
-    public static final double tolerance = 3;
+    public static final double tolerance = 5; //in degrees
+  }
+
+  public static class BalanceConstants {
+    public static final double kP = .3; 
+    public static final double kI = 0;
+    public static final double kD = 0; 
+
+    public static final double tolerance = 3; 
   }
 
   public static class EncoderDriveDistanceConstants {
