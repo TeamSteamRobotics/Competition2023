@@ -38,13 +38,13 @@ public class Auto11 extends SequentialCommandGroup {
     addCommands(
       new ReverseIntake(intake).raceWith(new WaitCommand(1)),
       new ParallelCommandGroup(
-        new HighArmPosition(armExtention, pneumatics, armRotation),
+        new MiddleArmPosition(armExtention, pneumatics, armRotation),
         new SequentialCommandGroup(
           new WaitCommand(1),
           new Intake(intake).raceWith(new WaitCommand(1))
         )
       ).raceWith(new WaitCommand(4)),
-      new Drive(drive, () -> 0.3, () -> 0).raceWith(new WaitCommand(7))
+      new Drive(drive, () -> 0.5, () -> 0).raceWith(new WaitCommand(7))
 
 
     /* 

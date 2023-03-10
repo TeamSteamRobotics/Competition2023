@@ -28,7 +28,11 @@ public class ExtendArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armExtensionSubsystem.extendArm(-speed);
+    if(armExtensionSubsystem.armLengthMeters() < 0.2){
+      armExtensionSubsystem.extendArm(-speed);
+    } else {
+      armExtensionSubsystem.extendArm(-speed * 2);
+    }
   }
 
   // Called once the command ends or is interrupted.

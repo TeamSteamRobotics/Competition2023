@@ -93,7 +93,7 @@ public class DriveSubsystem extends SubsystemBase {
     if(halfSpeed) {
       diffDrive.arcadeDrive(speed / 2, -rotation / 2);
     } else {
-      diffDrive.arcadeDrive(speed, -rotation);
+      diffDrive.arcadeDrive(0.8 * speed, 0.8 * -rotation);
     }
   }
 

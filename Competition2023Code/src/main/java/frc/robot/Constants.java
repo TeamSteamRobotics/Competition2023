@@ -100,9 +100,11 @@ public final class Constants {
     public static final double highPosition = 1.65; //1.8; //constants not finished
 
     public static final double resetPositionLength = 0.01;
-    public static final double lowPositionLength = 0.25; //0.228;
+    public static final double lowPositionLength = 0.34; //0.25; //0.228;
     public static final double middlePositionLength = 0.172;
-    public static final double highPositionLength = .45;//0.43;
+    public static final double highPositionLength = .73; //.45;//0.43;
+
+    
 
   }
 

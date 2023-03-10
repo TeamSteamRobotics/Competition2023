@@ -30,7 +30,7 @@ public class HighArmPosition extends ParallelCommandGroup {
         new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
         new SequentialCommandGroup(
         new WaitCommand(0.5),
-        new DeployIntake(m_pneumaticsSubsystem)),
+        new RetractIntake(m_pneumaticsSubsystem)),
       new SequentialCommandGroup(
         new WaitCommand(1),
         new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength)))
