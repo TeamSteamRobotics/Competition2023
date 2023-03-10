@@ -45,16 +45,11 @@ public class DriveSubsystem extends SubsystemBase {
   private DifferentialDriveOdometry m_odometry;//
   private boolean isSlow = false;
 
-
-  //private AHRS m_gyro = new AHRS();
-  //private AHRS navX = new AHRS();
   AHRS navX = new AHRS(SPI.Port.kMXP);
-  //= new AHRS();
-  //SerialPort.Port.kMXP
 
   private boolean halfSpeed = false;
   private SlewRateLimiter rateLimitVelocity = new SlewRateLimiter(2);
-  //private AHRS gyro = new AHRS();
+
 
   //Inverts right MotorControllerGroup
   public DriveSubsystem() { 
@@ -86,8 +81,6 @@ public class DriveSubsystem extends SubsystemBase {
     }
   }
 
-
-
   //Assigns arcadeDrive speed and rotation
   public void drive(double speed, double rotation){
     if(halfSpeed) {
@@ -98,11 +91,11 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
 
-  public void curveDrive(double speed, double roatation) {
+  public void curveDrive(double speed, double rotation) {
     if(!halfSpeed) {
-      diffDrive.curvatureDrive(rateLimitVelocity.calculate(speed), -roatation, true);
+      diffDrive.curvatureDrive(rateLimitVelocity.calculate(speed), -rotation, true);
     } else {
-      diffDrive.curvatureDrive(speed / 4, -roatation / 4, true);
+      diffDrive.curvatureDrive(speed / 4, -rotation / 4, true);
     }
   }
 
