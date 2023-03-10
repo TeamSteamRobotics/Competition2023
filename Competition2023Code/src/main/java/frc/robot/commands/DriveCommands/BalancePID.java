@@ -6,6 +6,7 @@ package frc.robot.commands.DriveCommands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
+import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -16,20 +17,17 @@ public class BalancePID extends PIDCommand {
   public BalancePID(DriveSubsystem drive) {
     super(
         // The controller that the command will use
-        new PIDController(.5, 0, 0),
+        new PIDController(Constants.BalanceConstants.kP, Constants.BalanceConstants.kI, Constants.BalanceConstants.kD),
         // This should return the measurement
         () -> drive.gyroPitchDegrees() / 360,
         // This should return the setpoint (can also be a constant)
         0,
-        // This uses the output
         output -> {
           drive.drive(output, 0);
-
-          // Use the output here
         });
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drive);
-    getController().setSetpoint(5); 
+    getController().setSetpoint(Constants.BalanceConstants.tolerance); 
     // Configure additional PID options by calling `getController` here.
   }
 
