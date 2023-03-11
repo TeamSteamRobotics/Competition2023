@@ -93,7 +93,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void curveDrive(double speed, double rotation) {
     if(!halfSpeed) {
-      diffDrive.curvatureDrive(rateLimitVelocity.calculate(speed), -rotation, true);
+      diffDrive.curvatureDrive(0.8 * rateLimitVelocity.calculate(speed), 0.8 * -rotation, true);
     } else {
       diffDrive.curvatureDrive(speed / 4, -rotation / 4, true);
     }
@@ -205,7 +205,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     //System.out.println(gyroAngleDegrees());
     //System.out.println(getEncoderDifference());
-    System.out.println(getEncoderDistanceMeters());
+    //System.out.println(getEncoderDistanceMeters());
     // This method will be called once per scheduler run
     m_odometry.update(
       navX.getRotation2d(), getLeftEncoderDistance(), getRightEncoderDistance());

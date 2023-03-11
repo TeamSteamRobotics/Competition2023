@@ -79,7 +79,7 @@ public class RobotContainer {
   private final Trigger halfSpeed = driverController.rightTrigger();
   private final Trigger fullSpeed = driverController.leftTrigger();
   private final Trigger brakeModeOn = driverController.rightBumper();
-  private final Trigger balanceBeam = driverController.a(); 
+  private final Trigger balanceBeam = driverController.leftBumper(); 
 
   // 55.4 inches
   //Operator Controller

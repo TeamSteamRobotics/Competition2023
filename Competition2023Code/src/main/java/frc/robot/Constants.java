@@ -88,8 +88,8 @@ public final class Constants {
 
     public final static double[] positions = {Math.PI / 4, Math.PI / 3, Math.PI /2 }; 
 
-    public static final double length_kP = 3;
-    public static final double length_kI = 0.3;
+    public static final double length_kP = 3.5;
+    public static final double length_kI = 0.35;
     public static final double length_kD = 0.2;
 
     public static final double anglePIDTolerance = .05;
@@ -103,12 +103,12 @@ public final class Constants {
     public static final double intakeSpeed = 0.65;
 
     public static final double resetPosition = 0.53677233; //0.67;
-    public static final double lowPosition = .85; //0.7119198;
+    public static final double lowPosition = 0.82; //.85; //0.7119198;
     public static final double middlePosition = 1.52; //1.62316;
     public static final double highPosition = 1.65; //1.8; //constants not finished
 
     public static final double resetPositionLength = 0.01;
-    public static final double lowPositionLength = 0.34; //0.25; //0.228;
+    public static final double lowPositionLength = 0.355; //0.25; //0.228;
     public static final double middlePositionLength = 0.172;
     public static final double highPositionLength = .73; //.45;//0.43;
 
