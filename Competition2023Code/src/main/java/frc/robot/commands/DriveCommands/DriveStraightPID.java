@@ -12,9 +12,9 @@ import frc.robot.subsystems.DriveSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class DriveStraighPID extends PIDCommand {
+public class DriveStraightPID extends PIDCommand {
   /** Creates a new DriveStraighPID. */
-  public DriveStraighPID(DriveSubsystem drive, double speed) {
+  public DriveStraightPID(DriveSubsystem drive, double speed) {
     super(
         // The controller that the command will use
         new PIDController(DriveStraightPIDConstants.kP, DriveStraightPIDConstants.kI, DriveStraightPIDConstants.kD),

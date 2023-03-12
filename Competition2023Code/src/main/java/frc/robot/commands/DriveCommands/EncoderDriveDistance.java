@@ -15,8 +15,6 @@ import frc.robot.subsystems.DriveSubsystem;
 public class EncoderDriveDistance extends PIDCommand {
   /** Creates a new EncoderDriveDistance. */
 
-  
-
   DriveSubsystem drive;
   public EncoderDriveDistance(double distanceMeters, DriveSubsystem drive) {
     
