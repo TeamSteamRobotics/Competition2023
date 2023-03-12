@@ -18,19 +18,14 @@ public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
   private CANSparkMax armMotorLeft = new CANSparkMax(MotorIDConstants.leftShoulderMotor, MotorType.kBrushless);
   private CANSparkMax armMotorRight = new CANSparkMax(MotorIDConstants.rightShoulerMotor, MotorType.kBrushless);
+  
   private MotorControllerGroup armMotors = new MotorControllerGroup(armMotorLeft, armMotorRight);
 
   private DutyCycleEncoder armEncoder = new DutyCycleEncoder(0);
 
-  private final int filterSize = 100;
-  private double[] filter = new double[filterSize];
-
   private boolean goingLow = false;
-
-  private double dutyCycleOffset = 0.54738; //0.3046; //0.0805; //0.2017; //0.618333;
-  // 0 - 1 to 0 - 6.283: 1.2673
+  private double dutyCycleOffset = 0.54738; 
   private static int rotationIndex = 0; 
-  //need to somehow do 2pi - the encoder thingy
 
   public void setGoingLow(boolean input){
     goingLow = input;
@@ -44,9 +39,6 @@ public class ArmSubsystem extends SubsystemBase {
   public ArmSubsystem() {
     armEncoder.setDistancePerRotation(2 * Math.PI);
     armEncoder.setPositionOffset(dutyCycleOffset);
-    for(int i = 0; i < filterSize; i++){
-      filter[i] = 0;
-    }
   }
 
   public void increaseRotationIndex(){
@@ -70,16 +62,6 @@ public class ArmSubsystem extends SubsystemBase {
 
   public double getArmAngleDegrees(){
     return armEncoder.getDistance();
-    //System.out.println(armEncoder.getDistance());
-    /*double average = 0;
-    for(int i = 1; i < filterSize; i++){
-      filter[i] = filter[i - 1];
-      average += filter[i];
-    }
-    filter[0] = armEncoder.getDistance();
-    average += filter[0];
-    average /= filterSize;
-    return average; //(Math.PI * 2) - armEncoder.getDistance() - 1.9139;*/
   }
   
   public void setArmSpeed(double speed){
@@ -111,6 +93,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void setRightMotor(double speed) {
     armMotorRight.set(speed);
   }
+
   public void setLeftMotor(double speed) {
     armMotorLeft.set(speed);
   }
@@ -120,7 +103,7 @@ public class ArmSubsystem extends SubsystemBase {
     armMotors.set(0);
 
   }
-//2.838 - 1.5707 = 1.2673
+
 //Overrides code
   @Override
   public void periodic() {
