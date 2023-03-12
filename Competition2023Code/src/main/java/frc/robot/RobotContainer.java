@@ -4,9 +4,7 @@
 
 package frc.robot;
 
-import frc.robot.commands.ArmCommands.ArmAnglePID;
 import frc.robot.commands.ArmCommands.DeployIntake;
-import frc.robot.commands.ArmCommands.ExtendArm;
 import frc.robot.commands.ArmCommands.Intake;
 import frc.robot.commands.ArmCommands.RetractIntake;
 import frc.robot.commands.ArmCommands.ReverseIntake;
@@ -19,7 +17,6 @@ import frc.robot.commands.ArmCommands.PositionCommands.ResetArmPosition;
 import frc.robot.commands.Autos.Auto1;
 import frc.robot.commands.Autos.Auto10;
 import frc.robot.commands.Autos.Auto11;
-import frc.robot.commands.Autos.Auto2;
 import frc.robot.commands.Autos.Auto3;
 import frc.robot.commands.Autos.Auto4;
 import frc.robot.commands.Autos.Auto5;
@@ -29,7 +26,6 @@ import frc.robot.commands.Autos.Auto9;
 import frc.robot.commands.Autos.FollowTrajectory;
 import frc.robot.commands.DriveCommands.BalancePID;
 import frc.robot.commands.DriveCommands.CurvatureDrive;
-import frc.robot.commands.DriveCommands.Drive;
 import frc.robot.commands.DriveCommands.GyroDrive;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -49,7 +45,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SelectCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -152,15 +147,8 @@ public class RobotContainer {
 
     gyroDrive.onTrue(new GyroDrive(m_driveSubsystem, 1));
     //Operator Manual
-    //manualArmUp.whileTrue(new RotateArm(m_armSubsystem, 0.2));
-    //manualArmDown.whileTrue(new RotateArm(m_armSubsystem, -0.2));
-     
-   /*manualArmUp.whileTrue(new SequentialCommandGroup(
-      new InstantCommand(m_armSubsystem::manualGoingUp, m_armSubsystem), 
-      new InstantCommand(m_armSubsystem::manualArmPID, m_armSubsystem)));
-    manualArmDown.whileTrue(new SequentialCommandGroup(
-        new InstantCommand(m_armSubsystem::manualGoingDown, m_armSubsystem), 
-        new InstantCommand(m_armSubsystem::manualArmPID, m_armSubsystem)));*/
+    manualArmUp.whileTrue(new RotateArm(m_armSubsystem, 0.2));
+    manualArmDown.whileTrue(new RotateArm(m_armSubsystem, -0.2));
     
     //manualExtendArm.whileTrue(new ExtendArm(m_armExtensionSubsystem, 0.2));
     //manualRetractArm.whileTrue(new ExtendArm(m_armExtensionSubsystem, -0.2));
