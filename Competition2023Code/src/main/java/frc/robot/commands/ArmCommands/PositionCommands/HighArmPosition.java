@@ -34,7 +34,6 @@ public class HighArmPosition extends ParallelCommandGroup {
       new SequentialCommandGroup(
         new WaitCommand(1),
         new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength)))
-
     );
     
   }

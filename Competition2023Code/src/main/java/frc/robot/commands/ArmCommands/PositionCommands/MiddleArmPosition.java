@@ -33,7 +33,6 @@ public class MiddleArmPosition extends ParallelCommandGroup {
       new SequentialCommandGroup(
         new WaitCommand(1.5),
         new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength))
-        );
-    
+    );
   }
 }
