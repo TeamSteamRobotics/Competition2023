@@ -51,16 +51,6 @@ public class IntakeSubsystem extends SubsystemBase {
     return coneIndex;
   }
 
-  public void increaseConeIndex(){
-    isCone = true;
-    coneIndex++;
-  }
-
-  public void decreaseConeIndex(){
-    isCone = true;
-    coneIndex--;
-  }
-
   public int getCubeIntakeIndex(){
     if(cubeIndex >= 6){
       cubeIndex = 3;
@@ -71,6 +61,16 @@ public class IntakeSubsystem extends SubsystemBase {
       return cubeIndex;
     }
     return cubeIndex;
+  }
+
+  public void increaseConeIndex(){
+    isCone = true;
+    coneIndex++;
+  }
+
+  public void decreaseConeIndex(){
+    isCone = true;
+    coneIndex--;
   }
 
   public void increaseCubeIndex(){
