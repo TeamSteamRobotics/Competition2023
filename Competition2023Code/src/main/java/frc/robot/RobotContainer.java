@@ -166,6 +166,7 @@ public class RobotContainer {
    
   }
 
+  //2, 7, 11, 13 are ones that might work
   public Command ChooseAuto(AutoType type) {
     switch(type){
         case do_nothing:
