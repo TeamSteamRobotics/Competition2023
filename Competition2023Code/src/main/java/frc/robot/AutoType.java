@@ -14,5 +14,6 @@ public enum AutoType {
     drive_forwards_score_leave_community_pickup_piece_score,
     drive_forwards_score_leave_community_dock_engage,
     drive_forwards_score_leave_community_go_to_plaer_station, 
+    drive_forwards_score_cube_community
 }
 

@@ -4,10 +4,7 @@
 
 package frc.robot.commands.ArmCommands;
 
-import edu.wpi.first.wpilibj.PneumaticsBase;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PneumaticsSubsystem;
 
 public class RetractIntake extends CommandBase {

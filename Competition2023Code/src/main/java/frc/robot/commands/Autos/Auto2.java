@@ -4,26 +4,31 @@
 
 package frc.robot.commands.Autos;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.DriveCommands.Drive;
 import frc.robot.commands.DriveCommands.EncoderDriveDistance;
 import frc.robot.subsystems.DriveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Auto5 extends SequentialCommandGroup {
-  /** Creates a new Auto5. */
-  //Drives backwards outside of community, then drives forwards and docks.
-  public Auto5(DriveSubsystem drive) {
+public class Auto2 extends SequentialCommandGroup {
+  /** Creates a new Auto2. */
+  //Drives backwards and docks
+  public Auto2(DriveSubsystem drive) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
 
-    new EncoderDriveDistance(-3.5, drive),
-    new WaitCommand(.5),
-    new EncoderDriveDistance(1.3, drive)
-    
+      new Drive(drive, () -> 0.65, () -> 0).raceWith(new WaitCommand(5))
+
+    /* 
+    new InstantCommand(drive::resetEncoders, drive),
+    new EncoderDriveDistance(-2.13, drive)
+    */
     );
   }
 }

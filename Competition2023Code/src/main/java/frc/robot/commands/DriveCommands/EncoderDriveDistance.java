@@ -32,7 +32,7 @@ public class EncoderDriveDistance extends PIDCommand {
           /*if(output > 0.2)
             drive.drive(.2, 0);
           else*/
-            drive.drive(-output / 2, 0);
+            drive.drive(output / 2, 0);
           // Use the output here
         });
       

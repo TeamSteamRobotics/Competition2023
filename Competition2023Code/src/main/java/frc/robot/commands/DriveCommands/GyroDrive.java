@@ -6,38 +6,37 @@ package frc.robot.commands.DriveCommands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
-import frc.robot.Constants.GyroTurnConstants;
+import frc.robot.Constants.GyroDriveConstants;
 import frc.robot.subsystems.DriveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class GyroTurn extends PIDCommand {
-  /** Creates a new GyroTurn. */
-  public GyroTurn(DriveSubsystem drive, double turnAngleDegrees) {
+public class GyroDrive extends PIDCommand {
+  /** Creates a new GyroDrive. */
+  public GyroDrive(DriveSubsystem drive, double distance) {
     super(
         // The controller that the command will use
-        new PIDController(GyroTurnConstants.kP, GyroTurnConstants.kI, GyroTurnConstants.kD),
+        new PIDController(GyroDriveConstants.kP, GyroDriveConstants.kI, GyroDriveConstants.kD),
         // This should return the measurement
-        () -> drive.gyroAngleDegrees(),
+        () -> drive.gyroDistance(),
         // This should return the setpoint (can also be a constant)
-        turnAngleDegrees,
+        () -> distance,
         // This uses the output
         output -> {
-          //System.out.println(drive.gyroAngleDegrees());
-          drive.drive(0, output);
+          drive.drive(output / 2, 0);
+          // Use the output here
         });
-      addRequirements(drive);
+        addRequirements(drive);
+        this.getController().setTolerance(GyroDriveConstants.tolerance);
+        //this.getController().setIntegratorRange(0, 1);
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
-    //getController().setIntegratorRange(0, 0.05);
-    getController().setTolerance(GyroTurnConstants.tolerance);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //System.out.println("finished"); 
-    return getController().atSetpoint();
+    return this.getController().atSetpoint();
   }
 }

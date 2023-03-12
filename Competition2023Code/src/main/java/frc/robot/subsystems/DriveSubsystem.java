@@ -4,23 +4,18 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
-import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.commands.PPRamseteCommand;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.MotorIDConstants;
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
@@ -28,9 +23,9 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.wpilibj.SerialPort;
 
 //Creates DriveSubsystem class
 public class DriveSubsystem extends SubsystemBase {
@@ -47,14 +42,16 @@ public class DriveSubsystem extends SubsystemBase {
   
   //Creates diffDrive from DifferentialDrive for left and right MotorControllerGroups
   private DifferentialDrive diffDrive = new DifferentialDrive(left, right);
+  
   private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(27));
   private DifferentialDriveOdometry m_odometry;//
+  private boolean isSlow = false;
 
-  //private AHRS m_gyro = new AHRS();
-  //private AHRS navX = new AHRS();
   AHRS navX = new AHRS(SPI.Port.kMXP);
-  //= new AHRS();
-  //SerialPort.Port.kMXP
+
+  private boolean halfSpeed = false;
+  private SlewRateLimiter rateLimitVelocity = new SlewRateLimiter(2);
+
 
   //Inverts right MotorControllerGroup
   public DriveSubsystem() { 
@@ -64,9 +61,44 @@ public class DriveSubsystem extends SubsystemBase {
     resetGyro();
   }
 
+  public void setHalfSpeedTrue() {
+    halfSpeed = true;
+  }
+
+  public void setHalfSpeedFalse() {
+    halfSpeed = false;
+  }
+
+  public void setBrakeMode(boolean brakeMode) {
+    if(brakeMode) {
+      leftback.setNeutralMode(NeutralMode.Brake);
+      leftfront.setNeutralMode(NeutralMode.Brake);
+      rightback.setNeutralMode(NeutralMode.Brake);
+      rightfront.setNeutralMode(NeutralMode.Brake);
+    } else {
+      leftback.setNeutralMode(NeutralMode.Coast);
+      leftfront.setNeutralMode(NeutralMode.Coast);
+      rightback.setNeutralMode(NeutralMode.Coast);
+      rightfront.setNeutralMode(NeutralMode.Coast);
+    }
+  }
+
   //Assigns arcadeDrive speed and rotation
   public void drive(double speed, double rotation){
-    diffDrive.arcadeDrive(speed, -rotation);
+    if(halfSpeed) {
+      diffDrive.arcadeDrive(speed / 2, -rotation / 2);
+    } else {
+      diffDrive.arcadeDrive(0.8 * speed, 0.8 * -rotation);
+    }
+  }
+
+
+  public void curveDrive(double speed, double rotation) {
+    if(!halfSpeed) {
+      diffDrive.curvatureDrive(0.8 * rateLimitVelocity.calculate(speed), 0.8 * -rotation, true);
+    } else {
+      diffDrive.curvatureDrive(speed / 4, -rotation / 4, true);
+    }
   }
 
   //sets arcadeDrive to 0 rotation and 0 speed
@@ -82,6 +114,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   public double encoderDifference() {
     return leftfront.getSelectedSensorPosition() - rightfront.getSelectedSensorPosition();
+  }
+
+  public double gyroDistance() {
+    return navX.getDisplacementX();
   }
 
   // returns average of leftfront and rightfront motor positions
@@ -104,8 +140,7 @@ public class DriveSubsystem extends SubsystemBase {
   
   // prints and returns distance driven
   public double getEncoderDistanceMeters() {
-    double dist = leftfront.getSelectedSensorPosition() / 4096 * 2 * Math.PI * DriveConstants.wheelRadiusMeters; //* 2*Math.PI*DriveConstants.wheelRadiusMeters);
-    //System.out.println(dist);
+    double dist = (leftfront.getSelectedSensorPosition() / 4096) * 10.75 * (2 * Math.PI * DriveConstants.wheelRadiusMeters); //* 2*Math.PI*DriveConstants.wheelRadiusMeters);
     return dist;
   }
 
@@ -133,15 +168,16 @@ public class DriveSubsystem extends SubsystemBase {
 
   // resets gyro rotation 
   public void resetGyro() {
+    navX.resetDisplacement();
     navX.reset();
   }
 
   public double gyroAngleDegrees() {
-    double angle = navX.getAngle() % 360;
+    double angle = navX.getAngle() % 360; 
     if (angle < 0) {
       return 360 + angle; 
     } else {
-      return navX.getAngle() % 360;
+      return angle; 
     }
   }
 
@@ -149,16 +185,13 @@ public class DriveSubsystem extends SubsystemBase {
     return navX.getPitch();
   }
 
-  //0 degrees = 0 encoder difference
-  //90 degrees = -5864
   public Pose2d getPose() {
     return m_odometry.getPoseMeters();
   }
   
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
-    m_odometry.resetPosition(
-        navX.getRotation2d(), getLeftEncoderDistance(), getRightEncoderDistance(), pose);
+    m_odometry.resetPosition(navX.getRotation2d(), getLeftEncoderDistance(), getRightEncoderDistance(), pose);
   }
 
   public double getHeading() {
@@ -172,11 +205,12 @@ public class DriveSubsystem extends SubsystemBase {
   // Overrides code
   @Override
   public void periodic() {
+    //System.out.println(gyroAngleDegrees());
     //System.out.println(getEncoderDifference());
+    //System.out.println(getEncoderDistanceMeters());
     // This method will be called once per scheduler run
     m_odometry.update(
       navX.getRotation2d(), getLeftEncoderDistance(), getRightEncoderDistance());
-    //System.out.println("Gyro angle: " + gyroAngleDegrees());
   }
 
 }

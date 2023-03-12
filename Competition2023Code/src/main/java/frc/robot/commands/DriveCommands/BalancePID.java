@@ -17,18 +17,17 @@ public class BalancePID extends PIDCommand {
   public BalancePID(DriveSubsystem drive) {
     super(
         // The controller that the command will use
-        new PIDController(Constants.DriveStraightPIDConstants.kP,Constants.DriveStraightPIDConstants.kI , Constants.DriveStraightPIDConstants.kD),
+        new PIDController(Constants.BalanceConstants.kP, Constants.BalanceConstants.kI, Constants.BalanceConstants.kD),
         // This should return the measurement
         () -> drive.gyroPitchDegrees() / 360,
         // This should return the setpoint (can also be a constant)
         0,
-        // This uses the output
         output -> {
           drive.drive(output, 0);
-
-          // Use the output here
         });
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(drive);
+    getController().setSetpoint(Constants.BalanceConstants.tolerance); 
     // Configure additional PID options by calling `getController` here.
   }
 

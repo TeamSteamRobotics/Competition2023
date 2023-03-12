@@ -7,9 +7,11 @@ package frc.robot.commands.Autos;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.ArmCommands.Intake;
 import frc.robot.commands.ArmCommands.ReverseIntake;
 import frc.robot.commands.ArmCommands.PositionCommands.HighArmPosition;
-import frc.robot.commands.DriveCommands.EncoderDriveDistance;
+import frc.robot.commands.ArmCommands.PositionCommands.MiddleArmPosition;
+import frc.robot.commands.DriveCommands.Drive;
 import frc.robot.subsystems.ArmExtensionSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -19,26 +21,22 @@ import frc.robot.subsystems.PneumaticsSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Auto4 extends SequentialCommandGroup {
-  /** Creates a new AutoDriveForwardsScoreDriveBackwardsDock. */
-  //Drives forwards and scores
-  public Auto4(DriveSubsystem drive, ArmSubsystem arm, PneumaticsSubsystem deployIntake, ArmExtensionSubsystem armExtension, IntakeSubsystem intake) {
-
-
+public class Auto13 extends SequentialCommandGroup {
+  /** Creates a new Auto13. */
+  public Auto13(DriveSubsystem drive, ArmSubsystem armRotation, ArmExtensionSubsystem armExtension, PneumaticsSubsystem pneumatics, IntakeSubsystem intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-
-
     addCommands(
-
-      new EncoderDriveDistance(.3, drive),
+      new ReverseIntake(intake).raceWith(new WaitCommand(1)),
       new ParallelCommandGroup(
-        new HighArmPosition(armExtension, deployIntake, arm),
+        new HighArmPosition(armExtension, pneumatics, armRotation),
         new SequentialCommandGroup(
           new WaitCommand(1),
-          new ReverseIntake(intake))
+          new Drive(drive, () -> 0.5, () -> 0).raceWith(new WaitCommand(2)),
+          new Intake(intake).raceWith(new WaitCommand(1))
         )
-
+      ).raceWith(new WaitCommand(4)),
+      new Drive(drive, () -> 0.5, () -> 0).raceWith(new WaitCommand(7))
     );
   }
 }

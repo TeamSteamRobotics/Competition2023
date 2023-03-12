@@ -19,6 +19,7 @@ public class ArmExtensionSubsystem extends SubsystemBase {
   private static int extensionIndex = 0;
 
   public ArmExtensionSubsystem() {
+    //elevatorMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     //elevatorEncoder.setPosition(0);
   }
 
@@ -74,7 +75,7 @@ public class ArmExtensionSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    //System.out.println(armLengthMeters());
+    System.out.println(armLengthMeters());
 
     // This method will be called once per scheduler run
   }

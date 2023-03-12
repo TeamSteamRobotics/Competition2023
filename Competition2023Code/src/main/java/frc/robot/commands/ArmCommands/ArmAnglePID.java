@@ -4,8 +4,6 @@
 
 package frc.robot.commands.ArmCommands;
 
-import java.security.AlgorithmConstraints;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants.ArmConstants;
@@ -19,8 +17,11 @@ import frc.robot.subsystems.ArmSubsystem;
 
 public class ArmAnglePID extends PIDCommand {
   /** Creates a new ArmAnglePID. */
+  double angle;
+  ArmSubsystem arm;
   
   public ArmAnglePID(ArmSubsystem arm, double angle) {
+
     super(
         // The controller that the command will use
         new PIDController(ArmConstants.angle_kP, ArmConstants.angle_kI, ArmConstants.angle_kD),
@@ -32,16 +33,45 @@ public class ArmAnglePID extends PIDCommand {
         output -> {
           //System.out.println("reached ARM ANGLE PID");
           //System.out.println("Angle Output: " + output);
-          arm.setArmSpeed(output);
+          
+          if(arm.isGoingLow()){
+            arm.setArmSpeed(0);
+          } else {
+            arm.setArmSpeed(output);
+          }
+         
           // Use the output here
         });
+    this.angle = angle;
+    this.arm = arm;
     addRequirements(arm);
+    
+ 
     this.getController().setTolerance(ArmConstants.anglePIDTolerance);
     this.getController().setIntegratorRange(-0.4/ArmConstants.angle_kI, 0.4/ArmConstants.angle_kI);
     
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
   }
+
+  //arm code to test out
+  
+  /* 
+  @Override
+  public void execute() {
+    if(arm.isGoingLow() != true){
+      this.getController().setP(ArmConstants.angle_kP);
+      this.getController().setI(ArmConstants.angle_kI);
+      this.getController().setD(ArmConstants.angle_kD);
+      super.execute();
+    } else {
+      this.getController().setP(0);
+      this.getController().setI(0);
+      this.getController().setD(0);
+      super.execute();
+    }
+  }
+  */
 
   // Returns true when the command should end.
   @Override

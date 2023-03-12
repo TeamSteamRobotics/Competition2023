@@ -34,6 +34,7 @@ public final class Constants {
     public static final double kGridAprilTagHeightMeters = 0.59; // 59 centimeters to bottom
   }
   public static class DriveConstants {
+    public static final double driveConversionFactor = 0;
     public static final double encoderTicksToMeters = 0; // Will be filled out when more info arrives
     public static final double wheelRadiusMeters = 0.0762;
 
@@ -50,18 +51,26 @@ public final class Constants {
     public static final double drive_kD = 0;
     public static final double drive_tolerance = 3; 
 
-    public static int rightFrontMotorID ;
+    public static int rightFrontMotorID;
     public static int rightBackMotorID;
     public static int leftFrontMotorID;
     public static int leftBackMotorID;
   }
 
   public static class GyroTurnConstants {
-    public static final double kP = .05;
-    public static final double kI = .0;
-    public static final double kD = .01;
+    public static final double kP = 0.3;
+    public static final double kI = 0;
+    public static final double kD = 0.1;
 
-    public static final double tolerance = 1;
+    public static final double tolerance = 5; //in degrees
+  }
+
+  public static class BalanceConstants {
+    public static final double kP = .3; 
+    public static final double kI = 0;
+    public static final double kD = 0; 
+
+    public static final double tolerance = 3; 
   }
 
   public static class EncoderDriveDistanceConstants {
@@ -70,37 +79,47 @@ public final class Constants {
     public static final double kD = 0.00001;
   }
 
+  public static class GyroDriveConstants{
+    public static final double kP = 0.2;
+    public static final double kI = 0.05;
+    public static final double kD = 0.1;
+
+    public static final double tolerance = 0.01;
+  }
+
   public static class ArmConstants {
-    public static final double angle_kP = .7;
-    public static final double angle_kI = 0.16;
+    public static final double angle_kP = 1.3;
+    public static final double angle_kI = 0.6;
     public static final double angle_kD = 0.05; // 67.6 / 100;
 
     public final static double[] positions = {Math.PI / 4, Math.PI / 3, Math.PI /2 }; 
 
-    public static final double length_kP = 2;
-    public static final double length_kI = 0.3;
+    public static final double length_kP = 3.5;
+    public static final double length_kI = 0.35;
     public static final double length_kD = 0.2;
 
-    public static final double anglePIDTolerance = .05
-    ;
-    public static final double lengthPIDTolerance = 0.001;
+    public static final double anglePIDTolerance = .05;
+    public static final double lengthPIDTolerance = 0.000001;
 
     public static final double extendArmPIDoffset= 0.1739;
 
     public static final double armConversionFactor = 0.0652149; //Meters per rotation
     public static final double maxArmLengthMeters = 0.5519;
 
-    public static final double intakeSpeed = 0.5;
+    public static final double intakeSpeed = 0.65;
 
-    public static final double resetPosition = 0.53677233;
-    public static final double lowPosition = .8;//0.7119198;
-    public static final double middlePosition = 1.62316;
-    public static final double highPosition = 1.8; //constants not finished
+    public static final double resetPosition = 0.53677233; //0.67;
+    public static final double lowPosition = 0.82; //.85; //0.7119198;
+    public static final double middlePosition = 1.52; //1.62316;
+    public static final double highPosition = 1.65; //1.8; //constants not finished
 
-    public static final double resetPositionLength = 0;
-    public static final double lowPositionLength = 0.278;
+    public static final double resetPositionLength = 0.01;
+    public static final double lowPositionLength = 0.355; //0.25; //0.228;
     public static final double middlePositionLength = 0.172;
-    public static final double highPositionLength = 0.43;
+    public static final double highPositionLength = .73; //.45;//0.43;
+
+    
+
   }
 
   public final class MotorIDConstants {

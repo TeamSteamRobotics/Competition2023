@@ -10,9 +10,6 @@ import frc.robot.Constants.MotorIDConstants;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
-
 public class IntakeSubsystem extends SubsystemBase {
   /** Creates a new IntakeSubsystem. */
   private CANSparkMax intakeMotor = new CANSparkMax(MotorIDConstants.intakeMotor, MotorType.kBrushless);
@@ -23,8 +20,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private static boolean isCone;
 
   public IntakeSubsystem() {
-    coneIndex = 0;
-    cubeIndex = 3;
+    resetIndexes();
   }
 
   public void intake(double speed){
@@ -85,6 +81,11 @@ public class IntakeSubsystem extends SubsystemBase {
   public void decreaseCubeIndex(){
     isCone = false;
     cubeIndex++;
+  }
+
+  public void resetIndexes(){
+    coneIndex = 0;
+    cubeIndex = 3;
   }
 
   @Override

@@ -2,26 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Autos;
+package frc.robot.commands.DriveCommands;
 
-import com.pathplanner.lib.PathPlannerTrajectory;
+import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class Auto1 extends CommandBase {
-  /** Creates a new AutoDoNothing. */
-  //Does nothing during autonomous
-
-  DriveSubsystem m_driveSubsystem;
-  ArmSubsystem armSubsystem;
-  
-  public Auto1(DriveSubsystem driveSubsystem, ArmSubsystem armSubsystem, PathPlannerTrajectory path) {
-
-    this.m_driveSubsystem = driveSubsystem;
-    this.armSubsystem = armSubsystem;
-    addRequirements(m_driveSubsystem, armSubsystem);
+public class CurvatureDrive extends CommandBase {
+  /** Creates a new CurvatureDrive. */
+  DoubleSupplier speed;
+  DoubleSupplier rotation;
+  DriveSubsystem drive;
+  public CurvatureDrive(DoubleSupplier speed, DoubleSupplier rotation, DriveSubsystem drive) {
+    this.speed = speed;
+    this.rotation = rotation;
+    this.drive = drive;
+    addRequirements(drive);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -32,13 +29,14 @@ public class Auto1 extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_driveSubsystem.stop();
-    //armSubsystem.stopAll();
+    drive.curveDrive(speed.getAsDouble(), rotation.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    drive.stop();
+  }
 
   // Returns true when the command should end.
   @Override

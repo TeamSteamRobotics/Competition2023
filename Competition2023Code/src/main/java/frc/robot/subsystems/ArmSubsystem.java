@@ -4,20 +4,11 @@
 
 package frc.robot.subsystems;
 
-import javax.print.CancelablePrintJob;
-import javax.swing.SingleSelectionModel;
-
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.AnalogEncoder;
-import edu.wpi.first.wpilibj.DutyCycle;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
@@ -25,39 +16,37 @@ import frc.robot.Constants.MotorIDConstants;
 
 public class ArmSubsystem extends SubsystemBase {
   /** Creates a new ArmSubsystem. */
-
-
-
   private CANSparkMax armMotorLeft = new CANSparkMax(MotorIDConstants.leftShoulderMotor, MotorType.kBrushless);
   private CANSparkMax armMotorRight = new CANSparkMax(MotorIDConstants.rightShoulerMotor, MotorType.kBrushless);
   private MotorControllerGroup armMotors = new MotorControllerGroup(armMotorLeft, armMotorRight);
 
   private DutyCycleEncoder armEncoder = new DutyCycleEncoder(0);
 
+  private final int filterSize = 100;
+  private double[] filter = new double[filterSize];
+
+  private boolean goingLow = false;
+
   private double dutyCycleOffset = 0.54738; //0.3046; //0.0805; //0.2017; //0.618333;
   // 0 - 1 to 0 - 6.283: 1.2673
   private static int rotationIndex = 0; 
   //need to somehow do 2pi - the encoder thingy
-  //Another encoder will be placed, it is not on the motor controllers and it is on the rotate arm part
-  
-  //5.01 pi/2
-  //5.01 - 1.5707 = 3.4393 
-  //3.4393 / 2pi
 
-  //2.42 - 0.5061
-  
-  //29
-  //0.5061 radians
-  //.71 = 90 degrees
-  //2.85 = PI/2
+  public void setGoingLow(boolean input){
+    goingLow = input;
+  }
+
+  public boolean isGoingLow(){
+    return goingLow;
+  }
+
   
   public ArmSubsystem() {
     armEncoder.setDistancePerRotation(2 * Math.PI);
     armEncoder.setPositionOffset(dutyCycleOffset);
-    
-    //armMotorRight.setInverted(false);
-    //armMotorLeft.setInverted(false);
-    //armMotorRight.follow(armMotorLeft);
+    for(int i = 0; i < filterSize; i++){
+      filter[i] = 0;
+    }
   }
 
   public void increaseRotationIndex(){
@@ -80,8 +69,17 @@ public class ArmSubsystem extends SubsystemBase {
 
 
   public double getArmAngleDegrees(){
+    return armEncoder.getDistance();
     //System.out.println(armEncoder.getDistance());
-    return armEncoder.getDistance(); //(Math.PI * 2) - armEncoder.getDistance() - 1.9139;
+    /*double average = 0;
+    for(int i = 1; i < filterSize; i++){
+      filter[i] = filter[i - 1];
+      average += filter[i];
+    }
+    filter[0] = armEncoder.getDistance();
+    average += filter[0];
+    average /= filterSize;
+    return average; //(Math.PI * 2) - armEncoder.getDistance() - 1.9139;*/
   }
   
   public void setArmSpeed(double speed){

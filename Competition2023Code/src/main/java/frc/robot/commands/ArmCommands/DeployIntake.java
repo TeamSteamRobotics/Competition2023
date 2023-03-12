@@ -4,19 +4,15 @@
  
 package frc.robot.commands.ArmCommands;
 
-import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PneumaticsSubsystem;
 
 public class DeployIntake extends CommandBase {
   PneumaticsSubsystem pneumatics;
   // Creates a new DeployIntake. 
-  public DeployIntake(PneumaticsSubsystem pneumatics) {
+  public DeployIntake(PneumaticsSubsystem pneumatics){
     this.pneumatics = pneumatics;
     addRequirements(pneumatics);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.

@@ -4,29 +4,33 @@
 
 package frc.robot;
 
-import frc.robot.Constants.ArmConstants;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.ArmCommands.DeployIntake;
-import frc.robot.commands.ArmCommands.RetractIntake;
 import frc.robot.commands.ArmCommands.ArmAnglePID;
+import frc.robot.commands.ArmCommands.DeployIntake;
 import frc.robot.commands.ArmCommands.ExtendArm;
-import frc.robot.commands.ArmCommands.ExtendArmPID;
 import frc.robot.commands.ArmCommands.Intake;
+import frc.robot.commands.ArmCommands.RetractIntake;
 import frc.robot.commands.ArmCommands.ReverseIntake;
 import frc.robot.commands.ArmCommands.RotateArm;
+import frc.robot.commands.ArmCommands.PositionCommands.HighArmPosition;
+import frc.robot.commands.ArmCommands.PositionCommands.HumanPlayerStationPosition;
+import frc.robot.commands.ArmCommands.PositionCommands.LowArmPosition;
+import frc.robot.commands.ArmCommands.PositionCommands.MiddleArmPosition;
+import frc.robot.commands.ArmCommands.PositionCommands.ResetArmPosition;
 import frc.robot.commands.Autos.Auto1;
 import frc.robot.commands.Autos.Auto10;
+import frc.robot.commands.Autos.Auto11;
+import frc.robot.commands.Autos.Auto2;
 import frc.robot.commands.Autos.Auto3;
 import frc.robot.commands.Autos.Auto4;
+import frc.robot.commands.Autos.Auto5;
 import frc.robot.commands.Autos.Auto6;
 import frc.robot.commands.Autos.Auto7;
 import frc.robot.commands.Autos.Auto9;
 import frc.robot.commands.Autos.FollowTrajectory;
+import frc.robot.commands.DriveCommands.BalancePID;
+import frc.robot.commands.DriveCommands.CurvatureDrive;
 import frc.robot.commands.DriveCommands.Drive;
-import frc.robot.commands.DriveCommands.DriveRotationPID;
-import frc.robot.commands.DriveCommands.DriveToApril;
-import frc.robot.commands.DriveCommands.EncoderDriveDistance;
-import frc.robot.commands.DriveCommands.GyroTurn;
+import frc.robot.commands.DriveCommands.GyroDrive;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -35,27 +39,17 @@ import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.subsystems.AprilVisionSubsystem;
 import frc.robot.subsystems.ArmExtensionSubsystem;
 
-import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Map;
 
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PneumaticHub;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.simulation.JoystickSim;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SelectCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -76,75 +70,54 @@ public class RobotContainer {
   public final ArmExtensionSubsystem m_armExtensionSubsystem = new ArmExtensionSubsystem();
   private final PneumaticsSubsystem m_pneumaticsSubsystem = new PneumaticsSubsystem();
 
+  //Driver Controller
+  private final Joystick joystick = new Joystick(2);
+  private final Trigger gyroDrive = new JoystickButton(joystick, 12);
+  //private final Trigger halfSpeed = new JoystickButton(joystick, 1);
+  //private final Trigger fullSpeed = new JoystickButton(joystick, 2);
+  private final CommandXboxController driverController = new CommandXboxController(1);
+  private final Trigger halfSpeed = driverController.rightTrigger();
+  private final Trigger fullSpeed = driverController.leftTrigger();
+  private final Trigger brakeModeOn = driverController.rightBumper();
+  private final Trigger balanceBeam = driverController.leftBumper(); 
 
-  private final Joystick joystick = new Joystick(0);
-  private final XboxController xbox = new XboxController(1);
-  private final Trigger unIntake = new JoystickButton(joystick, 1);
-  private final Trigger intake = new JoystickButton(joystick, 2);
-  private final Trigger rotateArmToggleUp = new JoystickButton(joystick, 5);
-  private final Trigger rotateArmToggleDown = new JoystickButton(joystick, 3);
-  private final Trigger deployIntake = new JoystickButton(joystick, 7);
-  private final Trigger retractIntake = new JoystickButton(joystick, 8);
-  private final Trigger extendArmToggleUp = new JoystickButton(joystick, 6);
-  private final Trigger extendArmToggleDown = new JoystickButton(joystick, 4);
-  private final Trigger intakeToggleTest = new JoystickButton(joystick, 9);
-  private final Trigger reverseIntakeToggleTest = new JoystickButton(joystick, 10);
-  private final Trigger turnRight = new JoystickButton(joystick, 11);
-
-  PathPlannerTrajectory examplePath = PathPlanner.loadPath("TestPath", new PathConstraints(4, 3));
+  // 55.4 inches
+  //Operator Controller
+  private final CommandXboxController operatorController = new CommandXboxController(0);
+  private final Trigger resetPosition = operatorController.a();
+  private final Trigger lowPosition = operatorController.x();
+  private final Trigger middlePosition = operatorController.y();
+  private final Trigger highPosition = operatorController.b();
+  private final Trigger humanPlayerStation = operatorController.x().and(operatorController.b());
+  private final Trigger intakeToggle = operatorController.rightBumper();
+  private final Trigger reverseIntakeToggle = operatorController.leftBumper();
+  private final Trigger resetIntakeToggles = operatorController.povUp();
+  private final Trigger manualArmUp = operatorController.povRight();
+  private final Trigger manualArmDown = operatorController.povLeft();
+  //private final Trigger manualExtendArm = operatorController.leftBumper();
+  //private final Trigger manualRetractArm = operatorController.rightBumper();
+  private final Trigger manualDeployIntake = operatorController.leftTrigger();
+  private final Trigger manualRetractIntake = operatorController.rightTrigger();
 
   int armIndex = 0;
   boolean isIncreasing = false; 
 
-
+  PathPlannerTrajectory examplePath = PathPlanner.loadPath("TestPath", new PathConstraints(4, 3));
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Configure the trigger bindings
-
     configureBindings();
-    m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
+    //m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, () -> joystick.getY(), () -> joystick.getX()));
+    //m_driveSubsystem.setDefaultCommand(new CurveDrive(m_driveSubsystem, driverXbox::getRightY, driverXbox::getLeftX));
     m_intakeSubsystem.setDefaultCommand(intakeCommand);
+    //m_driveSubsystem.setDefaultCommand(new Drive(m_driveSubsystem, joystick::getY, joystick::getX));
+    m_driveSubsystem.setDefaultCommand(new CurvatureDrive(driverController::getLeftY, driverController::getRightX, m_driveSubsystem));
+    //m_intakeSubsystem.setDefaultCommand(intakeCommand);
 
     //m_armSubsystem.setDefaultCommand(positionCommand);
     //m_armExtensionSubsystem.setDefaultCommand(extentionCommand);
     
   }
-  
-
-  public int getArmIndex(){
-    return armIndex;
-  }
-
-
-  private final Command positionCommand = 
-  new SelectCommand(
-    Map.ofEntries(
-      Map.entry(0,
-        new ParallelCommandGroup(
-          new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition),
-          new SequentialCommandGroup(
-            new WaitCommand(1),
-            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength)))),
-      Map.entry(1, 
-        new ParallelCommandGroup(
-          new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition),
-          new SequentialCommandGroup(
-            new WaitCommand(1),
-            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength)))),
-      Map.entry(2, 
-        new ParallelCommandGroup(
-          new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition),
-          new SequentialCommandGroup(
-            new WaitCommand(1),
-            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength)))),
-      Map.entry(3, 
-        new ParallelCommandGroup(
-          new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
-          new SequentialCommandGroup(
-            new WaitCommand(1),
-            new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))))),
-    this::getArmIndex);
 
   private final Command intakeCommand = 
   new SelectCommand(
@@ -156,26 +129,7 @@ public class RobotContainer {
         Map.entry(4, new ReverseIntake(m_intakeSubsystem)),
         Map.entry(5, new ReverseIntake(m_intakeSubsystem, 0.1))),
         m_intakeSubsystem::getIntakeIndex);
-
-
-  private final Command rotationCommand = 
-    new SelectCommand(
-      Map.ofEntries(
-          Map.entry(0, new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition)),
-          Map.entry(1, new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition)),
-          Map.entry(2, new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition)),
-          Map.entry(3, new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition))),
-          m_armSubsystem::getRotationIndex);
-
-  private final Command extentionCommand = 
-    new SelectCommand(
-      Map.ofEntries(
-          Map.entry(0, new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength)),
-          Map.entry(1, new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength)),
-          Map.entry(2, new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength)),
-          Map.entry(3, new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))),
-          m_armExtensionSubsystem::getExtensionIndex);
-
+  
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
@@ -186,72 +140,42 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    intake.whileTrue(new Intake(m_intakeSubsystem, ArmConstants.intakeSpeed)); //2
+    //Operator's Commands
+    resetPosition.onTrue(new ResetArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
+    lowPosition.onTrue(new LowArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
+    middlePosition.onTrue(new MiddleArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
+    highPosition.onTrue(new HighArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
+    humanPlayerStation.onTrue(new HumanPlayerStationPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
+    intakeToggle.onTrue(new InstantCommand(m_intakeSubsystem::increaseConeIndex, m_intakeSubsystem));
+    reverseIntakeToggle.onTrue(new InstantCommand(m_intakeSubsystem::increaseCubeIndex, m_intakeSubsystem));
+    resetIntakeToggles.onTrue(new InstantCommand(m_intakeSubsystem::resetIndexes, m_intakeSubsystem));
 
-    unIntake.whileTrue(new ReverseIntake(m_intakeSubsystem)); //1
-
-    deployIntake.onTrue(new DeployIntake(m_pneumaticsSubsystem)); //7
-
-    retractIntake.onTrue(new RetractIntake(m_pneumaticsSubsystem)); //8
-    intakeToggleTest.onTrue(new InstantCommand(m_intakeSubsystem::increaseConeIndex, m_intakeSubsystem)); //9
-    reverseIntakeToggleTest.onTrue(new InstantCommand(m_intakeSubsystem::increaseCubeIndex, m_intakeSubsystem)); //10
-
-    turnRight.onTrue(new GyroTurn(90, m_driveSubsystem));
-
-
-    //5
-    rotateArmToggleUp.onTrue(
-    new ParallelCommandGroup(
-      new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.resetPositionLength),
-        new SequentialCommandGroup(
-        new WaitCommand(0.5),
-        new RetractIntake(m_pneumaticsSubsystem)), 
-      //new ParallelRaceGroup(
-      //new ExtendArm(m_armExtensionSubsystem, -.5), 
-      //new WaitCommand(1)),
-      new SequentialCommandGroup(
-        new WaitCommand(1), 
-        new ArmAnglePID(m_armSubsystem, ArmConstants.resetPosition))
-      )
-    );
+    gyroDrive.onTrue(new GyroDrive(m_driveSubsystem, 1));
+    //Operator Manual
+    //manualArmUp.whileTrue(new RotateArm(m_armSubsystem, 0.2));
+    //manualArmDown.whileTrue(new RotateArm(m_armSubsystem, -0.2));
+     
+   /*manualArmUp.whileTrue(new SequentialCommandGroup(
+      new InstantCommand(m_armSubsystem::manualGoingUp, m_armSubsystem), 
+      new InstantCommand(m_armSubsystem::manualArmPID, m_armSubsystem)));
+    manualArmDown.whileTrue(new SequentialCommandGroup(
+        new InstantCommand(m_armSubsystem::manualGoingDown, m_armSubsystem), 
+        new InstantCommand(m_armSubsystem::manualArmPID, m_armSubsystem)));*/
     
-    extendArmToggleUp.onTrue(
-    new ParallelCommandGroup(
-      new SequentialCommandGroup(
-        new WaitCommand(1),
-        new ArmAnglePID(m_armSubsystem, ArmConstants.lowPosition)),
-      new SequentialCommandGroup(
-        new ParallelRaceGroup(
-          new ExtendArm(m_armExtensionSubsystem, -0.2), 
-          new WaitCommand(1)),
-        new WaitCommand(1),
-        new DeployIntake(m_pneumaticsSubsystem),
-        new WaitCommand(0.5),
-        new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.lowPositionLength))));
-    
+    //manualExtendArm.whileTrue(new ExtendArm(m_armExtensionSubsystem, 0.2));
+    //manualRetractArm.whileTrue(new ExtendArm(m_armExtensionSubsystem, -0.2));
+    manualDeployIntake.onTrue(new DeployIntake(m_pneumaticsSubsystem));
+    manualRetractIntake.onTrue(new RetractIntake(m_pneumaticsSubsystem));
 
-    //3
-    rotateArmToggleDown.onTrue(
-      new ParallelCommandGroup(
-        new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition),
-         new SequentialCommandGroup(
-          new WaitCommand(0.5),
-          new RetractIntake(m_pneumaticsSubsystem)), 
-        new SequentialCommandGroup(
-          new WaitCommand(1),
-          new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength))));
-
-    //4
-    extendArmToggleDown.onTrue(
-      new ParallelCommandGroup(
-          new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
-          new SequentialCommandGroup(
-          new WaitCommand(0.5),
-          new RetractIntake(m_pneumaticsSubsystem)),
-        new SequentialCommandGroup(
-          new WaitCommand(1),
-          new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))));
-
+    //Driver Buttons
+    halfSpeed.onTrue(new InstantCommand(m_driveSubsystem::setHalfSpeedTrue, m_driveSubsystem));
+    fullSpeed.onTrue(new InstantCommand(m_driveSubsystem::setHalfSpeedFalse, m_driveSubsystem));
+    brakeModeOn.whileTrue(
+      new InstantCommand(() -> m_driveSubsystem.setBrakeMode(true), m_driveSubsystem))
+      .onFalse(
+        new InstantCommand(() -> m_driveSubsystem.setBrakeMode(false), m_driveSubsystem));
+    balanceBeam.onTrue(new BalancePID(m_driveSubsystem)); 
+   
   }
 
   public Command ChooseAuto(AutoType type) {
@@ -259,35 +183,35 @@ public class RobotContainer {
         case do_nothing:
           return new Auto1(m_driveSubsystem, m_armSubsystem, examplePath);
         case drive_forwards_score_drive_back_dock:
-          return new Auto3(m_driveSubsystem, m_armSubsystem);
+          return new Auto3(m_driveSubsystem, m_armSubsystem, m_pneumaticsSubsystem, m_armExtensionSubsystem, m_intakeSubsystem);
         case drive_forwards_score:
-          return new Auto4(m_driveSubsystem, m_armSubsystem);
+          return new Auto4(m_driveSubsystem, m_armSubsystem, m_pneumaticsSubsystem, m_armExtensionSubsystem, m_intakeSubsystem);
         case drive_backwards_drive_forwards_dock:
-          //return Auto5
-          break;
+          return new Auto5(m_driveSubsystem);
         case drive_backwards_dock_engage:
-          return new Auto6(m_driveSubsystem, m_armSubsystem);
+          return new Auto6(m_driveSubsystem, m_armSubsystem, m_driveSubsystem);
         case drive_forwards_score_drive_back_pick_up_piece:
-          return new Auto7(m_driveSubsystem, m_armSubsystem);
+          return new Auto7(m_driveSubsystem, m_armSubsystem, m_pneumaticsSubsystem, m_armExtensionSubsystem, m_intakeSubsystem, m_pneumaticsSubsystem, m_armSubsystem);
         case drive_forwards_score_leave_community_pickup_piece_score:
           return new Auto9(m_driveSubsystem, m_armSubsystem);
         case drive_forwards_score_leave_community_dock_engage:
-          return new Auto10(m_driveSubsystem, m_armSubsystem);
+          return new Auto10(m_driveSubsystem, m_armSubsystem, m_armExtensionSubsystem, m_intakeSubsystem, m_pneumaticsSubsystem);
+        case drive_forwards_score_cube_community:
+          return new Auto11(m_driveSubsystem, m_armExtensionSubsystem, m_armSubsystem, m_pneumaticsSubsystem, m_intakeSubsystem);
         case path_planner:
           return new FollowTrajectory(m_driveSubsystem, m_armSubsystem, examplePath, true);
         default:
             return null;
     }
-    return null;
   }
-
+ 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return ChooseAuto(AutoType.path_planner);
+    // An example command will be run in autonomousw
+    return new Auto11(m_driveSubsystem, m_armExtensionSubsystem, m_armSubsystem, m_pneumaticsSubsystem, m_intakeSubsystem);
   }
 }
