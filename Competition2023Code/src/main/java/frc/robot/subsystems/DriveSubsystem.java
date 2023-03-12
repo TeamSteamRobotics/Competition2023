@@ -4,11 +4,8 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -25,7 +22,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SPI;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.wpilibj.SerialPort;
 
 //Creates DriveSubsystem class
 public class DriveSubsystem extends SubsystemBase {
@@ -44,14 +40,12 @@ public class DriveSubsystem extends SubsystemBase {
   private DifferentialDrive diffDrive = new DifferentialDrive(left, right);
   
   private DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(27));
-  private DifferentialDriveOdometry m_odometry;//
-  private boolean isSlow = false;
+  private DifferentialDriveOdometry m_odometry;
 
   AHRS navX = new AHRS(SPI.Port.kMXP);
 
   private boolean halfSpeed = false;
   private SlewRateLimiter rateLimitVelocity = new SlewRateLimiter(2);
-
 
   //Inverts right MotorControllerGroup
   public DriveSubsystem() { 
@@ -160,10 +154,12 @@ public class DriveSubsystem extends SubsystemBase {
     return new DifferentialDriveWheelSpeeds(leftVelocity, rightVelocity);
   }
 
-  // resets position
-  public void resetEncoders() {
-    leftfront.setSelectedSensorPosition(0);
-    rightfront.setSelectedSensorPosition(0);
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
+  }
+
+  public double getHeading() {
+    return navX.getRotation2d().getDegrees();
   }
 
   // resets gyro rotation 
@@ -185,21 +181,19 @@ public class DriveSubsystem extends SubsystemBase {
     return navX.getPitch();
   }
 
-  public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
+  public DifferentialDriveKinematics getKinematics() {
+    return kinematics; 
+  }
+
+    // resets position
+  public void resetEncoders() {
+    leftfront.setSelectedSensorPosition(0);
+    rightfront.setSelectedSensorPosition(0);
   }
   
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
     m_odometry.resetPosition(navX.getRotation2d(), getLeftEncoderDistance(), getRightEncoderDistance(), pose);
-  }
-
-  public double getHeading() {
-    return navX.getRotation2d().getDegrees();
-  }
-
-  public DifferentialDriveKinematics getKinematics() {
-    return kinematics; 
   }
 
   // Overrides code
