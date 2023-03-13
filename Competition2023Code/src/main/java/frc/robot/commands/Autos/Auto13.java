@@ -32,7 +32,7 @@ public class Auto13 extends SequentialCommandGroup {
         new HighArmPosition(armExtension, pneumatics, armRotation),
         new SequentialCommandGroup(
           new WaitCommand(1),
-          new Drive(drive, () -> 0.5, () -> 0).raceWith(new WaitCommand(2)),
+          new Drive(drive, () -> -0.5, () -> 0).raceWith(new WaitCommand(2)),
           new Intake(intake).raceWith(new WaitCommand(1))
         )
       ).raceWith(new WaitCommand(4)),
