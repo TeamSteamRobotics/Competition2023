@@ -26,6 +26,7 @@ public class Auto14 extends SequentialCommandGroup {
   public Auto14(DriveSubsystem drive, IntakeSubsystem intake, ArmSubsystem armRotation, ArmExtensionSubsystem armExtension, PneumaticsSubsystem pneumatics) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
+    //Scores middle, then balances on PID in auto 
     addCommands(
       new ReverseIntake(intake).raceWith(new WaitCommand(1)),
       new ParallelCommandGroup(
@@ -37,7 +38,7 @@ public class Auto14 extends SequentialCommandGroup {
       ).raceWith(new WaitCommand(4)),
       new Drive(drive, () -> 0.5, () -> 0).raceWith(new WaitCommand(7)),
       new WaitCommand(1),
-      new Drive(drive, () -> 0.4, () -> 0).raceWith(new WaitCommand(2.5))
+      new Drive(drive, () -> -0.4, () -> 0).raceWith(new WaitCommand(2.5))
     );
   }
 }
