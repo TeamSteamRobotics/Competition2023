@@ -181,6 +181,10 @@ public class DriveSubsystem extends SubsystemBase {
     return navX.getPitch();
   }
 
+  public double gyroRollDegrees(){
+    return navX.getRoll();
+  }
+
   public DifferentialDriveKinematics getKinematics() {
     return kinematics; 
   }
@@ -202,6 +206,8 @@ public class DriveSubsystem extends SubsystemBase {
     //System.out.println(gyroAngleDegrees());
     //System.out.println(getEncoderDifference());
     //System.out.println(getEncoderDistanceMeters());
+    System.out.println("Pitch: " + this.gyroPitchDegrees() + " Roll: " + navX.getRoll() + " Yaw: " + navX.getYaw());
+
     // This method will be called once per scheduler run
     m_odometry.update(
       navX.getRotation2d(), getLeftEncoderDistance(), getRightEncoderDistance());

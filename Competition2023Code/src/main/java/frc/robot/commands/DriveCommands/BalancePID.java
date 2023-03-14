@@ -19,9 +19,9 @@ public class BalancePID extends PIDCommand {
         // The controller that the command will use
         new PIDController(Constants.BalanceConstants.kP, Constants.BalanceConstants.kI, Constants.BalanceConstants.kD),
         // This should return the measurement
-        () -> drive.gyroPitchDegrees() / 360,
+        () -> drive.gyroRollDegrees() / 360,
         // This should return the setpoint (can also be a constant)
-        0,
+        0.8,
         output -> {
           drive.drive(output, 0);
         });

@@ -17,6 +17,7 @@ import frc.robot.commands.ArmCommands.PositionCommands.ResetArmPosition;
 import frc.robot.commands.Autos.Auto1;
 import frc.robot.commands.Autos.Auto10;
 import frc.robot.commands.Autos.Auto11;
+import frc.robot.commands.Autos.Auto13;
 import frc.robot.commands.Autos.Auto3;
 import frc.robot.commands.Autos.Auto4;
 import frc.robot.commands.Autos.Auto5;
@@ -93,6 +94,7 @@ public class RobotContainer {
   //private final Trigger manualRetractArm = operatorController.rightBumper();
   private final Trigger manualDeployIntake = operatorController.leftTrigger();
   private final Trigger manualRetractIntake = operatorController.rightTrigger();
+  
 
   int armIndex = 0;
   boolean isIncreasing = false; 
@@ -201,6 +203,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomousw
-    return new Auto11(m_driveSubsystem, m_armExtensionSubsystem, m_armSubsystem, m_pneumaticsSubsystem, m_intakeSubsystem);
+    return new Auto13(m_driveSubsystem, m_armSubsystem, m_armExtensionSubsystem, m_pneumaticsSubsystem, m_intakeSubsystem);
   }
 }
