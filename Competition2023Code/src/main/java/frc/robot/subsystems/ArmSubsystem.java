@@ -35,7 +35,6 @@ public class ArmSubsystem extends SubsystemBase {
     return goingLow;
   }
 
-  
   public ArmSubsystem() {
     armEncoder.setDistancePerRotation(2 * Math.PI);
     armEncoder.setPositionOffset(dutyCycleOffset);
@@ -107,6 +106,7 @@ public class ArmSubsystem extends SubsystemBase {
 //Overrides code
   @Override
   public void periodic() {
+    //System.out.println(armEncoder.getAbsolutePosition());
     //System.out.println(this.getArmAngleDegrees());
     // This method will be called once per scheduler run
   }

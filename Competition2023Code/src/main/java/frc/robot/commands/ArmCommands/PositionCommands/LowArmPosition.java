@@ -33,9 +33,9 @@ public class LowArmPosition extends ParallelCommandGroup {
         new WaitCommand(.25),
         new ArmAngleLowPID(m_armSubsystem, ArmConstants.lowPosition)),
       new SequentialCommandGroup(
-       /*  new ParallelRaceGroup(
+        new ParallelRaceGroup(
           new ExtendArm(m_armExtensionSubsystem, -0.2), 
-          new WaitCommand(0.5)),*/
+          new WaitCommand(0.5)),
         new WaitCommand(.5),
         new DeployIntake(m_pneumaticsSubsystem),
         new WaitCommand(0.75),

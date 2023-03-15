@@ -26,6 +26,8 @@ public class HighArmPosition extends ParallelCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     m_armSubsystem.setGoingLow(false);
     addCommands(
+      
+      /*
       new ParallelCommandGroup(
         new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
         new SequentialCommandGroup(
@@ -34,6 +36,15 @@ public class HighArmPosition extends ParallelCommandGroup {
       new SequentialCommandGroup(
         new WaitCommand(.75),
         new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength)))
+      */
+      new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
+       new SequentialCommandGroup(
+        new WaitCommand(0.5),
+        new RetractIntake(m_pneumaticsSubsystem)), 
+      new SequentialCommandGroup(
+        new WaitCommand(1.5),
+        new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))
+      
     );
     
   }
