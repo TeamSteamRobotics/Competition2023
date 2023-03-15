@@ -31,7 +31,7 @@ public class ExtendArm extends CommandBase {
     if(armExtensionSubsystem.armLengthMeters() < 0.2){
       armExtensionSubsystem.extendArm(-speed);
     } else {
-      armExtensionSubsystem.extendArm(-speed * 2);
+      armExtensionSubsystem.extendArm(-speed * 2.5);
     }
   }
 

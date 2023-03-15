@@ -37,7 +37,7 @@ public class ResetArmPosition extends ParallelCommandGroup {
         new WaitCommand(0.25),
         new RetractIntake(m_pneumaticsSubsystem)), 
       new SequentialCommandGroup(
-        new WaitCommand(1), 
+        new WaitCommand(.5), 
         new ArmAngleLowPID(m_armSubsystem, ArmConstants.resetPosition))
     );
     

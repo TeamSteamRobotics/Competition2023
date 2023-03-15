@@ -42,10 +42,7 @@ public class MiddleArmPosition extends ParallelCommandGroup {
         new WaitCommand(.25),
         new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition)),
       new SequentialCommandGroup(
-        new ParallelRaceGroup(
-          new ExtendArm(m_armExtensionSubsystem, -0.2), 
-          new WaitCommand(0.5)),
-        new WaitCommand(.5),
+        new WaitCommand(.25),
         new RetractIntake(m_pneumaticsSubsystem),
         new WaitCommand(0.75),
         new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength))
