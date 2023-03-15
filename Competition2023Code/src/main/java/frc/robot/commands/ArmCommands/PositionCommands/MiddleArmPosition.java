@@ -5,10 +5,14 @@
 package frc.robot.commands.ArmCommands.PositionCommands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.commands.ArmCommands.ArmAngleLowPID;
 import frc.robot.commands.ArmCommands.ArmAnglePID;
+import frc.robot.commands.ArmCommands.DeployIntake;
+import frc.robot.commands.ArmCommands.ExtendArm;
 import frc.robot.commands.ArmCommands.ExtendArmPID;
 import frc.robot.commands.ArmCommands.RetractIntake;
 import frc.robot.subsystems.ArmExtensionSubsystem;
@@ -26,12 +30,24 @@ public class MiddleArmPosition extends ParallelCommandGroup {
     m_armSubsystem.setGoingLow(false);
     addCommands(
       
-      new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition),
+      /*new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition),
        new SequentialCommandGroup(
         new WaitCommand(0.5),
         new RetractIntake(m_pneumaticsSubsystem)), 
       new SequentialCommandGroup(
         new WaitCommand(1.5),
+        new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength))
+      */
+        new SequentialCommandGroup(
+        new WaitCommand(.25),
+        new ArmAnglePID(m_armSubsystem, ArmConstants.middlePosition)),
+      new SequentialCommandGroup(
+        new ParallelRaceGroup(
+          new ExtendArm(m_armExtensionSubsystem, -0.2), 
+          new WaitCommand(0.5)),
+        new WaitCommand(.5),
+        new RetractIntake(m_pneumaticsSubsystem),
+        new WaitCommand(0.75),
         new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.middlePositionLength))
     );
   }

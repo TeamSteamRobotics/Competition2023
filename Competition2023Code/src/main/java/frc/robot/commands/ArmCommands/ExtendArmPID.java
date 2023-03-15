@@ -24,8 +24,10 @@ public class ExtendArmPID extends PIDCommand {
         length,
         // This uses the output
         output -> {
-          //System.out.println("Length Output: " + output);
+          System.out.println("Length Output: " + output);
+          System.out.println("Arm Position: " + arm.armLengthMeters());
           arm.extendArm(-output);
+          
           // Use the output here
         });
         addRequirements(arm);
@@ -49,7 +51,11 @@ public class ExtendArmPID extends PIDCommand {
 
   }
 
-
+  @Override
+  public void end(boolean interrupted){
+    
+    System.out.println("PID Ended " + interrupted);
+  }
 
   // Returns true when the command should end.
   @Override

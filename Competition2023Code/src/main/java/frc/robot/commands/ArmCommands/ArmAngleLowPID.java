@@ -18,7 +18,7 @@ public class ArmAngleLowPID extends PIDCommand {
   public ArmAngleLowPID(ArmSubsystem arm, double angle) {
     super(
         // The controller that the command will use
-        new PIDController(ArmConstants.angle_kP, ArmConstants.angle_kI, ArmConstants.angle_kD),
+        new PIDController(ArmConstants.low_angle_kP, ArmConstants.low_angle_kI, ArmConstants.low_angle_kD),
         // This should return the measurement
         () -> arm.getArmAngleDegrees(),
         // This should return the setpoint (can also be a constant)
@@ -26,7 +26,7 @@ public class ArmAngleLowPID extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          arm.setArmSpeed(output / 3);
+          arm.setArmSpeed(output);
         });
       addRequirements(arm);
       this.getController().setTolerance(ArmConstants.anglePIDTolerance);

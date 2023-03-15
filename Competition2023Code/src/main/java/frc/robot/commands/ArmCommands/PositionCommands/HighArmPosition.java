@@ -5,11 +5,14 @@
 package frc.robot.commands.ArmCommands.PositionCommands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.commands.ArmCommands.ArmAngleLowPID;
 import frc.robot.commands.ArmCommands.ArmAnglePID;
 import frc.robot.commands.ArmCommands.DeployIntake;
+import frc.robot.commands.ArmCommands.ExtendArm;
 import frc.robot.commands.ArmCommands.ExtendArmPID;
 import frc.robot.commands.ArmCommands.RetractIntake;
 import frc.robot.subsystems.ArmExtensionSubsystem;
@@ -27,7 +30,19 @@ public class HighArmPosition extends ParallelCommandGroup {
     m_armSubsystem.setGoingLow(false);
     addCommands(
       
-      /*
+    new SequentialCommandGroup(
+      new WaitCommand(.25),
+      new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition)),
+    new SequentialCommandGroup(
+      new ParallelRaceGroup(
+        new ExtendArm(m_armExtensionSubsystem, -0.2), 
+        new WaitCommand(0.5)),
+      new WaitCommand(.5),
+      new RetractIntake(m_pneumaticsSubsystem),
+      new WaitCommand(.75),
+      new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))
+
+      /* 
       new ParallelCommandGroup(
         new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
         new SequentialCommandGroup(
@@ -37,6 +52,7 @@ public class HighArmPosition extends ParallelCommandGroup {
         new WaitCommand(.75),
         new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength)))
       */
+      /* 
       new ArmAnglePID(m_armSubsystem, ArmConstants.highPosition),
        new SequentialCommandGroup(
         new WaitCommand(0.5),
@@ -44,7 +60,7 @@ public class HighArmPosition extends ParallelCommandGroup {
       new SequentialCommandGroup(
         new WaitCommand(1.5),
         new ExtendArmPID(m_armExtensionSubsystem, ArmConstants.highPositionLength))
-      
+      */
     );
     
   }
