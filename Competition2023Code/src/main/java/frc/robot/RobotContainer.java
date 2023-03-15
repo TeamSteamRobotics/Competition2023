@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.commands.ArmCommands.DeployIntake;
+import frc.robot.commands.ArmCommands.ExtendArm;
 import frc.robot.commands.ArmCommands.Intake;
 import frc.robot.commands.ArmCommands.RetractIntake;
 import frc.robot.commands.ArmCommands.ReverseIntake;
@@ -90,10 +91,12 @@ public class RobotContainer {
   private final Trigger resetIntakeToggles = operatorController.povUp();
   private final Trigger manualArmUp = operatorController.povRight();
   private final Trigger manualArmDown = operatorController.povLeft();
-  //private final Trigger manualExtendArm = operatorController.leftBumper();
-  //private final Trigger manualRetractArm = operatorController.rightBumper();
+
   private final Trigger manualDeployIntake = operatorController.leftTrigger();
   private final Trigger manualRetractIntake = operatorController.rightTrigger();
+
+  //private final Trigger manualExtendArm = operatorController.leftBumper();
+  //private final Trigger manualRetractArm = operatorController.rightBumper();
   
 
   int armIndex = 0;

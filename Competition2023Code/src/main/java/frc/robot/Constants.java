@@ -98,7 +98,7 @@ public final class Constants {
 
     public final static double[] positions = {Math.PI / 4, Math.PI / 3, Math.PI /2 }; 
 
-    public static final double length_kP = 2.5;
+    public static final double length_kP = 3.5;
     public static final double length_kI = 0.35;
     public static final double length_kD = 0.3;
 

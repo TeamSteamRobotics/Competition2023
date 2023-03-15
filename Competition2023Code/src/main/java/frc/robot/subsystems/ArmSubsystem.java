@@ -24,7 +24,7 @@ public class ArmSubsystem extends SubsystemBase {
   private DutyCycleEncoder armEncoder = new DutyCycleEncoder(0);
 
   private boolean goingLow = false;
-  private double dutyCycleOffset = 0.54738; 
+  private double dutyCycleOffset = 0.3758; //0.54738; 
   private static int rotationIndex = 0; 
 
   public void setGoingLow(boolean input){
@@ -62,7 +62,9 @@ public class ArmSubsystem extends SubsystemBase {
   public double getArmAngleDegrees(){
     return armEncoder.getDistance();
   }
-  
+  //3.932
+  //1.5708
+  //2.3612
   public void setArmSpeed(double speed){
     if(getArmAngleDegrees() > 2 && getArmAngleDegrees() < 2.2){
       armMotorLeft.set(0);
@@ -107,7 +109,7 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     //System.out.println(armEncoder.getAbsolutePosition());
-    System.out.println(this.getArmAngleDegrees());
+    //System.out.println(this.getArmAngleDegrees());
     // This method will be called once per scheduler run
   }
   
