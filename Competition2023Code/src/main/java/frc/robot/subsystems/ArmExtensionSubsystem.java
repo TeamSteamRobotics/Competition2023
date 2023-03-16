@@ -53,9 +53,20 @@ public class ArmExtensionSubsystem extends SubsystemBase {
     //System.out.println(armLengthMeters());
   }
 
+  //middle
+  //1.49 angle
+  //0.1475 length
+
+  //high
+  //1.72 angle
+  //.5869 length
+
+  //1.73
+  //.27
+
   @Override
   public void periodic() {
-    System.out.println(armLengthMeters());
+    System.out.println("Length: " + armLengthMeters());
 
     // This method will be called once per scheduler run
   }

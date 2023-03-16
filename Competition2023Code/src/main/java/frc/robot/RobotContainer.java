@@ -19,6 +19,7 @@ import frc.robot.commands.Autos.Auto1;
 import frc.robot.commands.Autos.Auto10;
 import frc.robot.commands.Autos.Auto11;
 import frc.robot.commands.Autos.Auto13;
+import frc.robot.commands.Autos.Auto15;
 import frc.robot.commands.Autos.Auto3;
 import frc.robot.commands.Autos.Auto4;
 import frc.robot.commands.Autos.Auto5;
@@ -206,6 +207,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomousw
-    return new Auto13(m_driveSubsystem, m_armSubsystem, m_armExtensionSubsystem, m_pneumaticsSubsystem, m_intakeSubsystem);
+    return new Auto15(m_driveSubsystem, m_armSubsystem, m_armExtensionSubsystem, m_pneumaticsSubsystem, m_intakeSubsystem);
   }
 }

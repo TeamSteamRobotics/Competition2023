@@ -38,7 +38,7 @@ public class Auto14 extends SequentialCommandGroup {
       ).raceWith(new WaitCommand(4)),
       new Drive(drive, () -> 0.5, () -> 0).raceWith(new WaitCommand(7)),
       new WaitCommand(1),
-      new Drive(drive, () -> -0.4, () -> 0).raceWith(new WaitCommand(2.5))
+      new Drive(drive, () -> -0.4, () -> 0).raceWith(new WaitCommand(3))
     );
   }
 }
