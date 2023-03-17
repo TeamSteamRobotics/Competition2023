@@ -20,10 +20,10 @@ import frc.robot.subsystems.PneumaticsSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Auto15 extends SequentialCommandGroup {
+public class ConeHighTaxi extends SequentialCommandGroup {
   /** Creates a new Auto15. */
   //Score cone high
-  public Auto15(DriveSubsystem drive, ArmSubsystem armRotation, ArmExtensionSubsystem armExtension, PneumaticsSubsystem pneumatics, IntakeSubsystem intake) {
+  public ConeHighTaxi(DriveSubsystem drive, ArmSubsystem armRotation, ArmExtensionSubsystem armExtension, PneumaticsSubsystem pneumatics, IntakeSubsystem intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
@@ -40,7 +40,7 @@ public class Auto15 extends SequentialCommandGroup {
             new Drive(drive, () -> -0.5, () -> 0),
             new Intake(intake)
           ).raceWith(new WaitCommand(1)),
-          new ReverseIntake(intake).raceWith(new WaitCommand(1))
+          new ReverseIntake(intake).raceWith(new WaitCommand(.5))
         )
       ).raceWith(new WaitCommand(4)),
       new ParallelCommandGroup(
