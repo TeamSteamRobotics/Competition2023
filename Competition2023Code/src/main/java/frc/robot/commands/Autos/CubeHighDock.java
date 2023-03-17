@@ -20,32 +20,23 @@ import frc.robot.subsystems.PneumaticsSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ConeHighTaxi extends SequentialCommandGroup {
-  /** Creates a new Auto15. */
-  //Score cone high
-  public ConeHighTaxi(DriveSubsystem drive, ArmSubsystem armRotation, ArmExtensionSubsystem armExtension, PneumaticsSubsystem pneumatics, IntakeSubsystem intake) {
+public class CubeHighDock extends SequentialCommandGroup {
+  /** Creates a new CubeHighDock. */
+  public CubeHighDock(DriveSubsystem drive, ArmSubsystem armRotation, ArmExtensionSubsystem armExtension, PneumaticsSubsystem pneumatics, IntakeSubsystem intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
-      new ParallelCommandGroup( 
-        new Intake(intake).raceWith(new WaitCommand(2.5)),
-        new SequentialCommandGroup(
-          new WaitCommand(.5),
-        new HighArmPosition(armExtension, pneumatics, armRotation))).raceWith(new WaitCommand(2.5)),
-     
-      new ParallelCommandGroup(
-        new HighArmPosition(armExtension, pneumatics, armRotation),
-        new SequentialCommandGroup(
-          new ParallelCommandGroup(
-            new Drive(drive, () -> -0.5, () -> 0),
-            new Intake(intake)
-          ).raceWith(new WaitCommand(1)),
-          new ReverseIntake(intake).raceWith(new WaitCommand(.5))
-        )
-      ).raceWith(new WaitCommand(4)),
-      new ParallelCommandGroup(
-        new HighArmPosition(armExtension, pneumatics, armRotation),
-        new Drive(drive, () -> 0.5, () -> 0)).raceWith(new WaitCommand(8))
-    );
+    addCommands(      
+    new ReverseIntake(intake).raceWith(new WaitCommand(1)),
+    new ParallelCommandGroup(
+      new HighArmPosition(armExtension, pneumatics, armRotation),
+      new SequentialCommandGroup(
+        new WaitCommand(1),
+        new Drive(drive, () -> -0.5, () -> 0).raceWith(new WaitCommand(1)),
+        new Intake(intake).raceWith(new WaitCommand(1))
+      )
+    ).raceWith(new WaitCommand(4)),
+    new ParallelCommandGroup(
+      new HighArmPosition(armExtension, pneumatics, armRotation),
+      new Drive(drive, () -> 0.5, () -> 0)).raceWith(new WaitCommand(5.5)));
   }
 }

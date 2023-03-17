@@ -41,6 +41,8 @@ import frc.robot.subsystems.ArmExtensionSubsystem;
 
 import java.util.Map;
 
+import javax.management.InstanceNotFoundException;
+
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -78,7 +80,8 @@ public class RobotContainer {
   private final Trigger halfSpeed = driverController.rightTrigger();
   private final Trigger fullSpeed = driverController.leftTrigger();
   private final Trigger brakeModeOn = driverController.rightBumper();
-  private final Trigger balanceBeam = driverController.leftBumper(); 
+  private final Trigger balanceBeam = driverController.leftBumper();
+  private final Trigger coastMode = driverController.a();
 
   // 55.4 inches
   //Operator Controller
@@ -170,6 +173,7 @@ public class RobotContainer {
       .onFalse(
         new InstantCommand(() -> m_driveSubsystem.setBrakeMode(false), m_driveSubsystem));
     balanceBeam.onTrue(new BalancePID(m_driveSubsystem)); 
+    coastMode.onTrue(new InstantCommand(() -> m_driveSubsystem.setBrakeMode(false), m_driveSubsystem));
    
   }
 

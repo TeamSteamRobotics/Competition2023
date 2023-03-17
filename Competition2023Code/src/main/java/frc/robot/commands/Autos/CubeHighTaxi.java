@@ -39,7 +39,7 @@ public class CubeHighTaxi extends SequentialCommandGroup {
       ).raceWith(new WaitCommand(4)),
       new ParallelCommandGroup(
         new HighArmPosition(armExtension, pneumatics, armRotation),
-        new Drive(drive, () -> 0.5, () -> 0)).raceWith(new WaitCommand(7))
+        new Drive(drive, () -> 0.5, () -> 0)).raceWith(new WaitCommand(8))
       
     );
   }

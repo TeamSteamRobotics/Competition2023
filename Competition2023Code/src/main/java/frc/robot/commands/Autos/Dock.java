@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Autos;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.DriveCommands.Drive;
@@ -18,7 +19,8 @@ public class Dock extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new Drive(drive, () -> 0.5, () -> 0).raceWith(new WaitCommand(7))
+      new Drive(drive, () -> 0.5, () -> 0).raceWith(new WaitCommand(5.5)),
+      new InstantCommand(() -> drive.setBrakeMode(true), drive)
     );
   }
 }

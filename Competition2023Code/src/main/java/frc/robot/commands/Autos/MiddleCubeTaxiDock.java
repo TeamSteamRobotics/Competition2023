@@ -21,9 +21,9 @@ import frc.robot.subsystems.PneumaticsSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 //Score middle, drive back, dock/engage.
-public class Auto14 extends SequentialCommandGroup {
+public class MiddleCubeTaxiDock extends SequentialCommandGroup {
   /** Creates a new Auto14. */
-  public Auto14(DriveSubsystem drive, IntakeSubsystem intake, ArmSubsystem armRotation, ArmExtensionSubsystem armExtension, PneumaticsSubsystem pneumatics) {
+  public MiddleCubeTaxiDock(DriveSubsystem drive, IntakeSubsystem intake, ArmSubsystem armRotation, ArmExtensionSubsystem armExtension, PneumaticsSubsystem pneumatics) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     //Scores middle, then balances on PID in auto 
@@ -36,9 +36,9 @@ public class Auto14 extends SequentialCommandGroup {
           new Intake(intake).raceWith(new WaitCommand(1))
         )
       ).raceWith(new WaitCommand(4)),
-      new Drive(drive, () -> 0.5, () -> 0).raceWith(new WaitCommand(7)),
+      new Drive(drive, () -> 0.5, () -> 0).raceWith(new WaitCommand(9)),
       new WaitCommand(1),
-      new Drive(drive, () -> -0.4, () -> 0).raceWith(new WaitCommand(3))
+      new Drive(drive, () -> -0.4, () -> 0).raceWith(new WaitCommand(4))
     );
   }
 }
