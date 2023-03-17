@@ -18,6 +18,7 @@ import frc.robot.commands.ArmCommands.PositionCommands.ResetArmPosition;
 import frc.robot.commands.Autos.Auto1;
 import frc.robot.commands.Autos.Auto10;
 import frc.robot.commands.Autos.CubeMiddleTaxi;
+import frc.robot.commands.Autos.Dock;
 import frc.robot.commands.Autos.CubeHighTaxi;
 import frc.robot.commands.Autos.ConeHighTaxi;
 import frc.robot.commands.Autos.Auto3;
@@ -207,6 +208,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomousw
-    return new ConeHighTaxi(m_driveSubsystem, m_armSubsystem, m_armExtensionSubsystem, m_pneumaticsSubsystem, m_intakeSubsystem);
+    return new Dock(m_driveSubsystem);
   }
 }
