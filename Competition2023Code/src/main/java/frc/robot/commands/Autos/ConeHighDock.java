@@ -4,6 +4,7 @@
 
 package frc.robot.commands.Autos;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -44,7 +45,9 @@ public class ConeHighDock extends SequentialCommandGroup {
       ).raceWith(new WaitCommand(4)),
       new ParallelCommandGroup(
         new HighArmPosition(armExtension, pneumatics, armRotation),
-        new Drive(drive, () -> 0.5, () -> 0)).raceWith(new WaitCommand(5.5))
+        new Drive(drive, () -> 0.5, () -> 0)).raceWith(new WaitCommand(6.35)).raceWith(new WaitCommand(6.35)),
+      new InstantCommand(() -> drive.setBrakeMode(true), drive)
+
     );
   }
 }

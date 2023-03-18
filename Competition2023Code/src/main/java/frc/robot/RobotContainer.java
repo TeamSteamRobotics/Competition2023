@@ -27,6 +27,8 @@ import frc.robot.commands.Autos.Auto5;
 import frc.robot.commands.Autos.Auto6;
 import frc.robot.commands.Autos.Auto7;
 import frc.robot.commands.Autos.Auto9;
+import frc.robot.commands.Autos.ConeHigh;
+import frc.robot.commands.Autos.ConeHighDock;
 import frc.robot.commands.Autos.FollowTrajectory;
 import frc.robot.commands.DriveCommands.BalancePID;
 import frc.robot.commands.DriveCommands.CurvatureDrive;
@@ -43,6 +45,7 @@ import java.util.Map;
 
 import javax.management.InstanceNotFoundException;
 
+import com.fasterxml.jackson.databind.cfg.ConfigOverride;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -212,6 +215,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomousw
-    return new Dock(m_driveSubsystem);
-  }
+    return new ConeHighDock(m_driveSubsystem, m_armSubsystem, m_armExtensionSubsystem, m_pneumaticsSubsystem, m_intakeSubsystem);
+}
 }

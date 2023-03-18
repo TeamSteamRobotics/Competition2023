@@ -38,7 +38,7 @@ public class CubeHighDock extends SequentialCommandGroup {
     ).raceWith(new WaitCommand(4)),
     new ParallelCommandGroup(
       new HighArmPosition(armExtension, pneumatics, armRotation),
-      new Drive(drive, () -> 0.5, () -> 0)).raceWith(new WaitCommand(5.5)).raceWith(new WaitCommand(5.5)),
+      new Drive(drive, () -> 0.5, () -> 0)).raceWith(new WaitCommand(6.35)).raceWith(new WaitCommand(6.35)),
       new InstantCommand(() -> drive.setBrakeMode(true), drive)
       );
   }
