@@ -34,7 +34,7 @@ public class Drive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_driveSubsystem.drive(driveSpeed.getAsDouble(), rotationSpeed.getAsDouble());
+    m_driveSubsystem.drive(0.4 * driveSpeed.getAsDouble(), 0.4 * rotationSpeed.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.

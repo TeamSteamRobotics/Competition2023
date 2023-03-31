@@ -69,5 +69,7 @@ public class ArmExtensionSubsystem extends SubsystemBase {
     System.out.println("Length: " + armLengthMeters());
 
     // This method will be called once per scheduler run
+
+    
   }
 }
