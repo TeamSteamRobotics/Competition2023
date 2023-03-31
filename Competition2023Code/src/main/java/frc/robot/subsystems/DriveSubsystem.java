@@ -82,14 +82,14 @@ public class DriveSubsystem extends SubsystemBase {
     if(halfSpeed) {
       diffDrive.arcadeDrive(speed / 2, -rotation / 2);
     } else {
-      diffDrive.arcadeDrive(0.8 * speed, 0.8 * -rotation);
+      diffDrive.arcadeDrive(0.4 * speed, 0.4 * -rotation);
     }
   }
 
 
   public void curveDrive(double speed, double rotation) {
     if(!halfSpeed) {
-      diffDrive.curvatureDrive(0.8 * rateLimitVelocity.calculate(speed), 0.8 * -rotation, true);
+      diffDrive.curvatureDrive(0.175 * rateLimitVelocity.calculate(speed), 0.175 * -rotation, true);
     } else {
       diffDrive.curvatureDrive(speed / 4, -rotation / 4, true);
     }
