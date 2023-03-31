@@ -109,7 +109,7 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     //System.out.println(armEncoder.getAbsolutePosition());
-    System.out.println("Arm Angle: " + getArmAngleDegrees());
+    System.out.println("Angle " + this.getArmAngleDegrees());
     // This method will be called once per scheduler run
   }
   

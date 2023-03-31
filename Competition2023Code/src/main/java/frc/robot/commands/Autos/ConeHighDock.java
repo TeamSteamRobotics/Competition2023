@@ -4,12 +4,13 @@
 
 package frc.robot.commands.Autos;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ArmCommands.Intake;
 import frc.robot.commands.ArmCommands.ReverseIntake;
-import frc.robot.commands.ArmCommands.PositionCommands.MiddleArmPosition;
+import frc.robot.commands.ArmCommands.PositionCommands.HighArmPosition;
 import frc.robot.commands.DriveCommands.Drive;
 import frc.robot.subsystems.ArmExtensionSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
@@ -20,25 +21,33 @@ import frc.robot.subsystems.PneumaticsSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-//Score middle, drive back, dock/engage.
-public class Auto14 extends SequentialCommandGroup {
-  /** Creates a new Auto14. */
-  public Auto14(DriveSubsystem drive, IntakeSubsystem intake, ArmSubsystem armRotation, ArmExtensionSubsystem armExtension, PneumaticsSubsystem pneumatics) {
+public class ConeHighDock extends SequentialCommandGroup {
+  /** Creates a new ConeHighDock. */
+  public ConeHighDock(DriveSubsystem drive, ArmSubsystem armRotation, ArmExtensionSubsystem armExtension, PneumaticsSubsystem pneumatics, IntakeSubsystem intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    //Scores middle, then balances on PID in auto 
     addCommands(
-      new ReverseIntake(intake).raceWith(new WaitCommand(1)),
-      new ParallelCommandGroup(
-        new MiddleArmPosition(armExtension, pneumatics, armRotation),
+      new ParallelCommandGroup( 
+        new Intake(intake).raceWith(new WaitCommand(2.5)),
         new SequentialCommandGroup(
-          new WaitCommand(1),
-          new Intake(intake).raceWith(new WaitCommand(1))
+          new WaitCommand(.5),
+        new HighArmPosition(armExtension, pneumatics, armRotation))).raceWith(new WaitCommand(2.5)),
+     
+      new ParallelCommandGroup(
+        new HighArmPosition(armExtension, pneumatics, armRotation),
+        new SequentialCommandGroup(
+          new ParallelCommandGroup(
+            new Drive(drive, () -> -0.5, () -> 0),
+            new Intake(intake)
+          ).raceWith(new WaitCommand(1)),
+          new ReverseIntake(intake).raceWith(new WaitCommand(.5))
         )
       ).raceWith(new WaitCommand(4)),
-      new Drive(drive, () -> 0.5, () -> 0).raceWith(new WaitCommand(7)),
-      new WaitCommand(1),
-      new Drive(drive, () -> -0.4, () -> 0).raceWith(new WaitCommand(2.5))
+      new ParallelCommandGroup(
+        new HighArmPosition(armExtension, pneumatics, armRotation),
+        new Drive(drive, () -> 0.5, () -> 0)).raceWith(new WaitCommand(6.35)).raceWith(new WaitCommand(6.35)),
+      new InstantCommand(() -> drive.setBrakeMode(true), drive)
+
     );
   }
 }

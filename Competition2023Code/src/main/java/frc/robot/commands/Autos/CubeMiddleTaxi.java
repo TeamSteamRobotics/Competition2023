@@ -28,10 +28,10 @@ import frc.robot.subsystems.PneumaticsSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Auto11 extends SequentialCommandGroup {
+public class CubeMiddleTaxi extends SequentialCommandGroup {
   /** Creates a new Auto11. */
   //Drives forwards, scores cube, drives back
-  public Auto11(DriveSubsystem drive, ArmExtensionSubsystem armExtension, ArmSubsystem armRotation, PneumaticsSubsystem pneumatics, IntakeSubsystem intake) {
+  public CubeMiddleTaxi(DriveSubsystem drive, ArmExtensionSubsystem armExtension, ArmSubsystem armRotation, PneumaticsSubsystem pneumatics, IntakeSubsystem intake) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     //23 inches for middle

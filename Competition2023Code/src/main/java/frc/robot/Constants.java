@@ -110,17 +110,17 @@ public final class Constants {
     public static final double armConversionFactor = 0.0652149; //Meters per rotation
     public static final double maxArmLengthMeters = 0.6;
 
-    public static final double intakeSpeed = 0.65;
+    public static final double intakeSpeed = 0.65 * 0.7;
 
     public static final double resetPosition = 0.53677233; //0.67;
     public static final double lowPosition = 0.82; //.85; //0.7119198;
-    public static final double middlePosition = 1.52; //1.62316;
-    public static final double highPosition = 1.65; //1.8; //constants not finished
+    public static final double middlePosition = 1.52; //1.52 //1.62316;
+    public static final double highPosition = 1.62;//1.72;//1.65; //1.8; //constants not finished
 
     public static final double resetPositionLength = 0.01;
     public static final double lowPositionLength = 0.35; //0.355; //0.25; 
-    public static final double middlePositionLength = 0.172;
-    public static final double highPositionLength = .5119; //.45;//0.43;
+    public static final double middlePositionLength = .1475;//0.172;
+    public static final double highPositionLength = .5869;//.5119; //.45;//0.43;
 
     
 

@@ -17,14 +17,18 @@ import frc.robot.commands.ArmCommands.PositionCommands.MiddleArmPosition;
 import frc.robot.commands.ArmCommands.PositionCommands.ResetArmPosition;
 import frc.robot.commands.Autos.Auto1;
 import frc.robot.commands.Autos.Auto10;
-import frc.robot.commands.Autos.Auto11;
-import frc.robot.commands.Autos.Auto13;
+import frc.robot.commands.Autos.CubeMiddleTaxi;
+import frc.robot.commands.Autos.Dock;
+import frc.robot.commands.Autos.CubeHighTaxi;
+import frc.robot.commands.Autos.ConeHighTaxi;
 import frc.robot.commands.Autos.Auto3;
 import frc.robot.commands.Autos.Auto4;
 import frc.robot.commands.Autos.Auto5;
 import frc.robot.commands.Autos.Auto6;
 import frc.robot.commands.Autos.Auto7;
 import frc.robot.commands.Autos.Auto9;
+import frc.robot.commands.Autos.ConeHigh;
+import frc.robot.commands.Autos.ConeHighDock;
 import frc.robot.commands.Autos.FollowTrajectory;
 import frc.robot.commands.DriveCommands.BalancePID;
 import frc.robot.commands.DriveCommands.CurvatureDrive;
@@ -39,6 +43,9 @@ import frc.robot.subsystems.ArmExtensionSubsystem;
 
 import java.util.Map;
 
+import javax.management.InstanceNotFoundException;
+
+import com.fasterxml.jackson.databind.cfg.ConfigOverride;
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
@@ -76,7 +83,8 @@ public class RobotContainer {
   private final Trigger halfSpeed = driverController.rightTrigger();
   private final Trigger fullSpeed = driverController.leftTrigger();
   private final Trigger brakeModeOn = driverController.rightBumper();
-  private final Trigger balanceBeam = driverController.leftBumper(); 
+  private final Trigger balanceBeam = driverController.leftBumper();
+  private final Trigger coastMode = driverController.a();
 
   // 55.4 inches
   //Operator Controller
@@ -168,6 +176,7 @@ public class RobotContainer {
       .onFalse(
         new InstantCommand(() -> m_driveSubsystem.setBrakeMode(false), m_driveSubsystem));
     balanceBeam.onTrue(new BalancePID(m_driveSubsystem)); 
+    coastMode.onTrue(new InstantCommand(() -> m_driveSubsystem.setBrakeMode(false), m_driveSubsystem));
    
   }
 
@@ -191,7 +200,7 @@ public class RobotContainer {
         case drive_forwards_score_leave_community_dock_engage:
           return new Auto10(m_driveSubsystem, m_armSubsystem, m_armExtensionSubsystem, m_intakeSubsystem, m_pneumaticsSubsystem);
         case drive_forwards_score_cube_community:
-          return new Auto11(m_driveSubsystem, m_armExtensionSubsystem, m_armSubsystem, m_pneumaticsSubsystem, m_intakeSubsystem);
+          return new CubeMiddleTaxi(m_driveSubsystem, m_armExtensionSubsystem, m_armSubsystem, m_pneumaticsSubsystem, m_intakeSubsystem);
         case path_planner:
           return new FollowTrajectory(m_driveSubsystem, m_armSubsystem, examplePath, true);
         default:
@@ -206,6 +215,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomousw
-    return new Auto13(m_driveSubsystem, m_armSubsystem, m_armExtensionSubsystem, m_pneumaticsSubsystem, m_intakeSubsystem);
-  }
+    return new ConeHighDock(m_driveSubsystem, m_armSubsystem, m_armExtensionSubsystem, m_pneumaticsSubsystem, m_intakeSubsystem);
+}
 }

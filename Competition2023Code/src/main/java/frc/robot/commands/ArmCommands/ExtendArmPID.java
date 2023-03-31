@@ -54,6 +54,6 @@ public class ExtendArmPID extends PIDCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return getController().atSetpoint() || arm.armLengthMeters() >= ArmConstants.maxArmLengthMeters-.05;
+    return getController().atSetpoint(); //|| arm.armLengthMeters() >= ArmConstants.maxArmLengthMeters-.05;
   }
 }
