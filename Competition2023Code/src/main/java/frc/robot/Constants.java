@@ -92,15 +92,15 @@ public final class Constants {
     public static final double angle_kI = 0.35; //.7
     public static final double angle_kD = 0.05; // 67.6 / 100; //.3
 
-    public static final double low_angle_kP = 1.1; //1.9
-    public static final double low_angle_kI = 0.2; //.7
-    public static final double low_angle_kD = 0.05; // 67.6 / 100; //.3
+    public static final double low_angle_kP = 1.15; //1.1 /1.15
+    public static final double low_angle_kI = 0.28; //.2 /.28
+    public static final double low_angle_kD = 0.03; // 67.6 / 100; //.03
 
     public final static double[] positions = {Math.PI / 4, Math.PI / 3, Math.PI /2 }; 
 
-    public static final double length_kP = 3.5;
-    public static final double length_kI = 0.35;
-    public static final double length_kD = 0.3;
+    public static final double length_kP = 3.3; //3.5 /3.3
+    public static final double length_kI = 0.38; //.35 / .38
+    public static final double length_kD = 0.33; //.3 / .33
 
     public static final double anglePIDTolerance = .05;
     public static final double lengthPIDTolerance = 0.000001;
