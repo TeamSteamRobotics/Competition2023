@@ -35,7 +35,7 @@ public class ArmAnglePID extends PIDCommand {
           if(arm.isGoingLow()){
             arm.setArmSpeed(0);
           } else {
-            arm.setArmSpeed(output);
+            arm.setArmSpeed(-output);
           }
          
           // Use the output here
