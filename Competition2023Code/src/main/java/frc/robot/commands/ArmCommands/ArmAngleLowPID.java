@@ -26,7 +26,7 @@ public class ArmAngleLowPID extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          arm.setArmSpeed(-output);
+          arm.setArmSpeed(output);
         });
       addRequirements(arm);
       this.getController().setTolerance(ArmConstants.anglePIDTolerance);
