@@ -92,7 +92,7 @@ public final class Constants {
     public static final double angle_kI = 0.35; //.7
     public static final double angle_kD = 0.05; // 67.6 / 100; //.3
 
-    public static final double low_angle_kP = 1.1; //1.9
+    public static final double low_angle_kP = 1.1; //1.1 //1.9
     public static final double low_angle_kI = 0.2; //.7
     public static final double low_angle_kD = 0.05; // 67.6 / 100; //.3
 
@@ -118,7 +118,7 @@ public final class Constants {
     public static final double highPosition = 2.9;//1.72;//1.65; //1.8; //constants not finished
 
     public static final double resetPositionLength = 0.01;
-    public static final double lowPositionLength = 0.35; //0.355; //0.25; 
+    public static final double lowPositionLength = 0.2; //.35 //0.355; //0.25; 
     public static final double middlePositionLength = .1475;//0.172;
     public static final double highPositionLength = .5869;//.5119; //.45;//0.43;
 

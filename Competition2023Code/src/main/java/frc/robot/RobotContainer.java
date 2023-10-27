@@ -91,8 +91,8 @@ public class RobotContainer {
   private final CommandXboxController operatorController = new CommandXboxController(0);
   private final Trigger resetPosition = operatorController.a();
   private final Trigger lowPosition = operatorController.x();
-  //private final Trigger middlePosition = operatorController.y();
-  //private final Trigger highPosition = operatorController.b();
+  private final Trigger middlePosition = operatorController.y();
+  private final Trigger highPosition = operatorController.b();
   private final Trigger humanPlayerStation = operatorController.x().and(operatorController.b());
   private final Trigger intakeToggle = operatorController.rightBumper();
   private final Trigger reverseIntakeToggle = operatorController.leftBumper();
@@ -151,8 +151,8 @@ public class RobotContainer {
     //Operator's Commands
     resetPosition.onTrue(new ResetArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
     lowPosition.onTrue(new LowArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
-    //middlePosition.onTrue(new MiddleArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
-    //highPosition.onTrue(new HighArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
+    middlePosition.onTrue(new MiddleArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
+    highPosition.onTrue(new HighArmPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
     humanPlayerStation.onTrue(new HumanPlayerStationPosition(m_armExtensionSubsystem, m_pneumaticsSubsystem, m_armSubsystem));
     intakeToggle.onTrue(new InstantCommand(m_intakeSubsystem::increaseConeIndex, m_intakeSubsystem));
     reverseIntakeToggle.onTrue(new InstantCommand(m_intakeSubsystem::increaseCubeIndex, m_intakeSubsystem));
